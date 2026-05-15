@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quinielas El 90</title>
+    <link href="https://fonts.googleapis.com/css2?family=Impact&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0b111e;
+            color: #ffffff;
+            font-family: 'Roboto', sans-serif;
+            padding-bottom: 40px;
+        }
+        header {
+            background: linear-gradient(180deg, #0d1b2a 0%, #0b111e 100%);
+            text-align: center;
+            padding: 25px 15px;
+            border-bottom: 3px solid #00ff88;
+        }
+        .logo-text {
+            font-family: 'Impact', sans-serif;
+            font-size: 2.5rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+            letter-spacing: 1px;
+        }
+        .logo-text span { color: #00ff88; }
+        .sub-header {
+            color: #ffcc00;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .user-info {
+            background-color: #152238;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #23395b;
+        }
+        .user-info label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #00ff88;
+            font-size: 0.9rem;
+        }
+        .user-info input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            background-color: #0b111e;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        .user-info input:focus {
+            outline: 2px solid #00ff88;
+        }
+        .fecha-grupo {
+            font-family: 'Impact', sans-serif;
+            color: #ffffff;
+            font-size: 1.3rem;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            border-left: 4px solid #ffcc00;
+            padding-left: 8px;
+            letter-spacing: 0.5px;
+        }
+        .partido-card {
+            background-color: #152238;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 1px solid #23395b;
+        }
+        .partido-info {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #a0aec0;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .equipos-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 5px 10px;
+        }
+        .equipo-bloque {
+            width: 42%;
+            text-align: center;
+        }
+        .equipo-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            line-height: 1.2;
+            color: #ffffff;
+        }
+        .vs {
+            width: 16%;
+            text-align: center;
+            color: #ffcc00;
+            font-family: 'Impact', sans-serif;
+            font-size: 1.2rem;
+        }
+        .botones-opcion {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-opc {
+            flex: 1;
+            background-color: #0b111e;
+            border: 2px solid #23395b;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+        .btn-opc.selected {
+            background-color: #00ff88;
+            border-color: #00ff88;
+            color: #0b111e;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+        }
+        .desempate-card {
+            background-color: #1a1538;
+            border: 1px solid #443399;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 25px;
+        }
+        .desempate-title {
+            color: #ffcc00;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        .marcador-inputs {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .marcador-inputs input {
+            width: 60px;
+            padding: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background-color: #0b111e;
+            border: 2px solid #443399;
+            color: white;
+            border-radius: 6px;
+        }
+        .btn-enviar {
+            width: 100%;
+            background: linear-gradient(180deg, #00ff88 0%, #00cc6a 100%);
+            color: #0b111e;
+            border: none;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 25px;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+            text-transform: uppercase;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: 30px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-text">QUINIELAS <span>EL 90</span></div>
+        <div class="sub-header">🏆 INAUGURACIÓN - PREMIO $500 🏆</div>
+    </header>
+
+    <div class="container">
+        <div class="user-info">
+            <label for="nombre">NOMBRE O APODO:</label>
+            <input type="text" id="nombre" placeholder="Ej. El Chino">
+            
+            <label for="whatsapp">NÚMERO DE WHATSAPP:</label>
+            <input type="tel" id="whatsapp" placeholder="Ej. 4439000088">
+        </div>
+
+        <div id="contenedorPartidos"></div>
+
+        <div class="desempate-card">
+            <div class="desempate-title" id="textoDesempate">🔥 MARCADOR DESEMPATE 🔥</div>
+            <div class="marcador-inputs">
+                <input type="number" id="gl" min="0" placeholder="0">
+                <div style="color:#ffcc00; font-weight:bold;">-</div>
+                <input type="number" id="gv" min="0" placeholder="0">
+            </div>
+        </div>
+
+        <button type="button" class="btn-enviar" onclick="enviarQuiniela()">Enviar Pronósticos</button>
+
+        <footer>
+            Quinielas El 90.<br>
+            Participación para el torneo inaugural. Solo +18.
+        </footer>
+    </div>
+
+    <script>
+        // === LA LISTA DE PARTIDOS MÁS FÁCIL DEL MUNDO PARA EDITAR ===
+        const jornada = [
+            { fecha: "Sábado 16 de Mayo" }, 
+            { id: 1, local: "Chivas", visita: "Cruz Azul", info: "LIGA MX • 19:10 HRS", desempate: true },
+            { id: 2, local: "Tepatitlan", visita: "Jaiba Brava", info: "LIGA DE EXPANSIÓN • 19:00 HRS" },
+            { id: 3, local: "Seattle Sounders", visita: "LA Galaxy", info: "MLS • 19:15 HRS" },
+            { id: 4, local: "River Plate", visita: "Rosario Central", info: "ARGENTINA • 16:30 HRS" },
+            
+            { fecha: "Domingo 17 de Mayo" },
+            { id: 5, local: "Atletico Madrid", visita: "Girona", info: "LALIGA • 11:00 HRS" },
+            { id: 6, local: "Barcelona", visita: "Betis", info: "LALIGA • 13:15 HRS" },
+            { id: 7, local: "Inter Miami", visita: "Portland Timbers", info: "MLS • 16:00 HRS" }
+        ];
+
+        const elecciones = {};
+        let partidoDesempateText = "";
+
+        function generarLiga() {
+            const contenedor = document.getElementById('contenedorPartidos');
+            contenedor.innerHTML = "";
+            
+            jornada.forEach(item => {
+                if(item.fecha) {
+                    const divFecha = document.createElement('div');
+                    divFecha.className = 'fecha-grupo';
+                    divFecha.innerText = item.fecha;
+                    contenedor.appendChild(divFecha);
+                } else {
+                    if(item.desempate) { partidoDesempateText = `🔥 MARCADOR DESEMPATE: ${item.local.toUpperCase()} VS ${item.visita.toUpperCase()} 🔥`; }
+                    
+                    const card = document.createElement('div');
+                    card.className = 'partido-card';
+                    card.innerHTML = `
+                        <div class="partido-info">${item.info}</div>
+                        <div class="equipos-grid">
+                            <div class="equipo-bloque">
+                                <div class="equipo-name">${item.local}</div>
+                            </div>
+                            <div class="vs">VS</div>
+                            <div class="equipo-bloque">
+                                <div class="equipo-name">${item.visita}</div>
+                            </div>
+                        </div>
+                        <div class="botones-opcion">
+                            <button type="button" class="btn-opc" onclick="selectOpcion(this, ${item.id}, 'L')">L</button>
+                            <button type="button" class="btn-opc" onclick="selectOpcion(this, ${item.id}, 'E')">E</button>
+                            <button type="button" class="btn-opc" onclick="selectOpcion(this, ${item.id}, 'V')">V</button>
+                        </div>
+                    `;
+                    contenedor.appendChild(card);
+                }
+            });
+            if(partidoDesempateText) document.getElementById('textoDesempate').innerText = partidoDesempateText;
+        }
+
+        function selectOpcion(button, id, opcion) {
+            const row = button.closest('.botones-opcion');
+            row.querySelectorAll('.btn-opc').forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            elecciones[id] = opcion;
+        }
+
+        function enviarQuiniela() {
+            const nombre = document.getElementById('nombre').value.trim();
+            const whatsapp = document.getElementById('whatsapp').value.trim();
+            const golesLocal = document.getElementById('gl').value;
+            const golesVisita = document.getElementById('gv').value;
+
+            const partidosReales = jornada.filter(p => p.id);
+
+            if(!nombre || !whatsapp) { alert("Completa tu Nombre y WhatsApp por favor."); return; }
+            if(Object.keys(elecciones).length < partidosReales.length) { alert("Te faltan partidos por pronosticar."); return; }
+            if(golesLocal === "" || golesVisita === "") { alert("Por favor pon el marcador de desempate."); return; }
+
+            let mensaje = `⚽ *JUGADA - QUINIELAS EL 90* ⚽\n\n👤 *User:* ${nombre}\n📱 *WA:* ${whatsapp}\n\n📝 *PRONÓSTICOS:*\n`;
+            
+            partidosReales.forEach(p => {
+                mensaje += `${p.id}. ${p.local} vs ${p.visita} ➡️ *[ ${elecciones[p.id]} ]*\n`;
+            });
+            mensaje += `\n🔥 *Desempate:* ${golesLocal} - ${golesVisita}`;
+
+            window.open(`https://wa.me/524439000088?text=${encodeURIComponent(mensaje)}`, '_blank');
+        }
+
+        window.onload = generarLiga;
+    </script>
+</body>
+</html>
