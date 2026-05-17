@@ -71,6 +71,7 @@
             overflow: hidden;
         }
         
+        /* Marca de agua elegante de fondo */
         .tabla-contenedor::before {
             content: "";
             position: absolute;
@@ -79,7 +80,7 @@
             transform: translate(-50%, -50%);
             width: 320px;
             height: 320px;
-            opacity: 0.07;
+            opacity: 0.06;
             pointer-events: none;
             background-image: url('LOGO.PNG.jpeg');
             background-repeat: no-repeat;
@@ -92,6 +93,7 @@
             border-collapse: collapse;
             position: relative;
             z-index: 1;
+            table-layout: fixed; /* Fuerza a respetar los anchos de columna */
         }
         
         .fecha-cabecera {
@@ -107,83 +109,89 @@
         }
 
         .fila-partido {
-            border-bottom: 1px solid #e2e8f0;
-            height: 60px;
+            border-bottom: 1px solid #cbd5e1;
+            height: 52px;
         }
 
-        /* Contenedor principal alineado en horizontal */
-        .bloque-partido-interno {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            height: 100%;
-            padding: 0 10px;
-        }
+        /* Definición estricta de columnas para aprovechar el 100% de la pantalla */
+        .col-letra-l { width: 10%; text-align: center; border-right: 1px solid #e2e8f0; }
+        .col-equipo-local { width: 34%; padding-left: 8px; text-align: left; }
+        .col-empate { width: 12%; text-align: center; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
+        .col-equipo-visita { width: 34%; padding-right: 8px; text-align: right; }
+        .col-letra-v { width: 10%; text-align: center; border-left: 1px solid #e2e8f0; }
 
-        /* Bloques de los equipos (Local y Visitante) que también son seleccionables */
-        .bloque-equipo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: 38%;
-            height: 44px;
-            padding: 0 8px;
-            border-radius: 6px;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.1s ease;
-        }
-        .bloque-equipo:hover { background-color: #f1f5f9; }
-        
-        .bloque-equipo.local { justify-content: flex-start; text-align: left; }
-        .bloque-equipo.visita { justify-content: flex-end; text-align: right; }
-        
-        .equipo-texto {
-            font-weight: bold;
-            color: #1e293b;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 0.9rem;
-        }
-        
-        .balon-icono-nativo {
-            width: 16px;
-            height: 16px;
-            color: #94a3b8;
-            flex-shrink: 0;
-        }
-        
-        /* Casilla de Empate (E) en el centro exacto reemplazando al VS */
-        .celda-empate-centro {
-            width: 16%;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Estilos de los textos y contenedores */
+        .letra-fija {
             font-weight: bold;
             font-size: 1.1rem;
             color: #475569;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
+            display: block;
+            width: 100%;
+            height: 52px;
+            line-height: 52px;
             cursor: pointer;
             user-select: none;
-            transition: all 0.1s ease;
-            background-color: #fafafa;
         }
-        .celda-empate-centro:hover { background-color: #f1f5f9; }
+        
+        .celda-btn-equipo {
+            cursor: pointer;
+            user-select: none;
+            height: 52px;
+        }
 
-        /* Estilo unificado cuando se selecciona Local, Empate o Visitante */
-        .bloque-equipo.selected, .celda-empate-centro.selected {
+        .bloque-equipo-interno {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            height: 100%;
+            width: 100%;
+        }
+        .bloque-equipo-interno.local { justify-content: flex-start; }
+        .bloque-equipo-interno.visita { justify-content: flex-end; }
+
+        .equipo-texto {
+            font-weight: bold;
+            color: #1e293b;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .balon-icono-nativo {
+            width: 15px;
+            height: 15px;
+            color: #94a3b8;
+            flex-shrink: 0;
+        }
+
+        /* Estilo de la casilla de Empate centralizada */
+        .btn-empate-cuadro {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 52px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* EFECTO DE SELECCIÓN IDÉNTICO AL EJEMPLO (AZUL MARINO Y DORADO) */
+        .selected-cell {
             background-color: #0b2240 !important;
             color: #d4af37 !important;
-            border: 1px solid #d4af37;
         }
-        .bloque-equipo.selected .equipo-texto, .bloque-equipo.selected .balon-icono-nativo {
+        .selected-cell .equipo-texto, 
+        .selected-cell .balon-icono-nativo,
+        .selected-cell .letra-fija,
+        .selected-cell .btn-empate-cuadro {
             color: #d4af37 !important;
         }
 
+        /* Banners inferiores */
         .banner-negro {
             background-color: #000000;
             color: #ffffff;
@@ -420,29 +428,35 @@
             partidosData.forEach(p => {
                 if(p.tipo === "fecha") {
                     const filaFecha = document.createElement('tr');
-                    filaFecha.innerHTML = `<td class="fecha-cabecera">${p.texto}</td>`;
+                    filaFecha.innerHTML = <td colspan="5" class="fecha-cabecera">${p.texto}</td>;
                     tabla.appendChild(filaFecha);
                 } else {
                     const fila = document.createElement('tr');
                     fila.className = "fila-partido";
-                    fila.id = `partido-fila-${p.id}`;
+                    fila.id = partido-fila-${p.id};
                     
-                    // Nueva estructura: Bloque Local | Celda Empate (E) | Bloque Visita
+                    // Nueva estructura exacta de 5 columnas para ocupar toda la pantalla sin radios
                     fila.innerHTML = `
-                        <td>
-                            <div class="bloque-partido-interno">
-                                <div class="bloque-equipo local" data-opc="L" onclick="marcarCelda(${p.id}, 'L')">
-                                    ${balonSvgHtml}
-                                    <span class="equipo-texto">${p.local}</span>
-                                </div>
-                                
-                                <div class="celda-empate-centro" data-opc="E" onclick="marcarCelda(${p.id}, 'E')">E</div>
-                                
-                                <div class="bloque-equipo visita" data-opc="V" onclick="marcarCelda(${p.id}, 'V')">
-                                    <span class="equipo-texto">${p.visita}</span>
-                                    ${balonSvgHtml}
-                                </div>
+                        <td class="col-letra-l" id="cell-L-${p.id}" onclick="marcarCelda(${p.id}, 'L')">
+                            <span class="letra-fija">L</span>
+                        </td>
+                        <td class="col-equipo-local" id="cell-local-${p.id}" onclick="marcarCelda(${p.id}, 'L')">
+                            <div class="bloque-equipo-interno local">
+                                ${balonSvgHtml}
+                                <span class="equipo-texto">${p.local}</span>
                             </div>
+                        </td>
+                        <td class="col-empate" id="cell-E-${p.id}" onclick="marcarCelda(${p.id}, 'E')">
+                            <div class="btn-empate-cuadro">E</div>
+                        </td>
+                        <td class="col-equipo-visita" id="cell-visita-${p.id}" onclick="marcarCelda(${p.id}, 'V')">
+                            <div class="bloque-equipo-interno visita">
+                                <span class="equipo-texto">${p.visita}</span>
+                                ${balonSvgHtml}
+                            </div>
+                        </td>
+                        <td class="col-letra-v" id="cell-V-${p.id}" onclick="marcarCelda(${p.id}, 'V')">
+                            <span class="letra-fija">V</span>
                         </td>
                     `;
                     tabla.appendChild(fila);
@@ -451,28 +465,38 @@
         }
 
         function marcarCelda(id, opcion) {
-            const fila = document.getElementById(`partido-fila-${id}`);
+            // Limpiar selección previa en la fila entera
+            document.getElementById(cell-L-${id}).classList.remove('selected-cell');
+            document.getElementById(cell-local-${id}).classList.remove('selected-cell');
+            document.getElementById(cell-E-${id}).classList.remove('selected-cell');
+            document.getElementById(cell-visita-${id}).classList.remove('selected-cell');
+            document.getElementById(cell-V-${id}).classList.remove('selected-cell');
             
-            // Quitamos la clase seleccionada de los tres elementos internos
-            fila.querySelector('.bloque-equipo.local').classList.remove('selected');
-            fila.querySelector('.celda-empate-centro').classList.remove('selected');
-            fila.querySelector('.bloque-equipo.visita').classList.remove('selected');
-            
-            // Añadimos la clase al elemento correspondiente
+            // Iluminar las celdas correctas según la opción seleccionada
             if (opcion === 'L') {
-                fila.querySelector('.bloque-equipo.local').classList.add('selected');
+                document.getElementById(cell-L-${id}).classList.add('selected-cell');
+                document.getElementById(cell-local-${id}).classList.add('selected-cell');
             } else if (opcion === 'E') {
-                fila.querySelector('.celda-empate-centro').classList.add('selected');
+                document.getElementById(cell-E-${id}).classList.add('selected-cell');
             } else if (opcion === 'V') {
-                fila.querySelector('.bloque-equipo.visita').classList.add('selected');
+                document.getElementById(cell-visita-${id}).classList.add('selected-cell');
+                document.getElementById(cell-V-${id}).classList.add('selected-cell');
             }
             
             respuestas[id] = opcion;
         }
 
         function limpiarSelecciones() {
-            document.querySelectorAll('.bloque-equipo, .celda-empate-centro').forEach(c => c.classList.remove('selected'));
-            for (const id in respuestas) { delete respuestas[id]; }
+            for (const id in respuestas) {
+                if (respuestas.hasOwnProperty(id)) {
+                    document.getElementById(cell-L-${id}).classList.remove('selected-cell');
+                    document.getElementById(cell-local-${id}).classList.remove('selected-cell');
+                    document.getElementById(cell-E-${id}).classList.remove('selected-cell');
+                    document.getElementById(cell-visita-${id}).classList.remove('selected-cell');
+                    document.getElementById(cell-V-${id}).classList.remove('selected-cell');
+                    delete respuestas[id];
+                }
+            }
             document.getElementById('golesL').value = "";
             document.getElementById('golesV').value = "";
         }
@@ -492,7 +516,7 @@
         function verificarRestantes() {
             const partidosReales = partidosData.filter(p => !p.tipo).length;
             const marcados = Object.keys(respuestas).length;
-            alert(`Llevas ${marcados} de ${partidosReales} pronósticos seleccionados.`);
+            alert(Llevas ${marcados} de ${partidosReales} pronósticos seleccionados.);
         }
 
         function procesarYEnviar() {
@@ -505,15 +529,15 @@
             if(Object.keys(respuestas).length < partidosReales.length) { alert("Completa todos los pronósticos de la cartilla."); return; }
             if(gl === "" || gv === "") { alert("Ingresa el marcador de desempate."); return; }
 
-            let textoMensaje = `⚽ *JUGADA: QUINIELAS EL 90* ⚽\n\n👤 *Participante:* ${nombre.toUpperCase()}\n\n📝 *PRONÓSTICOS:*\n`;
+            let textoMensaje = ⚽ *JUGADA: QUINIELAS EL 90* ⚽\n\n👤 *Participante:* ${nombre.toUpperCase()}\n\n📝 *PRONÓSTICOS:*\n;
             
             partidosReales.forEach(p => {
-                textoMensaje += `${p.id}. ${p.local} vs ${p.visita} ➡️ *[ ${respuestas[p.id]} ]*\n`;
+                textoMensaje += ${p.id}. ${p.local} vs ${p.visita} ➡️ *[ ${respuestas[p.id]} ]*\n;
             });
             
-            textoMensaje += `\n🔥 *Desempate México vs Ghana:* ${gl} - ${gv}`;
+            textoMensaje += \n🔥 *Desempate México vs Ghana:* ${gl} - ${gv};
 
-            window.open(`https://wa.me/524439000088?text=${encodeURIComponent(textoMensaje)}`, '_blank');
+            window.open(https://wa.me/524439000088?text=${encodeURIComponent(textoMensaje)}, '_blank');
         }
 
         window.onload = inicializarTabla;
