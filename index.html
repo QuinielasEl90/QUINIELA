@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quinielas El 90 - Dominguera</title>
+    <title>Quinielas El 90 - Quiniela de Inauguración</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -68,7 +68,6 @@
             object-fit: cover;
         }
 
-        /* Contenedor adaptado con la marca de agua centrada como la imagen */
         .tabla-contenedor {
             width: 100%;
             background-color: #ffffff;
@@ -82,7 +81,7 @@
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(255, 255, 255, 0.88); /* Opacidad para balancear la marca de agua */
+            background-color: rgba(255, 255, 255, 0.88);
             z-index: 1;
         }
 
@@ -109,10 +108,9 @@
 
         .fila-partido {
             border-bottom: 1px solid #cbd5e1;
-            height: 44px; /* Ajuste de altura idéntico al estilo compacto */
+            height: 44px;
         }
 
-        /* AJUSTE DE MEDIDAS EXACTO A LA CAPTURA DE PANTALLA REQUERIDA */
         .col-letra-l { width: 10%; text-align: center; cursor: pointer; user-select: none; }
         .col-equipo-local { width: 33%; padding-left: 6px; text-align: left; user-select: none; }
         .col-empate { width: 14%; text-align: center; cursor: pointer; user-select: none; }
@@ -151,7 +149,6 @@
             flex-shrink: 0;
         }
 
-        /* Tu color de selección original */
         .selected-cell {
             background-color: #0b2240 !important;
         }
@@ -306,7 +303,7 @@
         
         <header>
             <div class="header-title">QUINIELAS EL 90</div>
-            <div class="header-subtitle">DOMINGUERA</div>
+            <div class="header-subtitle">QUINIELA DE INAUGURACIÓN</div>
             <div class="header-logo-container">
                 <img src="LOGO.PNG.jpeg" class="header-logo-img" alt="Logo El 90">
             </div>
