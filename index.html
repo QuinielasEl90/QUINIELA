@@ -15,7 +15,7 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            overflow-y: hidden; /* Evita cualquier barra de desplazamiento residual */
+            overflow-y: hidden;
             height: 100vh;
         }
 
@@ -110,7 +110,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Ajuste milimétrico para estirar la tabla perfectamente al ras */
         .fila-partido {
             border-bottom: 1px solid #cbd5e1;
             height: 25.5px;
@@ -364,6 +363,18 @@
     </div>
 
     <script>
+        // Función mágica para limpiar los códigos raros que mete Facebook (?fbclid=...) de la barra de direcciones
+        function limpiarEnlaceFacebook() {
+            if (window.location.search.indexOf('fbclid=') !== -1) {
+                try {
+                    const urlLimpia = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                    window.history.replaceState({}, document.title, urlLimpia);
+                } catch (e) {
+                    console.log("No se pudo limpiar el historial", e);
+                }
+            }
+        }
+
         const partidosData = [
             { tipo: "fecha", texto: "Viernes 22 de Mayo" },
             { id: 1, local: "México", visita: "Ghana" },
@@ -391,6 +402,7 @@
         `;
 
         function inicializarTabla() {
+            limpiarEnlaceFacebook(); // Ejecuta la limpieza de inmediato al cargar la página
             try {
                 const tabla = document.getElementById('cuerpoTabla');
                 if(!tabla) return;
