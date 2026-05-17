@@ -70,22 +70,6 @@
             background-color: #ffffff;
             overflow: hidden;
         }
-        
-        .tabla-contenedor::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 320px;
-            height: 320px;
-            opacity: 0.06;
-            pointer-events: none;
-            background-image: url('LOGO.PNG.jpeg');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-        }
 
         .tabla-quiniela {
             width: 100%;
@@ -112,12 +96,12 @@
             height: 52px;
         }
 
-        /* Columnas balanceadas para usar el 100% de la pantalla */
-        .col-letra-l { width: 10%; text-align: center; border-right: 1px solid #e2e8f0; cursor: pointer; }
-        .col-equipo-local { width: 34%; padding-left: 8px; text-align: left; cursor: pointer; }
-        .col-empate { width: 12%; text-align: center; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; cursor: pointer; }
-        .col-equipo-visita { width: 34%; padding-right: 8px; text-align: right; cursor: pointer; }
-        .col-letra-v { width: 10%; text-align: center; border-left: 1px solid #e2e8f0; cursor: pointer; }
+        /* Columnas con proporciones fijas para aprovechar toda la pantalla */
+        .col-letra-l { width: 12%; text-align: center; border-right: 1px solid #cbd5e1; cursor: pointer; }
+        .col-equipo-local { width: 32%; padding-left: 6px; text-align: left; cursor: pointer; }
+        .col-empate { width: 12%; text-align: center; border-left: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; cursor: pointer; }
+        .col-equipo-visita { width: 32%; padding-right: 6px; text-align: right; cursor: pointer; }
+        .col-letra-v { width: 12%; text-align: center; border-left: 1px solid #cbd5e1; cursor: pointer; }
 
         .letra-fija {
             font-weight: bold;
@@ -128,7 +112,7 @@
         .bloque-equipo-interno {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             height: 100%;
         }
         .bloque-equipo-interno.local { justify-content: flex-start; }
@@ -137,15 +121,15 @@
         .equipo-texto {
             font-weight: bold;
             color: #1e293b;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         
         .balon-icono-nativo {
-            width: 15px;
-            height: 15px;
+            width: 14px;
+            height: 14px;
             color: #94a3b8;
             flex-shrink: 0;
         }
@@ -156,7 +140,7 @@
             color: #475569;
         }
 
-        /* Color azul marino y dorado al seleccionar */
+        /* Estilo de selección: Fondo azul marino, textos amarillos/dorados */
         .selected-cell {
             background-color: #0b2240 !important;
         }
@@ -175,6 +159,7 @@
             padding: 10px 14px;
             font-size: 0.9rem;
             font-weight: bold;
+            margin-top: 10px;
         }
         .banner-negro span { color: #ffcc00; }
 
@@ -398,6 +383,7 @@
 
         function inicializarTabla() {
             const tabla = document.getElementById('cuerpoTabla');
+            if(!tabla) return;
             tabla.innerHTML = "";
 
             partidosData.forEach(p => {
@@ -408,7 +394,6 @@
                 } else {
                     const fila = document.createElement('tr');
                     fila.className = "fila-partido";
-                    fila.id = partido-fila-${p.id};
                     
                     fila.innerHTML = `
                         <td class="col-letra-l" id="cell-L-${p.id}" onclick="marcarCelda(${p.id}, 'L')">
@@ -447,12 +432,14 @@
 
             if(!cellL || !cellLocal || !cellE || !cellVisita || !cellV) return;
 
+            // Remover clase seleccionada de toda la fila
             cellL.classList.remove('selected-cell');
             cellLocal.classList.remove('selected-cell');
             cellE.classList.remove('selected-cell');
             cellVisita.classList.remove('selected-cell');
             cellV.classList.remove('selected-cell');
             
+            // Aplicar la nueva selección
             if (opcion === 'L') {
                 cellL.classList.add('selected-cell');
                 cellLocal.classList.add('selected-cell');
@@ -469,11 +456,11 @@
         function limpiarSelecciones() {
             partidosData.forEach(p => {
                 if(!p.tipo) {
-                    const cellL = document.getElementById(cell-L-${p.p_id || p.id});
-                    const cellLocal = document.getElementById(cell-local-${p.p_id || p.id});
-                    const cellE = document.getElementById(cell-E-${p.p_id || p.id});
-                    const cellVisita = document.getElementById(cell-visita-${p.p_id || p.id});
-                    const cellV = document.getElementById(cell-V-${p.p_id || p.id});
+                    const cellL = document.getElementById(cell-L-${p.id});
+                    const cellLocal = document.getElementById(cell-local-${p.id});
+                    const cellE = document.getElementById(cell-E-${p.id});
+                    const cellVisita = document.getElementById(cell-visita-${p.id});
+                    const cellV = document.getElementById(cell-V-${p.id});
 
                     if(cellL) cellL.classList.remove('selected-cell');
                     if(cellLocal) cellLocal.classList.remove('selected-cell');
