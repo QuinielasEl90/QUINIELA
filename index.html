@@ -108,44 +108,34 @@
 
         .fila-partido {
             border-bottom: 1px solid #e2e8f0;
-            height: 52px;
+            height: 60px;
         }
 
-        /* DISEÑO DE LAS CASILLAS L, E, V TOTALMENTE CORREGIDAS Y CENTRADAS */
-        .celda-opc {
-            width: 12%;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: #475569;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.1s ease;
-        }
-        .celda-opc:hover { background-color: #f8fafc; }
-        
-        .celda-opc.selected {
-            background-color: #0b2240 !important;
-            color: #d4af37 !important;
-            border: 1px solid #d4af37;
-        }
-
-        .celda-equipos {
-            width: 64%;
-            padding: 0 8px;
-        }
+        /* Contenedor principal alineado en horizontal */
         .bloque-partido-interno {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 0.88rem;
+            width: 100%;
+            height: 100%;
+            padding: 0 10px;
         }
+
+        /* Bloques de los equipos (Local y Visitante) que también son seleccionables */
         .bloque-equipo {
             display: flex;
             align-items: center;
-            gap: 6px;
-            width: 44%;
+            gap: 8px;
+            width: 38%;
+            height: 44px;
+            padding: 0 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.1s ease;
         }
+        .bloque-equipo:hover { background-color: #f1f5f9; }
+        
         .bloque-equipo.local { justify-content: flex-start; text-align: left; }
         .bloque-equipo.visita { justify-content: flex-end; text-align: right; }
         
@@ -155,21 +145,43 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 0.9rem;
         }
         
         .balon-icono-nativo {
             width: 16px;
             height: 16px;
-            color: #a0aec0;
+            color: #94a3b8;
             flex-shrink: 0;
         }
         
-        .vs-texto {
-            width: 12%;
-            text-align: center;
-            color: #94a3b8;
-            font-size: 0.75rem;
+        /* Casilla de Empate (E) en el centro exacto reemplazando al VS */
+        .celda-empate-centro {
+            width: 16%;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: bold;
+            font-size: 1.1rem;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.1s ease;
+            background-color: #fafafa;
+        }
+        .celda-empate-centro:hover { background-color: #f1f5f9; }
+
+        /* Estilo unificado cuando se selecciona Local, Empate o Visitante */
+        .bloque-equipo.selected, .celda-empate-centro.selected {
+            background-color: #0b2240 !important;
+            color: #d4af37 !important;
+            border: 1px solid #d4af37;
+        }
+        .bloque-equipo.selected .equipo-texto, .bloque-equipo.selected .balon-icono-nativo {
+            color: #d4af37 !important;
         }
 
         .banner-negro {
@@ -401,7 +413,6 @@
             </svg>
         `;
 
-        // AQUÍ REORDENAMOS LAS COLUMNAS PARA QUE SEAN RECIPIENTES LIMPIOS DE TEXTO (L, E, V)
         function inicializarTabla() {
             const tabla = document.getElementById('cuerpoTabla');
             tabla.innerHTML = "";
@@ -409,29 +420,30 @@
             partidosData.forEach(p => {
                 if(p.tipo === "fecha") {
                     const filaFecha = document.createElement('tr');
-                    filaFecha.innerHTML = `<td colspan="5" class="fecha-cabecera">${p.texto}</td>`;
+                    filaFecha.innerHTML = `<td class="fecha-cabecera">${p.texto}</td>`;
                     tabla.appendChild(filaFecha);
                 } else {
                     const fila = document.createElement('tr');
                     fila.className = "fila-partido";
                     fila.id = `partido-fila-${p.id}`;
+                    
+                    // Nueva estructura: Bloque Local | Celda Empate (E) | Bloque Visita
                     fila.innerHTML = `
-                        <td class="celda-opc" data-opc="L" onclick="marcarCelda(${p.id}, 'L')">L</td>
-                        <td class="celda-equipos">
+                        <td>
                             <div class="bloque-partido-interno">
-                                <div class="bloque-equipo local">
+                                <div class="bloque-equipo local" data-opc="L" onclick="marcarCelda(${p.id}, 'L')">
                                     ${balonSvgHtml}
                                     <span class="equipo-texto">${p.local}</span>
                                 </div>
-                                <div class="vs-texto">VS</div>
-                                <div class="bloque-equipo visita">
+                                
+                                <div class="celda-empate-centro" data-opc="E" onclick="marcarCelda(${p.id}, 'E')">E</div>
+                                
+                                <div class="bloque-equipo visita" data-opc="V" onclick="marcarCelda(${p.id}, 'V')">
                                     <span class="equipo-texto">${p.visita}</span>
                                     ${balonSvgHtml}
                                 </div>
                             </div>
                         </td>
-                        <td class="celda-opc" data-opc="E" onclick="marcarCelda(${p.id}, 'E')">E</td>
-                        <td class="celda-opc" data-opc="V" onclick="marcarCelda(${p.id}, 'V')">V</td>
                     `;
                     tabla.appendChild(fila);
                 }
@@ -440,16 +452,26 @@
 
         function marcarCelda(id, opcion) {
             const fila = document.getElementById(`partido-fila-${id}`);
-            fila.querySelectorAll('.celda-opc').forEach(c => c.classList.remove('selected'));
             
-            const celdaObjetivo = fila.querySelector(`.celda-opc[data-opc="${opcion}"]`);
-            celdaObjetivo.classList.add('selected');
+            // Quitamos la clase seleccionada de los tres elementos internos
+            fila.querySelector('.bloque-equipo.local').classList.remove('selected');
+            fila.querySelector('.celda-empate-centro').classList.remove('selected');
+            fila.querySelector('.bloque-equipo.visita').classList.remove('selected');
+            
+            // Añadimos la clase al elemento correspondiente
+            if (opcion === 'L') {
+                fila.querySelector('.bloque-equipo.local').classList.add('selected');
+            } else if (opcion === 'E') {
+                fila.querySelector('.celda-empate-centro').classList.add('selected');
+            } else if (opcion === 'V') {
+                fila.querySelector('.bloque-equipo.visita').classList.add('selected');
+            }
             
             respuestas[id] = opcion;
         }
 
         function limpiarSelecciones() {
-            document.querySelectorAll('.celda-opc').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll('.bloque-equipo, .celda-empate-centro').forEach(c => c.classList.remove('selected'));
             for (const id in respuestas) { delete respuestas[id]; }
             document.getElementById('golesL').value = "";
             document.getElementById('golesV').value = "";
