@@ -71,7 +71,6 @@
             overflow: hidden;
         }
         
-        /* Marca de agua elegante de fondo */
         .tabla-contenedor::before {
             content: "";
             position: absolute;
@@ -93,7 +92,7 @@
             border-collapse: collapse;
             position: relative;
             z-index: 1;
-            table-layout: fixed; /* Fuerza a respetar los anchos de columna */
+            table-layout: fixed;
         }
         
         .fecha-cabecera {
@@ -113,38 +112,24 @@
             height: 52px;
         }
 
-        /* Definición estricta de columnas para aprovechar el 100% de la pantalla */
-        .col-letra-l { width: 10%; text-align: center; border-right: 1px solid #e2e8f0; }
-        .col-equipo-local { width: 34%; padding-left: 8px; text-align: left; }
-        .col-empate { width: 12%; text-align: center; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
-        .col-equipo-visita { width: 34%; padding-right: 8px; text-align: right; }
-        .col-letra-v { width: 10%; text-align: center; border-left: 1px solid #e2e8f0; }
+        /* Columnas balanceadas para usar el 100% de la pantalla */
+        .col-letra-l { width: 10%; text-align: center; border-right: 1px solid #e2e8f0; cursor: pointer; }
+        .col-equipo-local { width: 34%; padding-left: 8px; text-align: left; cursor: pointer; }
+        .col-empate { width: 12%; text-align: center; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; cursor: pointer; }
+        .col-equipo-visita { width: 34%; padding-right: 8px; text-align: right; cursor: pointer; }
+        .col-letra-v { width: 10%; text-align: center; border-left: 1px solid #e2e8f0; cursor: pointer; }
 
-        /* Estilos de los textos y contenedores */
         .letra-fija {
             font-weight: bold;
             font-size: 1.1rem;
             color: #475569;
-            display: block;
-            width: 100%;
-            height: 52px;
-            line-height: 52px;
-            cursor: pointer;
-            user-select: none;
         }
         
-        .celda-btn-equipo {
-            cursor: pointer;
-            user-select: none;
-            height: 52px;
-        }
-
         .bloque-equipo-interno {
             display: flex;
             align-items: center;
             gap: 6px;
             height: 100%;
-            width: 100%;
         }
         .bloque-equipo-interno.local { justify-content: flex-start; }
         .bloque-equipo-interno.visita { justify-content: flex-end; }
@@ -165,24 +150,15 @@
             flex-shrink: 0;
         }
 
-        /* Estilo de la casilla de Empate centralizada */
         .btn-empate-cuadro {
             font-weight: bold;
             font-size: 1.1rem;
             color: #475569;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 52px;
-            cursor: pointer;
-            user-select: none;
         }
 
-        /* EFECTO DE SELECCIÓN IDÉNTICO AL EJEMPLO (AZUL MARINO Y DORADO) */
+        /* Color azul marino y dorado al seleccionar */
         .selected-cell {
             background-color: #0b2240 !important;
-            color: #d4af37 !important;
         }
         .selected-cell .equipo-texto, 
         .selected-cell .balon-icono-nativo,
@@ -191,7 +167,6 @@
             color: #d4af37 !important;
         }
 
-        /* Banners inferiores */
         .banner-negro {
             background-color: #000000;
             color: #ffffff;
@@ -435,7 +410,6 @@
                     fila.className = "fila-partido";
                     fila.id = partido-fila-${p.id};
                     
-                    // Nueva estructura exacta de 5 columnas para ocupar toda la pantalla sin radios
                     fila.innerHTML = `
                         <td class="col-letra-l" id="cell-L-${p.id}" onclick="marcarCelda(${p.id}, 'L')">
                             <span class="letra-fija">L</span>
@@ -465,38 +439,51 @@
         }
 
         function marcarCelda(id, opcion) {
-            // Limpiar selección previa en la fila entera
-            document.getElementById(cell-L-${id}).classList.remove('selected-cell');
-            document.getElementById(cell-local-${id}).classList.remove('selected-cell');
-            document.getElementById(cell-E-${id}).classList.remove('selected-cell');
-            document.getElementById(cell-visita-${id}).classList.remove('selected-cell');
-            document.getElementById(cell-V-${id}).classList.remove('selected-cell');
+            const cellL = document.getElementById(cell-L-${id});
+            const cellLocal = document.getElementById(cell-local-${id});
+            const cellE = document.getElementById(cell-E-${id});
+            const cellVisita = document.getElementById(cell-visita-${id});
+            const cellV = document.getElementById(cell-V-${id});
+
+            if(!cellL || !cellLocal || !cellE || !cellVisita || !cellV) return;
+
+            cellL.classList.remove('selected-cell');
+            cellLocal.classList.remove('selected-cell');
+            cellE.classList.remove('selected-cell');
+            cellVisita.classList.remove('selected-cell');
+            cellV.classList.remove('selected-cell');
             
-            // Iluminar las celdas correctas según la opción seleccionada
             if (opcion === 'L') {
-                document.getElementById(cell-L-${id}).classList.add('selected-cell');
-                document.getElementById(cell-local-${id}).classList.add('selected-cell');
+                cellL.classList.add('selected-cell');
+                cellLocal.classList.add('selected-cell');
             } else if (opcion === 'E') {
-                document.getElementById(cell-E-${id}).classList.add('selected-cell');
+                cellE.classList.add('selected-cell');
             } else if (opcion === 'V') {
-                document.getElementById(cell-visita-${id}).classList.add('selected-cell');
-                document.getElementById(cell-V-${id}).classList.add('selected-cell');
+                cellVisita.classList.add('selected-cell');
+                cellV.classList.add('selected-cell');
             }
             
             respuestas[id] = opcion;
         }
 
         function limpiarSelecciones() {
-            for (const id in respuestas) {
-                if (respuestas.hasOwnProperty(id)) {
-                    document.getElementById(cell-L-${id}).classList.remove('selected-cell');
-                    document.getElementById(cell-local-${id}).classList.remove('selected-cell');
-                    document.getElementById(cell-E-${id}).classList.remove('selected-cell');
-                    document.getElementById(cell-visita-${id}).classList.remove('selected-cell');
-                    document.getElementById(cell-V-${id}).classList.remove('selected-cell');
-                    delete respuestas[id];
+            partidosData.forEach(p => {
+                if(!p.tipo) {
+                    const cellL = document.getElementById(cell-L-${p.p_id || p.id});
+                    const cellLocal = document.getElementById(cell-local-${p.p_id || p.id});
+                    const cellE = document.getElementById(cell-E-${p.p_id || p.id});
+                    const cellVisita = document.getElementById(cell-visita-${p.p_id || p.id});
+                    const cellV = document.getElementById(cell-V-${p.p_id || p.id});
+
+                    if(cellL) cellL.classList.remove('selected-cell');
+                    if(cellLocal) cellLocal.classList.remove('selected-cell');
+                    if(cellE) cellE.classList.remove('selected-cell');
+                    if(cellVisita) cellVisita.classList.remove('selected-cell');
+                    if(cellV) cellV.classList.remove('selected-cell');
+                    
+                    delete respuestas[p.id];
                 }
-            }
+            });
             document.getElementById('golesL').value = "";
             document.getElementById('golesV').value = "";
         }
