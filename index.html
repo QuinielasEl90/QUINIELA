@@ -14,66 +14,95 @@
             padding-bottom: 20px;
         }
         
-        /* HEADER PRINCIPAL MARRÓN/GUINDA ESTILO TU EJEMPLO */
+        /* COLORES ADAPTADOS A TU LOGO OFICIAL (AZUL MARINO Y DORADO) */
         header {
-            background-color: #50001c;
+            background-color: #0b2240;
             color: #ffffff;
             text-align: center;
-            padding: 15px 10px;
+            padding: 18px 10px;
             position: relative;
+            border-bottom: 3px solid #d4af37;
         }
         .header-title {
             font-size: 1.6rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
+            color: #ffffff;
         }
         .header-subtitle {
             font-size: 1.1rem;
             margin-top: 5px;
-            color: #e2e8f0;
+            color: #d4af37; /* Dorado */
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            font-weight: bold;
         }
-        .header-logo {
+        .header-logo-container {
             position: absolute;
-            right: 10px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
-            width: 45px;
-            height: 45px;
-            background-color: #000;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            border: 2px solid #fff;
+            border: 2px solid #d4af37;
+            background-color: #0b2240;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
-            font-weight: bold;
+        }
+        .header-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .container {
             max-width: 480px;
             margin: 0 auto;
+            position: relative;
         }
 
-        /* TABLA CON FONDO DE AGUA */
+        /* CONTENEDOR CON TU LOGO COMO MARCA DE AGUA REAL */
+        .tabla-contenedor {
+            position: relative;
+            width: 100%;
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+        
+        /* Tu logo de fondo difuminado de forma segura */
+        .tabla-contenedor::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            opacity: 0.07; /* Ajusta este número si lo quieres más o menos transparente */
+            pointer-events: none;
+            background-image: url('logo.png'); /* Usa tu archivo local */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+
         .tabla-quiniela {
             width: 100%;
             border-collapse: collapse;
-            background-image: url('https://i.imgur.com/8K6NfC1.png'); /* Balón de agua de fondo */
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 70%;
-            background-color: #ffffff;
+            position: relative;
+            z-index: 1;
         }
         
         .fecha-cabecera {
             background-color: #f1f5f9;
-            color: #334155;
+            color: #1e293b;
             font-weight: bold;
             text-align: center;
-            padding: 6px;
+            padding: 8px;
             font-size: 0.85rem;
             text-transform: uppercase;
             border-bottom: 1px solid #cbd5e1;
@@ -82,10 +111,9 @@
 
         .fila-partido {
             border-bottom: 1px solid #e2e8f0;
-            height: 48px;
+            height: 52px;
         }
 
-        /* CASILLAS L E V SELECCIONABLES */
         .celda-opc {
             width: 12%;
             text-align: center;
@@ -94,26 +122,26 @@
             color: #475569;
             cursor: pointer;
             user-select: none;
-            transition: all 0.15s ease;
+            transition: all 0.1s ease;
         }
         .celda-opc:hover { background-color: #f8fafc; }
         
-        /* COLORES DE SELECCIÓN ACTIVADOS */
+        /* Color de selección azul rey coordinado */
         .celda-opc.selected {
-            background-color: #007bff !important;
-            color: #ffffff !important;
+            background-color: #0b2240 !important;
+            color: #d4af37 !important;
+            border: 1px solid #d4af37;
         }
 
-        /* PARTE CENTRAL DEL PARTIDO */
         .celda-equipos {
             width: 64%;
-            padding: 0 5px;
+            padding: 0 4px;
         }
         .bloque-partido-interno {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
         }
         .bloque-equipo {
             display: flex;
@@ -131,11 +159,15 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .escudo-mini {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
+        
+        /* Icono de balón integrado */
+        .balon-icono-nativo {
+            width: 16px;
+            height: 16px;
+            color: #a0aec0;
+            flex-shrink: 0;
         }
+        
         .vs-texto {
             width: 12%;
             text-align: center;
@@ -144,13 +176,12 @@
             font-weight: bold;
         }
 
-        /* BANNERS DE INFORMACIÓN INFERIOR */
         .banner-negro {
             background-color: #000000;
             color: #ffffff;
             display: flex;
             justify-content: space-between;
-            padding: 8px 12px;
+            padding: 10px 14px;
             font-size: 0.9rem;
             font-weight: bold;
         }
@@ -160,35 +191,36 @@
             background-color: #ffffff;
             color: #1e293b;
             text-align: center;
-            padding: 10px;
-            font-size: 1.2rem;
+            padding: 12px;
+            font-size: 1.25rem;
             font-weight: bold;
             border-bottom: 1px solid #e2e8f0;
         }
 
         .banner-facebook {
-            background-color: #800020;
+            background-color: #0b2240;
             color: #ffffff;
             text-align: center;
-            padding: 8px;
+            padding: 10px;
             font-weight: bold;
             font-size: 0.95rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            border-top: 1px solid #d4af37;
         }
         .fb-icono {
             background-color: #ffffff;
-            color: #800020;
+            color: #0b2240;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
         .banner-total {
@@ -199,7 +231,6 @@
             color: #1e293b;
         }
 
-        /* SECCIÓN DE DATOS DE USUARIO */
         .seccion-inputs {
             padding: 0 12px;
         }
@@ -214,7 +245,6 @@
         }
         .input-nombre::placeholder { color: #94a3b8; text-transform: none; }
 
-        /* BOTONES TRIPLES IGUALES A TU IMAGEN */
         .bloque-botones-triples {
             display: flex;
             gap: 8px;
@@ -229,12 +259,12 @@
             border-radius: 4px;
             color: #ffffff;
             cursor: pointer;
+            text-transform: uppercase;
         }
         .btn-rojo { background-color: #ff0044; }
         .btn-azul { background-color: #257ae6; }
         .btn-gris { background-color: #434950; }
 
-        /* CASILLA MARCADOR EXTRA */
         .desempate-contenedor {
             background-color: #f8fafc;
             border: 1px solid #e2e8f0;
@@ -266,7 +296,6 @@
             border-radius: 4px;
         }
 
-        /* BOTÓN DE WHATSAPP GRANDE ABAJO */
         .btn-whatsapp-enviar {
             width: 100%;
             background-color: #25d366;
@@ -281,6 +310,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -291,13 +321,17 @@
         <header>
             <div class="header-title">QUINIELAS EL 90</div>
             <div class="header-subtitle">INAUGURACIÓN</div>
-            <div class="header-logo">EL 90</div>
+            <div class="header-logo-container">
+                <img src="logo.png" class="header-logo-img" alt="Logo El 90">
+            </div>
         </header>
 
-        <table class="tabla-quiniela">
-            <tbody id="cuerpoTabla">
-                </tbody>
-        </table>
+        <div class="tabla-contenedor">
+            <table class="tabla-quiniela">
+                <tbody id="cuerpoTabla">
+                    </tbody>
+            </table>
+        </div>
 
         <div class="banner-negro">
             <div>PRECIO: <span>GRATIS</span></div>
@@ -345,7 +379,6 @@
     </div>
 
     <script>
-        // Los partidos reales extraídos de tu libreta de control
         const partidosData = [
             { tipo: "fecha", texto: "Viernes 22 de Mayo" },
             { id: 1, local: "México", visita: "Ghana" },
@@ -364,7 +397,13 @@
         ];
 
         const respuestas = {};
-        const balonIcono = "https://i.imgur.com/b966S9S.png"; // Escudo genérico para mantener la estética uniforme
+        
+        const balonSvgHtml = `
+            <svg class="balon-icono-nativo" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M11.5 5.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/>
+            </svg>
+        `;
 
         function inicializarTabla() {
             const tabla = document.getElementById('cuerpoTabla');
@@ -384,13 +423,13 @@
                         <td class="celda-equipos">
                             <div class="bloque-partido-interno">
                                 <div class="bloque-equipo local">
-                                    <img src="${balonIcono}" class="escudo-mini" alt="escudo">
+                                    ${balonSvgHtml}
                                     <span class="equipo-texto">${p.local}</span>
                                 </div>
                                 <div class="vs-texto">VS</div>
                                 <div class="bloque-equipo visita">
                                     <span class="equipo-texto">${p.visita}</span>
-                                    <img src="${balonIcono}" class="escudo-mini" alt="escudo">
+                                    ${balonSvgHtml}
                                 </div>
                             </div>
                         </td>
