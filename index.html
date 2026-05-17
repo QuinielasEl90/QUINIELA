@@ -195,7 +195,7 @@
 
     <header>
         <div class="logo-text">QUINIELAS <span>EL 90</span></div>
-        <div class="sub-header">🏆 INAUGURACIÓN - PREMIO $500 🏆</div>
+        <div class="sub-header">🏆 SEMANA 2 - PREMIO $500 EN EFECTIVO 🏆</div>
     </header>
 
     <div class="container">
@@ -222,23 +222,27 @@
 
         <footer>
             Quinielas El 90.<br>
-            Participación para el torneo inaugural. Solo +18.
+            Inscripciones Siguen Abiertas. Solo +18.
         </footer>
     </div>
 
     <script>
-        // === LA LISTA DE PARTIDOS MÁS FÁCIL DEL MUNDO PARA EDITAR ===
-        const jornada = [
-            { fecha: "Sábado 16 de Mayo" }, 
-            { id: 1, local: "Chivas", visita: "Cruz Azul", info: "LIGA MX • 19:10 HRS", desempate: true },
-            { id: 2, local: "Tepatitlan", visita: "Jaiba Brava", info: "LIGA DE EXPANSIÓN • 19:00 HRS" },
-            { id: 3, local: "Seattle Sounders", visita: "LA Galaxy", info: "MLS • 19:15 HRS" },
-            { id: 4, local: "River Plate", visita: "Rosario Central", info: "ARGENTINA • 16:30 HRS" },
+        // === LA LISTA ACTUALIZADA CON TUS ANOTACIONES DE LA LIBRETA ===
+        const agendaPartidos = [
+            { fecha: "Viernes 22 de Mayo" }, 
+            { id: 1, local: "México", visita: "Ghana", info: "PARTIDO INTERNACIONAL • 13:00 HRS", desempate: true },
+            { id: 2, local: "Lens", visita: "Nice", info: "FINAL COPA FRANCIA • 12:00 HRS" },
+            { id: 3, local: "Peñarol", visita: "Corinthians", info: "COPA LIBERTADORES • 19:00 HRS" },
             
-            { fecha: "Domingo 17 de Mayo" },
-            { id: 5, local: "Atletico Madrid", visita: "Girona", info: "LALIGA • 11:00 HRS" },
-            { id: 6, local: "Barcelona", visita: "Betis", info: "LALIGA • 13:15 HRS" },
-            { id: 7, local: "Inter Miami", visita: "Portland Timbers", info: "MLS • 16:00 HRS" }
+            { fecha: "Sábado 23 de Mayo" },
+            { id: 4, local: "Valencia", visita: "Barcelona", info: "LA LIGA • 12:00 HRS" },
+            { id: 5, local: "Real Madrid", visita: "Athletic de Bilbao", info: "LA LIGA • 12:00 HRS" },
+            { id: 6, local: "Inter Miami", visita: "Portland Timbers", info: "MLS • 14:00 HRS" },
+
+            { fecha: "Domingo 24 de Mayo" },
+            { id: 7, local: "Manchester City", visita: "Aston Villa", info: "PREMIER LEAGUE • 09:00 HRS" },
+            { id: 8, local: "Villarreal", visita: "Atlético de Madrid", info: "LA LIGA • 10:00 HRS" },
+            { id: 9, local: "Cruz Azul", visita: "Por Confirmar", info: "LIGA MX • HORARIO POR CONFIRMAR" }
         ];
 
         const elecciones = {};
@@ -248,7 +252,7 @@
             const contenedor = document.getElementById('contenedorPartidos');
             contenedor.innerHTML = "";
             
-            jornada.forEach(item => {
+            agendaPartidos.forEach(item => {
                 if(item.fecha) {
                     const divFecha = document.createElement('div');
                     divFecha.className = 'fecha-grupo';
@@ -295,13 +299,13 @@
             const golesLocal = document.getElementById('gl').value;
             const golesVisita = document.getElementById('gv').value;
 
-            const partidosReales = jornada.filter(p => p.id);
+            const partidosReales = agendaPartidos.filter(p => p.id);
 
             if(!nombre || !whatsapp) { alert("Completa tu Nombre y WhatsApp por favor."); return; }
             if(Object.keys(elecciones).length < partidosReales.length) { alert("Te faltan partidos por pronosticar."); return; }
             if(golesLocal === "" || golesVisita === "") { alert("Por favor pon el marcador de desempate."); return; }
 
-            let mensaje = `⚽ *JUGADA - QUINIELAS EL 90* ⚽\n\n👤 *User:* ${nombre}\n📱 *WA:* ${whatsapp}\n\n📝 *PRONÓSTICOS:*\n`;
+            let mensaje = `⚽ *JUGADA - QUINIELAS EL 90 (SEMANA 2)* ⚽\n\n👤 *User:* ${nombre}\n📱 *WA:* ${whatsapp}\n\n📝 *PRONÓSTICOS:*\n`;
             
             partidosReales.forEach(p => {
                 mensaje += `${p.id}. ${p.local} vs ${p.visita} ➡️ *[ ${elecciones[p.id]} ]*\n`;
