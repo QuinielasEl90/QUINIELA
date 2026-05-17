@@ -11,13 +11,13 @@
             background-color: #ffffff;
             color: #333333;
             font-family: 'Roboto', sans-serif;
-            padding: 10px;
+            padding: 5px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
+            overflow-x: hidden;
         }
 
-        /* Contenedor principal con el ancho ideal de la imagen de referencia */
         .container {
             width: 100%;
             max-width: 650px;
@@ -30,24 +30,24 @@
             background-color: #0b2240;
             color: #ffffff;
             text-align: center;
-            padding: 10px 10px;
+            padding: 6px 10px;
             position: relative;
             border-bottom: 3px solid #d4af37;
         }
         .header-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             color: #ffffff;
-            line-height: 1.2;
+            line-height: 1.1;
         }
         .header-subtitle {
-            font-size: 1rem;
-            margin-top: 2px;
+            font-size: 0.9rem;
+            margin-top: 1px;
             color: #d4af37;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             font-weight: bold;
         }
         .header-logo-container {
@@ -55,8 +55,8 @@
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
-            width: 45px;
-            height: 45px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             border: 2px solid #d4af37;
             background-color: #0b2240;
@@ -77,14 +77,14 @@
             background-image: url('LOGO.PNG.jpeg');
             background-repeat: no-repeat;
             background-position: center center;
-            background-size: 45%;
+            background-size: 35%;
             position: relative;
         }
         .tabla-contenedor::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(255, 255, 255, 0.90);
+            background-color: rgba(255, 255, 255, 0.92);
             z-index: 1;
         }
 
@@ -96,42 +96,42 @@
             z-index: 2;
         }
         
+        /* Reducción extrema para compactar verticalmente las fechas */
         .fecha-cabecera {
             background-color: #f8fafc;
             color: #1e293b;
             font-weight: bold;
             text-align: center;
-            padding: 4px;
-            font-size: 0.8rem;
+            padding: 2px;
+            font-size: 0.72rem;
             text-transform: uppercase;
             border-bottom: 1px solid #cbd5e1;
             border-top: 1px solid #cbd5e1;
             letter-spacing: 0.5px;
         }
 
-        /* Altura compacta para evitar el desplazamiento vertical (scroll) */
+        /* Altura ultra-compacta para meter los 9 partidos en la pantalla */
         .fila-partido {
-            border-bottom: 1px solid #e2e8f0;
-            height: 34px;
+            border-bottom: 1px solid #cbd5e1;
+            height: 26px;
         }
 
-        /* Distribución de columnas idéntica a la cuadricula de Quinielas México */
-        .col-letra-l { width: 7%; text-align: center; cursor: pointer; user-select: none; border-right: 1px solid #f1f5f9; }
-        .col-equipo-local { width: 36%; padding-left: 8px; text-align: left; user-select: none; }
-        .col-empate { width: 14%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #f1f5f9; border-right: 1px solid #f1f5f9; }
-        .col-equipo-visita { width: 36%; padding-right: 8px; text-align: right; user-select: none; }
-        .col-letra-v { width: 7%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #f1f5f9; }
+        .col-letra-l { width: 7%; text-align: center; cursor: pointer; user-select: none; border-right: 1px solid #e2e8f0; }
+        .col-equipo-local { width: 36%; padding-left: 6px; text-align: left; user-select: none; }
+        .col-empate { width: 14%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
+        .col-equipo-visita { width: 36%; padding-right: 6px; text-align: right; user-select: none; }
+        .col-letra-v { width: 7%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; }
 
         .letra-fija, .btn-empate-cuadro {
             font-weight: bold;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #334155;
         }
         
         .bloque-equipo-interno {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             height: 100%;
         }
         .bloque-equipo-interno.local { justify-content: flex-start; }
@@ -140,7 +140,7 @@
         .equipo-texto {
             font-weight: bold;
             color: #1e293b;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             text-transform: uppercase;
             white-space: nowrap;
             overflow: hidden;
@@ -148,8 +148,8 @@
         }
         
         .balon-icono-nativo {
-            width: 13px;
-            height: 13px;
+            width: 11px;
+            height: 11px;
             color: #94a3b8;
             flex-shrink: 0;
         }
@@ -162,14 +162,13 @@
             color: #d4af37 !important;
         }
 
-        /* Bloque de datos inferior con el estilo de barras horizontales limpias */
         .banner-negro {
             background-color: #000000;
             color: #ffffff;
             display: flex;
             justify-content: space-between;
-            padding: 8px 16px;
-            font-size: 0.85rem;
+            padding: 5px 12px;
+            font-size: 0.8rem;
             font-weight: bold;
         }
         .banner-negro span { color: #ffcc00; }
@@ -178,69 +177,68 @@
             background-color: #ffffff;
             color: #1e293b;
             text-align: center;
-            padding: 10px 5px;
-            font-size: 1.4rem;
+            padding: 5px;
+            font-size: 1.15rem;
             font-weight: bold;
-            letter-spacing: 0.5px;
         }
 
         .banner-facebook {
             background-color: #0b2240;
             color: #ffffff;
             text-align: center;
-            padding: 8px;
+            padding: 5px;
             font-weight: bold;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
         .fb-icono {
             background-color: #ffffff;
             color: #0b2240;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
         }
 
         .banner-total {
             text-align: center;
-            padding: 10px;
-            font-size: 1.5rem;
+            padding: 4px;
+            font-size: 1.25rem;
             font-weight: bold;
             color: #1e293b;
         }
 
         .seccion-inputs {
-            padding: 0 12px 12px 12px;
+            padding: 0 10px 8px 10px;
         }
         .input-nombre {
             width: 100%;
-            padding: 10px;
-            font-size: 0.95rem;
+            padding: 8px;
+            font-size: 0.9rem;
             border: 1px solid #cbd5e1;
             border-radius: 4px;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             font-weight: bold;
             text-align: center;
         }
 
         .bloque-botones-triples {
             display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 6px;
+            margin-bottom: 6px;
         }
         .btn-accion {
             flex: 1;
-            padding: 10px;
-            font-size: 0.95rem;
+            padding: 8px;
+            font-size: 0.85rem;
             font-weight: bold;
             border: none;
             border-radius: 4px;
@@ -255,30 +253,30 @@
         .desempate-contenedor {
             background-color: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 10px;
-            margin-bottom: 10px;
+            border-radius: 4px;
+            padding: 6px;
+            margin-bottom: 6px;
             text-align: center;
         }
         .desempate-txt {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: bold;
             color: #475569;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             text-transform: uppercase;
         }
         .inputs-goles {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         .inputs-goles input {
-            width: 50px;
-            padding: 6px;
+            width: 42px;
+            padding: 4px;
             text-align: center;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             border: 1px solid #cbd5e1;
             border-radius: 4px;
         }
@@ -288,15 +286,15 @@
             background-color: #25d366;
             color: #ffffff;
             border: none;
-            padding: 12px;
-            font-size: 1.25rem;
+            padding: 10px;
+            font-size: 1.15rem;
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             text-transform: uppercase;
         }
     </style>
@@ -350,13 +348,13 @@
                 <div class="desempate-txt">🔥 MARCADOR DESEMPATE: MÉXICO VS GHANA 🔥</div>
                 <div class="inputs-goles">
                     <input type="number" id="golesL" min="0" placeholder="0">
-                    <span style="font-weight: bold; color: #94a3b8; font-size: 1.1rem;">-</span>
+                    <span style="font-weight: bold; color: #94a3b8; font-size: 1rem;">-</span>
                     <input type="number" id="golesV" min="0" placeholder="0">
                 </div>
             </div>
 
             <button type="button" class="btn-whatsapp-enviar" onclick="procesarYEnviar()">
-                <svg width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                     <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.69-4.98c-.202-.101-1.194-.588-1.378-.653-.184-.067-.317-.101-.45.101-.132.202-.51.653-.624.781-.114.128-.23.143-.432.042-.203-.102-.855-.315-1.63-1.002-.604-.539-1.012-1.207-1.13-1.41-.118-.203-.012-.313.089-.415.092-.092.202-.23.302-.346.1-.115.133-.197.2-.328.065-.13.032-.244-.015-.346-.047-.102-.45-1.085-.615-1.482-.162-.389-.34-.337-.466-.343-.119-.006-.255-.006-.39-.006s-.355.05-.54.254c-.186.203-.707.691-.707 1.683 0 .991.72 1.95.819 2.083.1.132 1.411 2.154 3.418 3.017.477.206.85.33 1.142.423.479.153.916.13 1.264.079.388-.058 1.194-.488 1.362-.958.168-.471.168-.874.118-.958-.05-.084-.184-.132-.386-.233z"/>
                 </svg>
                 Enviar Jugada
