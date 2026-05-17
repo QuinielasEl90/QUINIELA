@@ -14,7 +14,6 @@
             padding-bottom: 20px;
         }
         
-        /* COLORES ADAPTADOS A TU LOGO OFICIAL (AZUL MARINO Y DORADO) */
         header {
             background-color: #0b2240;
             color: #ffffff;
@@ -33,7 +32,7 @@
         .header-subtitle {
             font-size: 1.1rem;
             margin-top: 5px;
-            color: #d4af37; /* Dorado */
+            color: #d4af37;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: bold;
@@ -65,7 +64,6 @@
             position: relative;
         }
 
-        /* CONTENEDOR CON TU LOGO COMO MARCA DE AGUA REAL */
         .tabla-contenedor {
             position: relative;
             width: 100%;
@@ -73,7 +71,7 @@
             overflow: hidden;
         }
         
-        /* Tu logo de fondo difuminado de forma segura */
+        /* Marca de agua adaptada al nombre de tu archivo */
         .tabla-contenedor::before {
             content: "";
             position: absolute;
@@ -82,9 +80,9 @@
             transform: translate(-50%, -50%);
             width: 320px;
             height: 320px;
-            opacity: 0.07; /* Ajusta este número si lo quieres más o menos transparente */
+            opacity: 0.07;
             pointer-events: none;
-            background-image: url('logo.png'); /* Usa tu archivo local */
+            background-image: url('LOGO.PNG.jpeg');
             background-repeat: no-repeat;
             background-position: center;
             background-size: contain;
@@ -126,7 +124,6 @@
         }
         .celda-opc:hover { background-color: #f8fafc; }
         
-        /* Color de selección azul rey coordinado */
         .celda-opc.selected {
             background-color: #0b2240 !important;
             color: #d4af37 !important;
@@ -160,7 +157,6 @@
             text-overflow: ellipsis;
         }
         
-        /* Icono de balón integrado */
         .balon-icono-nativo {
             width: 16px;
             height: 16px;
@@ -322,7 +318,7 @@
             <div class="header-title">QUINIELAS EL 90</div>
             <div class="header-subtitle">INAUGURACIÓN</div>
             <div class="header-logo-container">
-                <img src="logo.png" class="header-logo-img" alt="Logo El 90">
+                <img src="LOGO.PNG.jpeg" class="header-logo-img" alt="Logo El 90">
             </div>
         </header>
 
