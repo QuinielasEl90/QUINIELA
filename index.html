@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quinielas El 90 - Dominguera</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -68,15 +68,30 @@
             object-fit: cover;
         }
 
+        /* Contenedor adaptado con la marca de agua centrada como la imagen */
         .tabla-contenedor {
             width: 100%;
             background-color: #ffffff;
+            background-image: url('LOGO.PNG.jpeg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 65%;
+            position: relative;
+        }
+        .tabla-contenedor::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.88); /* Opacidad para balancear la marca de agua */
+            z-index: 1;
         }
 
         .tabla-quiniela {
             width: 100%;
             border-collapse: collapse;
             table-layout: fixed;
+            position: relative;
+            z-index: 2;
         }
         
         .fecha-cabecera {
@@ -94,26 +109,26 @@
 
         .fila-partido {
             border-bottom: 1px solid #cbd5e1;
-            height: 50px;
+            height: 44px; /* Ajuste de altura idéntico al estilo compacto */
         }
 
-        /* Columnas de selección con cursor pointer solo en las letras */
-        .col-letra-l { width: 12%; text-align: center; border-right: 1px solid #e2e8f0; cursor: pointer; user-select: none; }
-        .col-equipo-local { width: 32%; padding-left: 8px; text-align: left; user-select: none; }
-        .col-empate { width: 12%; text-align: center; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; cursor: pointer; user-select: none; }
-        .col-equipo-visita { width: 32%; padding-right: 8px; text-align: right; user-select: none; }
-        .col-letra-v { width: 12%; text-align: center; border-left: 1px solid #e2e8f0; cursor: pointer; user-select: none; }
+        /* AJUSTE DE MEDIDAS EXACTO A LA CAPTURA DE PANTALLA REQUERIDA */
+        .col-letra-l { width: 10%; text-align: center; cursor: pointer; user-select: none; }
+        .col-equipo-local { width: 33%; padding-left: 6px; text-align: left; user-select: none; }
+        .col-empate { width: 14%; text-align: center; cursor: pointer; user-select: none; }
+        .col-equipo-visita { width: 33%; padding-right: 6px; text-align: right; user-select: none; }
+        .col-letra-v { width: 10%; text-align: center; cursor: pointer; user-select: none; }
 
         .letra-fija, .btn-empate-cuadro {
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: #334155;
         }
         
         .bloque-equipo-interno {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             height: 100%;
         }
         .bloque-equipo-interno.local { justify-content: flex-start; }
@@ -122,7 +137,7 @@
         .equipo-texto {
             font-weight: bold;
             color: #1e293b;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             text-transform: uppercase;
             white-space: nowrap;
             overflow: hidden;
@@ -130,13 +145,13 @@
         }
         
         .balon-icono-nativo {
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             color: #64748b;
             flex-shrink: 0;
         }
 
-        /* Efecto de Selección Activa exclusivo para las celdas de las letras */
+        /* Tu color de selección original */
         .selected-cell {
             background-color: #0b2240 !important;
         }
@@ -391,7 +406,6 @@
                         const fila = document.createElement('tr');
                         fila.className = "fila-partido";
                         
-                        // Removido onclick de las celdas de los nombres de los equipos
                         fila.innerHTML = `
                             <td class="col-letra-l" id="cell-L-${p.id}" onclick="marcarCelda(${p.id}, 'L')">
                                 <span class="letra-fija">L</span>
@@ -423,7 +437,6 @@
             }
         }
 
-        // Lógica corregida para alternar (deseleccionar) y enfocar solo la letra
         function marcarCelda(id, opcion) {
             const cellL = document.getElementById(`cell-L-${id}`);
             const cellE = document.getElementById(`cell-E-${id}`);
@@ -431,7 +444,6 @@
 
             if(!cellL || !cellE || !cellV) return;
 
-            // Si se hace clic en la misma opción ya seleccionada, se deselecciona
             if (respuestas[id] === opcion) {
                 if (opcion === 'L') cellL.classList.remove('selected-cell');
                 if (opcion === 'E') cellE.classList.remove('selected-cell');
@@ -440,12 +452,10 @@
                 return;
             }
 
-            // Limpiar iluminaciones previas solo en las celdas de las letras
             cellL.classList.remove('selected-cell');
             cellE.classList.remove('selected-cell');
             cellV.classList.remove('selected-cell');
             
-            // Aplicar iluminación exclusivamente al cuadro de la letra seleccionada
             if (opcion === 'L') {
                 cellL.classList.add('selected-cell');
             } else if (opcion === 'E') {
