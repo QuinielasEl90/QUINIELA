@@ -99,7 +99,7 @@
             color: #1e293b;
             font-weight: bold;
             text-align: center;
-            padding: 8px;
+            padding: 10px;
             font-size: 0.85rem;
             text-transform: uppercase;
             border-bottom: 1px solid #cbd5e1;
@@ -111,28 +111,29 @@
             height: 60px;
         }
 
-        /* Contenedor principal alineado en horizontal */
         .bloque-partido-interno {
             display: flex;
             align-items: center;
             justify-content: space-between;
             width: 100%;
             height: 100%;
-            padding: 0 10px;
+            padding: 0 6px;
+            gap: 4px;
         }
 
-        /* Bloques de los equipos (Local y Visitante) que también son seleccionables */
         .bloque-equipo {
             display: flex;
             align-items: center;
-            gap: 8px;
-            width: 38%;
-            height: 44px;
+            gap: 6px;
+            width: 40%;
+            height: 46px;
             padding: 0 8px;
             border-radius: 6px;
             cursor: pointer;
             user-select: none;
             transition: all 0.1s ease;
+            flex-grow: 1;
+            overflow: hidden;
         }
         .bloque-equipo:hover { background-color: #f1f5f9; }
         
@@ -145,20 +146,19 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         .balon-icono-nativo {
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
             color: #94a3b8;
             flex-shrink: 0;
         }
         
-        /* Casilla de Empate (E) en el centro exacto reemplazando al VS */
         .celda-empate-centro {
             width: 16%;
-            height: 44px;
+            height: 46px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -171,10 +171,10 @@
             user-select: none;
             transition: all 0.1s ease;
             background-color: #fafafa;
+            flex-shrink: 0;
         }
         .celda-empate-centro:hover { background-color: #f1f5f9; }
 
-        /* Estilo unificado cuando se selecciona Local, Empate o Visitante */
         .bloque-equipo.selected, .celda-empate-centro.selected {
             background-color: #0b2240 !important;
             color: #d4af37 !important;
@@ -337,7 +337,7 @@
         <div class="tabla-contenedor">
             <table class="tabla-quiniela">
                 <tbody id="cuerpoTabla">
-                    </tbody>
+                </tbody>
             </table>
         </div>
 
@@ -415,6 +415,7 @@
 
         function inicializarTabla() {
             const tabla = document.getElementById('cuerpoTabla');
+            if (!tabla) return;
             tabla.innerHTML = "";
 
             partidosData.forEach(p => {
@@ -427,7 +428,6 @@
                     fila.className = "fila-partido";
                     fila.id = `partido-fila-${p.id}`;
                     
-                    // Nueva estructura: Bloque Local | Celda Empate (E) | Bloque Visita
                     fila.innerHTML = `
                         <td>
                             <div class="bloque-partido-interno">
@@ -452,13 +452,12 @@
 
         function marcarCelda(id, opcion) {
             const fila = document.getElementById(`partido-fila-${id}`);
+            if (!fila) return;
             
-            // Quitamos la clase seleccionada de los tres elementos internos
             fila.querySelector('.bloque-equipo.local').classList.remove('selected');
             fila.querySelector('.celda-empate-centro').classList.remove('selected');
             fila.querySelector('.bloque-equipo.visita').classList.remove('selected');
             
-            // Añadimos la clase al elemento correspondiente
             if (opcion === 'L') {
                 fila.querySelector('.bloque-equipo.local').classList.add('selected');
             } else if (opcion === 'E') {
