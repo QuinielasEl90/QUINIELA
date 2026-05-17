@@ -16,12 +16,12 @@
         header {
             background: linear-gradient(180deg, #0d1b2a 0%, #0b111e 100%);
             text-align: center;
-            padding: 25px 15px;
+            padding: 20px 15px;
             border-bottom: 3px solid #00ff88;
         }
         .logo-text {
             font-family: 'Impact', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2.3rem;
             color: #ffffff;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
             letter-spacing: 1px;
@@ -30,20 +30,32 @@
         .sub-header {
             color: #ffcc00;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-top: 5px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+        .info-barra {
+            background-color: #7b002c;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .info-barra span { color: #ffcc00; }
         .container {
             max-width: 500px;
-            margin: 20px auto;
-            padding: 0 15px;
+            margin: 15px auto;
+            padding: 0 12px;
         }
         .user-info {
             background-color: #152238;
             padding: 15px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border: 1px solid #23395b;
         }
         .user-info label {
@@ -51,26 +63,47 @@
             margin-bottom: 5px;
             font-weight: bold;
             color: #00ff88;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .user-info input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border-radius: 6px;
             border: none;
             background-color: #0b111e;
             color: white;
-            font-size: 1rem;
+            font-size: 0.95rem;
             margin-bottom: 10px;
         }
-        .user-info input:focus {
-            outline: 2px solid #00ff88;
+        .user-info input:last-child { margin-bottom: 0; }
+        .user-info input:focus { outline: 2px solid #00ff88; }
+        
+        /* BOTONES DE CONTROL ESTILO TU EJEMPLO */
+        .controles-tabla {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
         }
+        .btn-ctrl {
+            flex: 1;
+            padding: 10px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        .btn-limpiar { background-color: #ff0044; }
+        .btn-agregar { background-color: #007bff; }
+        .btn-aleatorio { background-color: #495057; }
+
         .fecha-grupo {
             font-family: 'Impact', sans-serif;
             color: #ffffff;
-            font-size: 1.3rem;
-            margin: 20px 0 10px 0;
+            font-size: 1.1rem;
+            margin: 15px 0 8px 0;
             text-transform: uppercase;
             border-left: 4px solid #ffcc00;
             padding-left: 8px;
@@ -78,25 +111,23 @@
         }
         .partido-card {
             background-color: #152238;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 12px;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
             border: 1px solid #23395b;
         }
         .partido-info {
             text-align: center;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #a0aec0;
-            margin-bottom: 12px;
+            margin-bottom: 6px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         .equipos-grid {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding: 5px 10px;
+            margin-bottom: 8px;
         }
         .equipo-bloque {
             width: 42%;
@@ -104,8 +135,7 @@
         }
         .equipo-name {
             font-weight: bold;
-            font-size: 1.1rem;
-            line-height: 1.2;
+            font-size: 0.95rem;
             color: #ffffff;
         }
         .vs {
@@ -113,43 +143,42 @@
             text-align: center;
             color: #ffcc00;
             font-family: 'Impact', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
         .botones-opcion {
             display: flex;
-            gap: 10px;
+            gap: 6px;
         }
         .btn-opc {
             flex: 1;
             background-color: #0b111e;
-            border: 2px solid #23395b;
+            border: 1px solid #23395b;
             color: #ffffff;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 8px;
+            border-radius: 5px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         .btn-opc.selected {
             background-color: #00ff88;
             border-color: #00ff88;
             color: #0b111e;
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+            box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
         }
         .desempate-card {
             background-color: #1a1538;
             border: 1px solid #443399;
             border-radius: 10px;
             padding: 15px;
-            margin-top: 25px;
+            margin-top: 20px;
         }
         .desempate-title {
             color: #ffcc00;
             font-weight: bold;
             text-align: center;
             margin-bottom: 10px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         .marcador-inputs {
             display: flex;
@@ -159,9 +188,9 @@
         }
         .marcador-inputs input {
             width: 60px;
-            padding: 10px;
+            padding: 8px;
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             background-color: #0b111e;
             border: 2px solid #443399;
@@ -170,23 +199,28 @@
         }
         .btn-enviar {
             width: 100%;
-            background: linear-gradient(180deg, #00ff88 0%, #00cc6a 100%);
-            color: #0b111e;
+            background-color: #25d366;
+            color: #ffffff;
             border: none;
-            padding: 15px;
-            font-size: 1.2rem;
+            padding: 14px;
+            font-size: 1.1rem;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            margin-top: 25px;
-            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
             text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
         }
+        .btn-enviar:hover { background-color: #20ba5a; }
         footer {
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #718096;
-            margin-top: 30px;
+            margin-top: 25px;
             line-height: 1.4;
         }
     </style>
@@ -195,8 +229,13 @@
 
     <header>
         <div class="logo-text">QUINIELAS <span>EL 90</span></div>
-        <div class="sub-header">🏆 SEMANA 2 - PREMIO $500 EN EFECTIVO 🏆</div>
+        <div class="sub-header">¡GRAN INAUGURACIÓN POR LA GRAN FINAL!</div>
     </header>
+
+    <div class="info-barra">
+        <div>PRECIO: <span>GRATIS</span></div>
+        <div>CIERRE: <span>JUEVES 11:00 PM</span></div>
+    </div>
 
     <div class="container">
         <div class="user-info">
@@ -205,6 +244,12 @@
             
             <label for="whatsapp">NÚMERO DE WHATSAPP:</label>
             <input type="tel" id="whatsapp" placeholder="Ej. 4439000088">
+        </div>
+
+        <div class="controles-tabla">
+            <button type="button" class="btn-ctrl btn-limpiar" onclick="limpiarTodo()">Limpiar</button>
+            <button type="button" class="btn-ctrl btn-agregar" onclick="validarProgreso()">Agregar</button>
+            <button type="button" class="btn-ctrl btn-aleatorio" onclick="llenarAleatorio()">Aleatorio</button>
         </div>
 
         <div id="contenedorPartidos"></div>
@@ -218,16 +263,20 @@
             </div>
         </div>
 
-        <button type="button" class="btn-enviar" onclick="enviarQuiniela()">Enviar Pronósticos</button>
+        <button type="button" class="btn-enviar" onclick="enviarQuiniela()">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="display:inline-block; vertical-align:middle;">
+                <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.69-4.98c-.202-.101-1.194-.588-1.378-.653-.184-.067-.317-.101-.45.101-.132.202-.51.653-.624.781-.114.128-.23.143-.432.042-.203-.102-.855-.315-1.63-1.002-.604-.539-1.012-1.207-1.13-1.41-.118-.203-.012-.313.089-.415.092-.092.202-.23.302-.346.1-.115.133-.197.2-.328.065-.13.032-.244-.015-.346-.047-.102-.45-1.085-.615-1.482-.162-.389-.34-.337-.466-.343-.119-.006-.255-.006-.39-.006s-.355.05-.54.254c-.186.203-.707.691-.707 1.683 0 .991.72 1.95.819 2.083.1.132 1.411 2.154 3.418 3.017.477.206.85.33 1.142.423.479.153.916.13 1.264.079.388-.058 1.194-.488 1.362-.958.168-.471.168-.874.118-.958-.05-.084-.184-.132-.386-.233z"/>
+            </svg>
+            Enviar Pronósticos
+        </button>
 
         <footer>
             Quinielas El 90.<br>
-            Inscripciones Siguen Abiertas. Solo +18.
+            Sígannos en FB: facebook.com/QuinielasEl90
         </footer>
     </div>
 
     <script>
-        // === LA LISTA ACTUALIZADA CON TUS ANOTACIONES DE LA LIBRETA ===
         const agendaPartidos = [
             { fecha: "Viernes 22 de Mayo" }, 
             { id: 1, local: "México", visita: "Ghana", info: "PARTIDO INTERNACIONAL • 13:00 HRS", desempate: true },
@@ -242,7 +291,7 @@
             { fecha: "Domingo 24 de Mayo" },
             { id: 7, local: "Manchester City", visita: "Aston Villa", info: "PREMIER LEAGUE • 09:00 HRS" },
             { id: 8, local: "Villarreal", visita: "Atlético de Madrid", info: "LA LIGA • 10:00 HRS" },
-            { id: 9, local: "Cruz Azul", visita: "Por Confirmar", info: "LIGA MX • HORARIO POR CONFIRMAR" }
+            { id: 9, local: "Gran Final", visita: "Liga MX", info: "LIGA MX • GRAN FINAL DE VUELTA" }
         ];
 
         const elecciones = {};
@@ -263,6 +312,7 @@
                     
                     const card = document.createElement('div');
                     card.className = 'partido-card';
+                    card.id = `partido-${item.id}`;
                     card.innerHTML = `
                         <div class="partido-info">${item.info}</div>
                         <div class="equipos-grid">
@@ -275,9 +325,9 @@
                             </div>
                         </div>
                         <div class="botones-opcion">
-                            <button type="button" class="btn-opc" onclick="selectOpcion(this, ${item.id}, 'L')">L</button>
-                            <button type="button" class="btn-opc" onclick="selectOpcion(this, ${item.id}, 'E')">E</button>
-                            <button type="button" class="btn-opc" onclick="selectOpcion(this, ${item.id}, 'V')">V</button>
+                            <button type="button" class="btn-opc" data-opc="L" onclick="selectOpcion(this, ${item.id}, 'L')">L</button>
+                            <button type="button" class="btn-opc" data-opc="E" onclick="selectOpcion(this, ${item.id}, 'E')">E</button>
+                            <button type="button" class="btn-opc" data-opc="V" onclick="selectOpcion(this, ${item.id}, 'V')">V</button>
                         </div>
                     `;
                     contenedor.appendChild(card);
@@ -293,6 +343,36 @@
             elecciones[id] = opcion;
         }
 
+        // --- FUNCIONES NUEVAS DE CONTROL ESTILO TU EJEMPLO ---
+
+        function limpiarTodo() {
+            document.querySelectorAll('.btn-opc').forEach(btn => btn.classList.remove('selected'));
+            for (const key in elecciones) { delete elecciones[key]; }
+            document.getElementById('gl').value = "";
+            document.getElementById('gv').value = "";
+        }
+
+        function llenarAleatorio() {
+            const opciones = ['L', 'E', 'V'];
+            agendaPartidos.forEach(item => {
+                if(!item.fecha) {
+                    const opcAzar = opciones[Math.floor(Math.random() * opciones.length)];
+                    const card = document.getElementById(`partido-${item.id}`);
+                    const boton = card.querySelector(`.btn-opc[data-opc="${opcAzar}"]`);
+                    selectOpcion(boton, item.id, opcAzar);
+                }
+            });
+            // Marcador desempate aleatorio entre 0 y 3 goles
+            document.getElementById('gl').value = Math.floor(Math.random() * 4);
+            document.getElementById('gv').value = Math.floor(Math.random() * 4);
+        }
+
+        function validarProgreso() {
+            const partidosReales = agendaPartidos.filter(p => p.id);
+            const marcados = Object.keys(elecciones).length;
+            alert(`Llevas ${marcados} de ${partidosReales.length} partidos pronosticados.`);
+        }
+
         function enviarQuiniela() {
             const nombre = document.getElementById('nombre').value.trim();
             const whatsapp = document.getElementById('whatsapp').value.trim();
@@ -301,16 +381,16 @@
 
             const partidosReales = agendaPartidos.filter(p => p.id);
 
-            if(!nombre || !whatsapp) { alert("Completa tu Nombre y WhatsApp por favor."); return; }
-            if(Object.keys(elecciones).length < partidosReales.length) { alert("Te faltan partidos por pronosticar."); return; }
-            if(golesLocal === "" || golesVisita === "") { alert("Por favor pon el marcador de desempate."); return; }
+            if(!nombre || !whatsapp) { alert("Por favor, pon tu Nombre y WhatsApp."); return; }
+            if(Object.keys(elecciones).length < partidosReales.length) { alert("Te faltan partidos por pronosticar en la cartilla."); return; }
+            if(golesLocal === "" || golesVisita === "") { alert("Pon el marcador de desempate por favor."); return; }
 
-            let mensaje = `⚽ *JUGADA - QUINIELAS EL 90 (SEMANA 2)* ⚽\n\n👤 *User:* ${nombre}\n📱 *WA:* ${whatsapp}\n\n📝 *PRONÓSTICOS:*\n`;
+            let mensaje = `⚽ *JUGADA - QUINIELAS EL 90 (INAGURACIÓN)* ⚽\n\n👤 *Participante:* ${nombre}\n📱 *WhatsApp:* ${whatsapp}\n\n📝 *PRONÓSTICOS:*\n`;
             
             partidosReales.forEach(p => {
                 mensaje += `${p.id}. ${p.local} vs ${p.visita} ➡️ *[ ${elecciones[p.id]} ]*\n`;
             });
-            mensaje += `\n🔥 *Desempate:* ${golesLocal} - ${golesVisita}`;
+            mensaje += `\n🔥 *Desempate México vs Ghana:* ${golesLocal} - ${golesVisita}`;
 
             window.open(`https://wa.me/524439000088?text=${encodeURIComponent(mensaje)}`, '_blank');
         }
