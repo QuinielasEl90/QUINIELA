@@ -92,7 +92,7 @@
         .tabla-quiniela {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed; /* Regresamos a fixed seguro para evitar pantallas en blanco */
+            table-layout: fixed;
             position: relative;
             z-index: 2;
         }
@@ -115,7 +115,7 @@
             height: 28px;
         }
 
-        /* DISTRIBUCIÓN PORCENTUAL FIJA Y SEGURA: Letras con buen tamaño y equipos amplios */
+        /* Espacios optimizados: Letras cómodas al doble de tamaño y buen espacio para los equipos */
         .col-letra-l { width: 10%; text-align: center; cursor: pointer; user-select: none; border-right: 1px solid #e2e8f0; }
         .col-equipo-local { width: 34%; padding-left: 6px; text-align: left; user-select: none; }
         .col-empate { width: 12%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
@@ -144,7 +144,7 @@
             text-transform: uppercase;
             white-space: nowrap; 
             overflow: hidden;
-            text-overflow: ellipsis; /* Si un nombre es extremadamente largo, pone '...' en vez de romper el diseño */
+            text-overflow: ellipsis;
         }
         
         .balon-icono-nativo {
@@ -419,7 +419,7 @@
                         
                         fila.innerHTML = `
                             <td class="col-letra-l" id="cell-L-${p.id}" onclick="marcarCelda(${p.id}, 'L')">
-                                <span class="letja-fija" style="font-weight: bold; font-size: 0.85rem; color: #334155;">L</span>
+                                <span class="letra-fija">L</span>
                             </td>
                             <td class="col-equipo-local" id="cell-local-${p.id}">
                                 <div class="bloque-equipo-interno local">
@@ -437,7 +437,7 @@
                                 </div>
                             </td>
                             <td class="col-letra-v" id="cell-V-${p.id}" onclick="marcarCelda(${p.id}, 'V')">
-                                <span class="letra-fija" style="font-weight: bold; font-size: 0.85rem; color: #334155;">V</span>
+                                <span class="letra-fija">V</span>
                             </td>
                         `;
                         tabla.appendChild(fila);
@@ -527,4 +527,15 @@
             let textoMensaje = `⚽ *JUGADA: QUINIELAS EL 90* ⚽\n\n👤 *Participante:* ${nombre.toUpperCase()}\n\n📝 *PRONÓSTICOS:*\n`;
             
             partidosReales.forEach(p => {
-                textoMensaje
+                textoMensaje += `${p.id}. ${p.local} vs ${p.visita} ➡️ *[ ${respuestas[p.id]} ]*\n`;
+            });
+            
+            textoMensaje += `\n🔥 *Desempate México vs Ghana:* ${gl} - ${gv}`;
+
+            window.open(`https://wa.me/524439000088?text=${encodeURIComponent(textoMensaje)}`, '_blank');
+        }
+
+        window.onload = inicializarTabla;
+    </script>
+</body>
+</html>
