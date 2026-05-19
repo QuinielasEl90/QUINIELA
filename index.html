@@ -1,439 +1,382 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quinielas El 90 - Quiniela de Inauguración</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+<title>Quinielas El 90</title>
 
-    <style>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
 
-        *{
-            box-sizing:border-box;
-            margin:0;
-            padding:0;
-        }
+<style>
 
-        body{
-            background-color:#ffffff;
-            color:#333333;
-            font-family:'Roboto',sans-serif;
-            padding:4px;
-            display:flex;
-            justify-content:center;
-            align-items:flex-start;
-            overflow-y:auto;
-            min-height:100vh;
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        .container{
-            width:100%;
-            max-width:630px;
-            border:1px solid #cbd5e1;
-            box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);
-            background-color:#ffffff;
-        }
+body{
+    background:#ffffff;
+    font-family:'Roboto',sans-serif;
+    padding:4px;
+    display:flex;
+    justify-content:center;
+}
 
-        header{
-            background-color:#0b2240;
-            color:#ffffff;
-            text-align:center;
-            padding:5px 10px;
-            position:relative;
-            border-bottom:2px solid #d4af37;
-        }
+.container{
+    width:100%;
+    max-width:630px;
+    border:1px solid #cbd5e1;
+    background:#ffffff;
+    box-shadow:0 4px 6px rgba(0,0,0,0.1);
+}
 
-        .header-title{
-            font-size:1.4rem;
-            font-weight:900;
-            text-transform:uppercase;
-            letter-spacing:1px;
-            line-height:1.1;
-        }
+header{
+    background:#0b2240;
+    color:#ffffff;
+    text-align:center;
+    padding:5px 10px;
+    position:relative;
+    border-bottom:2px solid #d4af37;
+}
 
-        .header-subtitle{
-            font-size:0.78rem;
-            margin-top:1px;
-            color:#d4af37;
-            text-transform:uppercase;
-            letter-spacing:1px;
-            font-weight:bold;
-        }
+.header-title{
+    font-size:1.4rem;
+    font-weight:900;
+    letter-spacing:1px;
+}
 
-        .header-logo-container{
-            position:absolute;
-            right:12px;
-            top:50%;
-            transform:translateY(-50%);
-            width:32px;
-            height:32px;
-            border-radius:50%;
-            border:1.5px solid #d4af37;
-            background-color:#0b2240;
-            overflow:hidden;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        }
+.header-subtitle{
+    color:#d4af37;
+    font-size:0.75rem;
+    font-weight:bold;
+    margin-top:2px;
+}
 
-        .header-logo-img{
-            width:100%;
-            height:100%;
-            object-fit:cover;
-        }
+.header-logo-container{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    overflow:hidden;
+    border:1px solid #d4af37;
+}
 
-        .tabla-contenedor{
-            width:100%;
-            background-color:#ffffff;
-            background-image:url('LOGO.PNG.jpeg');
-            background-repeat:no-repeat;
-            background-position:center center;
-            background-size:28%;
-            position:relative;
-        }
+.header-logo-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
 
-        .tabla-contenedor::before{
-            content:"";
-            position:absolute;
-            inset:0;
-            background-color:rgba(255,255,255,0.93);
-            z-index:1;
-        }
+.tabla-contenedor{
+    position:relative;
+    background-image:url('LOGO.PNG.jpeg');
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:28%;
+}
 
-        .tabla-quiniela{
-            width:100%;
-            border-collapse:collapse;
-            position:relative;
-            z-index:2;
-        }
+.tabla-contenedor::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,0.93);
+}
 
-        .fecha-cabecera{
-            background-color:#f8fafc;
-            color:#1e293b;
-            font-weight:bold;
-            text-align:center;
-            padding:4px;
-            font-size:0.68rem;
-            text-transform:uppercase;
-            border-bottom:1px solid #cbd5e1;
-            border-top:1px solid #cbd5e1;
-            letter-spacing:0.5px;
-        }
+.tabla-quiniela{
+    width:100%;
+    border-collapse:collapse;
+    position:relative;
+    z-index:2;
+}
 
-        .fila-partido{
-            border-bottom:1px solid #cbd5e1;
-            height:40px;
-        }
+.fecha-cabecera{
+    background:#f8fafc;
+    text-align:center;
+    font-size:0.68rem;
+    padding:4px;
+    font-weight:bold;
+    border-top:1px solid #cbd5e1;
+    border-bottom:1px solid #cbd5e1;
+}
 
-        .col-letra-l,
-        .col-empate,
-        .col-letra-v{
-            width:60px;
-            min-width:60px;
-            text-align:center;
-            cursor:pointer;
-            user-select:none;
-            font-weight:bold;
-            font-size:1rem;
-            transition:0.2s;
-        }
+.fila-partido{
+    height:40px;
+    border-bottom:1px solid #cbd5e1;
+}
 
-        .col-letra-l:hover,
-        .col-empate:hover,
-        .col-letra-v:hover{
-            background-color:#e2e8f0;
-        }
+.col-letra-l,
+.col-empate,
+.col-letra-v{
+    width:60px;
+    min-width:60px;
+    text-align:center;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.2s;
+}
 
-        .col-letra-l{
-            border-right:1px solid #e2e8f0;
-        }
+.col-letra-l:hover,
+.col-empate:hover,
+.col-letra-v:hover{
+    background:#e2e8f0;
+}
 
-        .col-empate{
-            border-left:1px solid #e2e8f0;
-            border-right:1px solid #e2e8f0;
-        }
+.col-equipo-local{
+    padding-left:6px;
+    font-size:0.92rem;
+    font-weight:bold;
+}
 
-        .col-letra-v{
-            border-left:1px solid #e2e8f0;
-        }
+.col-equipo-visita{
+    padding-right:6px;
+    text-align:right;
+    font-size:0.92rem;
+    font-weight:bold;
+}
 
-        .col-equipo-local{
-            padding-left:6px;
-            font-weight:bold;
-            font-size:0.92rem;
-        }
+.equipo-con-logo{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
 
-        .col-equipo-visita{
-            padding-right:6px;
-            font-weight:bold;
-            text-align:right;
-            font-size:0.92rem;
-        }
+.equipo-visita-logo{
+    justify-content:flex-end;
+}
 
-        .equipo-con-logo{
-            display:flex;
-            align-items:center;
-            gap:5px;
-        }
+.logo-equipo{
+    width:18px;
+    height:18px;
+    object-fit:contain;
+}
 
-        .equipo-visita-logo{
-            justify-content:flex-end;
-        }
+.selected-cell{
+    background:#0b2240 !important;
+    color:#d4af37 !important;
+}
 
-        .logo-equipo{
-            width:18px;
-            height:18px;
-            object-fit:contain;
-        }
+.banner-negro{
+    background:#000000;
+    color:#ffffff;
+    display:flex;
+    justify-content:space-between;
+    padding:4px 10px;
+    font-size:0.75rem;
+    font-weight:bold;
+}
 
-        .selected-cell{
-            background-color:#0b2240 !important;
-            color:#d4af37 !important;
-        }
+.banner-negro span{
+    color:#ffcc00;
+}
 
-        .banner-negro{
-            background-color:#000000;
-            color:#ffffff;
-            display:flex;
-            justify-content:space-between;
-            padding:4px 12px;
-            font-size:0.75rem;
-            font-weight:bold;
-        }
+.banner-informes{
+    text-align:center;
+    padding:4px;
+    font-size:1rem;
+    font-weight:bold;
+}
 
-        .banner-negro span{
-            color:#ffcc00;
-        }
+.banner-facebook{
+    background:#0b2240;
+    color:#ffffff;
+    text-align:center;
+    padding:4px;
+    font-size:0.75rem;
+    font-weight:bold;
+}
 
-        .banner-informes{
-            background-color:#ffffff;
-            color:#1e293b;
-            text-align:center;
-            padding:3px;
-            font-size:1.05rem;
-            font-weight:bold;
-        }
+.banner-total{
+    text-align:center;
+    padding:4px;
+    font-size:1rem;
+    font-weight:bold;
+}
 
-        .banner-facebook{
-            background-color:#0b2240;
-            color:#ffffff;
-            text-align:center;
-            padding:4px;
-            font-weight:bold;
-            font-size:0.78rem;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            gap:5px;
-        }
+.seccion-inputs{
+    padding:8px;
+}
 
-        .fb-icono{
-            background-color:#ffffff;
-            color:#0b2240;
-            border-radius:50%;
-            width:14px;
-            height:14px;
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            font-weight:bold;
-            font-size:0.68rem;
-        }
+.input-nombre{
+    width:100%;
+    padding:7px;
+    border:1px solid #cbd5e1;
+    border-radius:4px;
+    text-align:center;
+    font-weight:bold;
+    margin-bottom:5px;
+}
 
-        .banner-total{
-            text-align:center;
-            padding:3px;
-            font-size:1.15rem;
-            font-weight:bold;
-            color:#1e293b;
-        }
+.bloque-botones-triples{
+    display:flex;
+    gap:5px;
+    margin-bottom:5px;
+}
 
-        .seccion-inputs{
-            padding:0 10px 10px 10px;
-        }
+.btn-accion{
+    flex:1;
+    border:none;
+    padding:7px;
+    color:#ffffff;
+    font-weight:bold;
+    border-radius:4px;
+    cursor:pointer;
+}
 
-        .input-nombre{
-            width:100%;
-            padding:6px;
-            font-size:0.85rem;
-            border:1px solid #cbd5e1;
-            border-radius:4px;
-            text-transform:uppercase;
-            margin-bottom:4px;
-            font-weight:bold;
-            text-align:center;
-        }
+.btn-rojo{
+    background:#ff0044;
+}
 
-        .bloque-botones-triples{
-            display:flex;
-            gap:5px;
-            margin-bottom:4px;
-        }
+.btn-azul{
+    background:#257ae6;
+}
 
-        .btn-accion{
-            flex:1;
-            padding:6px;
-            font-size:0.8rem;
-            font-weight:bold;
-            border:none;
-            border-radius:4px;
-            color:#ffffff;
-            cursor:pointer;
-            text-transform:uppercase;
-        }
+.btn-gris{
+    background:#434950;
+}
 
-        .btn-rojo{
-            background-color:#ff0044;
-        }
+.desempate-contenedor{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:4px;
+    padding:5px;
+    text-align:center;
+    margin-bottom:5px;
+}
 
-        .btn-azul{
-            background-color:#257ae6;
-        }
+.inputs-goles{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:5px;
+}
 
-        .btn-gris{
-            background-color:#434950;
-        }
+.inputs-goles input{
+    width:40px;
+    padding:2px;
+    text-align:center;
+    font-weight:bold;
+}
 
-        .desempate-contenedor{
-            background-color:#f8fafc;
-            border:1px solid #e2e8f0;
-            border-radius:4px;
-            padding:4px;
-            margin-bottom:5px;
-            text-align:center;
-        }
+#mensajeJugadas{
+    margin-top:5px;
+    margin-bottom:5px;
+    border:1px solid #cbd5e1;
+    border-radius:4px;
+    padding:6px;
+    text-align:center;
+    font-weight:bold;
+    min-height:35px;
+}
 
-        .inputs-goles{
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            gap:5px;
-        }
+.btn-whatsapp-enviar{
+    width:100%;
+    background:#25d366;
+    border:none;
+    color:#ffffff;
+    padding:10px;
+    font-size:1rem;
+    font-weight:bold;
+    border-radius:4px;
+    cursor:pointer;
+}
 
-        .inputs-goles input{
-            width:38px;
-            padding:2px;
-            text-align:center;
-            font-weight:bold;
-        }
-
-        #mensajeJugadas{
-            margin-top:6px;
-            margin-bottom:6px;
-            padding:6px;
-            border:1px solid #cbd5e1;
-            border-radius:4px;
-            font-weight:bold;
-            text-align:center;
-            min-height:35px;
-        }
-
-        .btn-whatsapp-enviar{
-            width:100%;
-            background-color:#25d366;
-            color:#ffffff;
-            border:none;
-            padding:9px;
-            font-size:1.05rem;
-            font-weight:bold;
-            border-radius:4px;
-            cursor:pointer;
-            text-transform:uppercase;
-        }
-
-    </style>
+</style>
 </head>
+
 <body>
 
 <div class="container">
 
 <header>
 
-    <div class="header-title">
-        QUINIELAS EL 90
-    </div>
+<div class="header-title">
+QUINIELAS EL 90
+</div>
 
-    <div class="header-subtitle">
-        QUINIELA DE INAUGURACIÓN
-    </div>
+<div class="header-subtitle">
+QUINIELA DE INAUGURACIÓN
+</div>
 
-    <div class="header-logo-container">
-        <img src="LOGO.PNG.jpeg" class="header-logo-img">
-    </div>
+<div class="header-logo-container">
+<img src="LOGO.PNG.jpeg" class="header-logo-img">
+</div>
 
 </header>
 
 <div class="tabla-contenedor">
 
-    <table class="tabla-quiniela">
-        <tbody id="cuerpoTabla"></tbody>
-    </table>
+<table class="tabla-quiniela">
+<tbody id="cuerpoTabla"></tbody>
+</table>
 
 </div>
 
 <div class="banner-negro">
-    <div>PRECIO: <span>GRATIS</span></div>
-    <div>CIERRE: <span>JUEVES 11:00 P. M.</span></div>
+<div>PRECIO: <span>GRATIS</span></div>
+<div>CIERRE: <span>JUEVES 11:00 P. M.</span></div>
 </div>
 
 <div class="banner-informes">
-    INFORMES: +52 4439000088
+INFORMES: +52 4439000088
 </div>
 
 <div class="banner-facebook">
-    <span class="fb-icono">f</span>
-    QUINIELAS EL 90
+QUINIELAS EL 90
 </div>
 
 <div class="banner-total">
-    TOTAL: $0.00
+TOTAL: $0.00
 </div>
 
 <div class="seccion-inputs">
 
-    <input
-        type="text"
-        id="nombreParticipante"
-        class="input-nombre"
-        placeholder="NOMBRE DEL PARTICIPANTE"
-    >
+<input
+type="text"
+id="nombreParticipante"
+class="input-nombre"
+placeholder="NOMBRE DEL PARTICIPANTE"
+>
 
-    <div class="bloque-botones-triples">
+<div class="bloque-botones-triples">
 
-        <button class="btn-accion btn-rojo" onclick="limpiarTodo()">
-            Limpiar
-        </button>
+<button class="btn-accion btn-rojo" onclick="limpiarTodo()">
+Limpiar
+</button>
 
-        <button class="btn-accion btn-azul" onclick="agregarJugada()">
-            Agregar
-        </button>
+<button class="btn-accion btn-azul" onclick="agregarJugada()">
+Agregar
+</button>
 
-        <button class="btn-accion btn-gris" onclick="seleccionAleatoria()">
-            Aleatorio
-        </button>
+<button class="btn-accion btn-gris" onclick="seleccionAleatoria()">
+Aleatorio
+</button>
 
-    </div>
+</div>
 
-    <div class="desempate-contenedor">
+<div class="desempate-contenedor">
 
-        <div style="font-weight:bold; margin-bottom:4px;">
-            🔥 MARCADOR DESEMPATE: MÉXICO VS GHANA 🔥
-        </div>
+<div style="font-weight:bold; margin-bottom:4px;">
+🔥 MARCADOR DESEMPATE: MÉXICO VS GHANA 🔥
+</div>
 
-        <div class="inputs-goles">
-            <input type="number" placeholder="0">
-            <span>-</span>
-            <input type="number" placeholder="0">
-        </div>
+<div class="inputs-goles">
+<input type="number" placeholder="0">
+<span>-</span>
+<input type="number" placeholder="0">
+</div>
 
-    </div>
+</div>
 
-    <div id="mensajeJugadas"></div>
+<div id="mensajeJugadas"></div>
 
-    <button class="btn-whatsapp-enviar" onclick="enviarWhatsApp()">
-        ENVIAR JUGADA
-    </button>
+<button class="btn-whatsapp-enviar" onclick="enviarWhatsApp()">
+ENVIAR JUGADA
+</button>
 
 </div>
 
@@ -443,83 +386,83 @@
 
 const partidosData = [
 
-    { tipo:"fecha", texto:"Viernes 22 de Mayo" },
+{ tipo:"fecha", texto:"Viernes 22 de Mayo" },
 
-    {
-        id:1,
-        local:"México",
-        logoLocal:"logos/mexico.png",
-        visita:"Ghana",
-        logoVisita:"logos/ghana.png"
-    },
+{
+id:1,
+local:"México",
+logoLocal:"logos/mexico.png",
+visita:"Ghana",
+logoVisita:"logos/ghana.png"
+},
 
-    {
-        id:2,
-        local:"Lens",
-        logoLocal:"logos/lens.png",
-        visita:"Nice",
-        logoVisita:"logos/nice.png"
-    },
+{
+id:2,
+local:"Lens",
+logoLocal:"logos/lens.png",
+visita:"Nice",
+logoVisita:"logos/nice.png"
+},
 
-    {
-        id:3,
-        local:"Peñarol",
-        logoLocal:"logos/penarol.png",
-        visita:"Corinthians",
-        logoVisita:"logos/corinthians.png"
-    },
+{
+id:3,
+local:"Peñarol",
+logoLocal:"logos/penarol.png",
+visita:"Corinthians",
+logoVisita:"logos/corinthians.png"
+},
 
-    { tipo:"fecha", texto:"Sábado 23 de Mayo" },
+{ tipo:"fecha", texto:"Sábado 23 de Mayo" },
 
-    {
-        id:4,
-        local:"Valencia",
-        logoLocal:"logos/valencia.png",
-        visita:"Barcelona",
-        logoVisita:"logos/barcelona.png"
-    },
+{
+id:4,
+local:"Valencia",
+logoLocal:"logos/valencia.png",
+visita:"Barcelona",
+logoVisita:"logos/barcelona.png"
+},
 
-    {
-        id:5,
-        local:"Real Madrid",
-        logoLocal:"logos/realmadrid.png",
-        visita:"Athletic Bilbao",
-        logoVisita:"logos/bilbao.png"
-    },
+{
+id:5,
+local:"Real Madrid",
+logoLocal:"logos/realmadrid.png",
+visita:"Athletic Bilbao",
+logoVisita:"logos/bilbao.png"
+},
 
-    {
-        id:6,
-        local:"Inter Miami",
-        logoLocal:"logos/intermiami.png",
-        visita:"Portland",
-        logoVisita:"logos/portland.png"
-    },
+{
+id:6,
+local:"Inter Miami",
+logoLocal:"logos/intermiami.png",
+visita:"Portland",
+logoVisita:"logos/portland.png"
+},
 
-    { tipo:"fecha", texto:"Domingo 24 de Mayo" },
+{ tipo:"fecha", texto:"Domingo 24 de Mayo" },
 
-    {
-        id:7,
-        local:"Manchester City",
-        logoLocal:"logos/mancity.png",
-        visita:"Aston Villa",
-        logoVisita:"logos/astonvilla.png"
-    },
+{
+id:7,
+local:"Manchester City",
+logoLocal:"logos/mancity.png",
+visita:"Aston Villa",
+logoVisita:"logos/astonvilla.png"
+},
 
-    {
-        id:8,
-        local:"Villarreal",
-        logoLocal:"logos/villarreal.png",
-        visita:"Atlético Madrid",
-        logoVisita:"logos/atletico.png"
-    },
+{
+id:8,
+local:"Villarreal",
+logoLocal:"logos/villarreal.png",
+visita:"Atlético Madrid",
+logoVisita:"logos/atletico.png"
+},
 
-    {
-        id:9,
-        local:"Gran Final",
-        logoLocal:"logos/ligamx.png",
-        visita:"Liga MX",
-        logoVisita:"logos/ligamx.png"
-    }
+{
+id:9,
+local:"Gran Final",
+logoLocal:"logos/ligamx.png",
+visita:"Liga MX",
+logoVisita:"logos/ligamx.png"
+}
 
 ];
 
@@ -528,69 +471,286 @@ let aleatorioYaUsado = false;
 
 function inicializarTabla(){
 
-    const tabla = document.getElementById('cuerpoTabla');
+const tabla = document.getElementById('cuerpoTabla');
 
-    partidosData.forEach(p=>{
+partidosData.forEach(p=>{
 
-        if(p.tipo){
+if(p.tipo){
 
-            const filaFecha = document.createElement('tr');
+const filaFecha = document.createElement('tr');
 
-            filaFecha.innerHTML = `
-                <td colspan="5" class="fecha-cabecera">
-                    ${p.texto}
-                </td>
-            `;
+filaFecha.innerHTML = `
+<td colspan="5" class="fecha-cabecera">
+${p.texto}
+</td>
+`;
 
-            tabla.appendChild(filaFecha);
+tabla.appendChild(filaFecha);
 
-        }else{
+}else{
 
-            const fila = document.createElement('tr');
+const fila = document.createElement('tr');
 
-            fila.className = 'fila-partido';
+fila.className = 'fila-partido';
 
-            fila.innerHTML = `
+fila.innerHTML = `
 
-                <td class="col-letra-l"
-                    onclick="marcarCelda(${p.id}, 'L')"
-                    id="cell-L-${p.id}">
-                    L
-                </td>
+<td class="col-letra-l"
+onclick="marcarCelda(${p.id}, 'L')"
+id="cell-L-${p.id}">
+L
+</td>
 
-                <td class="col-equipo-local">
-                    <div class="equipo-con-logo">
-                        <img src="${p.logoLocal}" class="logo-equipo">
-                        <span>${p.local}</span>
-                    </div>
-                </td>
+<td class="col-equipo-local">
+<div class="equipo-con-logo">
+<img src="${p.logoLocal}" class="logo-equipo">
+<span>${p.local}</span>
+</div>
+</td>
 
-                <td class="col-empate"
-                    onclick="marcarCelda(${p.id}, 'E')"
-                    id="cell-E-${p.id}">
-                    E
-                </td>
+<td class="col-empate"
+onclick="marcarCelda(${p.id}, 'E')"
+id="cell-E-${p.id}">
+E
+</td>
 
-                <td class="col-equipo-visita">
-                    <div class="equipo-con-logo equipo-visita-logo">
-                        <span>${p.visita}</span>
-                        <img src="${p.logoVisita}" class="logo-equipo">
-                    </div>
-                </td>
+<td class="col-equipo-visita">
+<div class="equipo-con-logo equipo-visita-logo">
+<span>${p.visita}</span>
+<img src="${p.logoVisita}" class="logo-equipo">
+</div>
+</td>
 
-                <td class="col-letra-v"
-                    onclick="marcarCelda(${p.id}, 'V')"
-                    id="cell-V-${p.id}">
-                    V
-                </td>
+<td class="col-letra-v"
+onclick="marcarCelda(${p.id}, 'V')"
+id="cell-V-${p.id}">
+V
+</td>
+`;
 
-            `;
+tabla.appendChild(fila);
 
-            tabla.appendChild(fila);
+}
 
-        }
+});
 
-    });
+}
+
+function marcarCelda(id, opcion){
+
+const cellL = document.getElementById(`cell-L-${id}`);
+const cellE = document.getElementById(`cell-E-${id}`);
+const cellV = document.getElementById(`cell-V-${id}`);
+
+if(respuestas[id] === opcion){
+
+cellL.classList.remove('selected-cell');
+cellE.classList.remove('selected-cell');
+cellV.classList.remove('selected-cell');
+
+delete respuestas[id];
+
+return;
+
+}
+
+cellL.classList.remove('selected-cell');
+cellE.classList.remove('selected-cell');
+cellV.classList.remove('selected-cell');
+
+if(opcion === 'L') cellL.classList.add('selected-cell');
+if(opcion === 'E') cellE.classList.add('selected-cell');
+if(opcion === 'V') cellV.classList.add('selected-cell');
+
+respuestas[id] = opcion;
+
+}
+
+function limpiarTodo(){
+
+Object.keys(respuestas).forEach(id=>{
+
+document.getElementById(`cell-L-${id}`)?.classList.remove('selected-cell');
+document.getElementById(`cell-E-${id}`)?.classList.remove('selected-cell');
+document.getElementById(`cell-V-${id}`)?.classList.remove('selected-cell');
+
+});
+
+for(let key in respuestas){
+delete respuestas[key];
+}
+
+aleatorioYaUsado = false;
+
+document.getElementById('nombreParticipante').value = '';
+
+document.querySelectorAll('.inputs-goles input').forEach(input=>{
+input.value = '';
+});
+
+document.getElementById('mensajeJugadas').innerHTML = '';
+
+}
+
+function agregarJugada(){
+
+const nombre = document.getElementById('nombreParticipante').value.trim();
+
+if(nombre === ''){
+alert('⚠️ QUINIELA SIN NOMBRE');
+return;
+}
+
+let faltanPartidos = false;
+
+partidosData.forEach(p=>{
+
+if(!p.tipo && !respuestas[p.id]){
+faltanPartidos = true;
+}
+
+});
+
+if(faltanPartidos){
+alert('⚠️ QUINIELA INCOMPLETA');
+return;
+}
+
+const goles = document.querySelectorAll('.inputs-goles input');
+
+const gol1 = goles[0].value;
+const gol2 = goles[1].value;
+
+if(gol1 === '' || gol2 === ''){
+alert('⚠️ MARCADOR EXACTO INCOMPLETO');
+return;
+}
+
+let jugada = '';
+
+partidosData.forEach(p=>{
+
+if(!p.tipo){
+jugada += respuestas[p.id] + ' ';
+}
+
+});
+
+document.getElementById('mensajeJugadas').innerHTML = `
+TU JUGADA:
+<br>
+${jugada}
+`;
+
+}
+
+function seleccionAleatoria(){
+
+const opciones = ['L','E','V'];
+
+partidosData.forEach(p=>{
+
+if(!p.tipo){
+
+if(!aleatorioYaUsado){
+
+if(!respuestas[p.id]){
+
+const random = opciones[Math.floor(Math.random()*3)];
+
+marcarCelda(p.id, random);
+
+}
+
+}else{
+
+document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
+document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
+document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
+
+delete respuestas[p.id];
+
+const random = opciones[Math.floor(Math.random()*3)];
+
+marcarCelda(p.id, random);
+
+}
+
+}
+
+});
+
+const goles = document.querySelectorAll('.inputs-goles input');
+
+goles[0].value = Math.floor(Math.random()*6);
+goles[1].value = Math.floor(Math.random()*6);
+
+aleatorioYaUsado = true;
+
+}
+
+function enviarWhatsApp(){
+
+const nombre = document.getElementById('nombreParticipante').value.trim();
+
+if(nombre === ''){
+alert('⚠️ QUINIELA SIN NOMBRE');
+return;
+}
+
+let faltanPartidos = false;
+
+partidosData.forEach(p=>{
+
+if(!p.tipo && !respuestas[p.id]){
+faltanPartidos = true;
+}
+
+});
+
+if(faltanPartidos){
+alert('⚠️ QUINIELA INCOMPLETA');
+return;
+}
+
+const goles = document.querySelectorAll('.inputs-goles input');
+
+const gol1 = goles[0].value;
+const gol2 = goles[1].value;
+
+if(gol1 === '' || gol2 === ''){
+alert('⚠️ MARCADOR EXACTO INCOMPLETO');
+return;
+}
+
+let jugada = '';
+
+partidosData.forEach(p=>{
+
+if(!p.tipo){
+jugada += respuestas[p.id] + ' ';
+}
+
+});
+
+const mensaje = `
+🏆 QUINIELAS EL 90 🏆
+
+👤 Nombre:
+${nombre}
+
+📋 Jugada:
+${jugada}
+
+🔥 Desempate:
+México ${gol1} - ${gol2} Ghana
+`;
+
+const numero = '524439000088';
+
+const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+
+window.open(url, '_blank');
 
 }
 
