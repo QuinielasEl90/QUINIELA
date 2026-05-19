@@ -90,16 +90,26 @@ header{
 .tabla-contenedor{
     position:relative;
     overflow:hidden;
+    background:#ffffff;
 }
 
 .tabla-contenedor::before{
     content:"";
     position:absolute;
-    inset:0;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    
+    width:95%;
+    height:95%;
+    
     background:url('LOGO.PNG.jpeg') center center no-repeat;
-    background-size:420px;
-    opacity:0.45;
+    background-size:contain;
+
+    opacity:0.80;
+
     pointer-events:none;
+    z-index:1;
 }
 
 .tabla-quiniela{
@@ -111,8 +121,9 @@ header{
 
 .fila-partido{
     height:32px;
-    border-bottom:1px solid #cbd5e1;
-    background:rgba(255,255,255,0.88);
+    border-bottom:1px solid rgba(255,255,255,0.35);
+    background:rgba(255,255,255,0.30);
+    backdrop-filter:blur(1px);
 }
 
 .col-letra-l,
@@ -122,32 +133,38 @@ header{
     min-width:48px;
     text-align:center;
     cursor:pointer;
-    font-weight:bold;
+    font-weight:900;
     font-size:0.8rem;
     transition:0.2s;
-    border-left:1px solid #cbd5e1;
-    border-right:1px solid #cbd5e1;
+    border-left:1px solid rgba(255,255,255,0.35);
+    border-right:1px solid rgba(255,255,255,0.35);
+    background:rgba(255,255,255,0.20);
+    color:#000000;
 }
 
 .col-letra-l:hover,
 .col-empate:hover,
 .col-letra-v:hover{
-    background:#e2e8f0;
+    background:rgba(255,255,255,0.60);
 }
 
 .col-equipo-local{
     padding-left:6px;
     font-size:0.78rem;
-    font-weight:bold;
-    border-right:1px solid #cbd5e1;
+    font-weight:900;
+    border-right:1px solid rgba(255,255,255,0.35);
+    color:#001b5e;
+    text-shadow:1px 1px 2px rgba(255,255,255,0.9);
 }
 
 .col-equipo-visita{
     padding-right:6px;
     text-align:right;
     font-size:0.78rem;
-    font-weight:bold;
-    border-left:1px solid #cbd5e1;
+    font-weight:900;
+    border-left:1px solid rgba(255,255,255,0.35);
+    color:#001b5e;
+    text-shadow:1px 1px 2px rgba(255,255,255,0.9);
 }
 
 .equipo-con-icono{
@@ -426,77 +443,15 @@ ENVIAR JUGADA
 
 const partidosData = [
 
-{
-id:1,
-local:"MÉXICO",
-logoLocal:"mexico.png",
-visita:"GHANA",
-logoVisita:"ghana.png"
-},
-
-{
-id:2,
-local:"LENS",
-logoLocal:"lens.jpg",
-visita:"NICE",
-logoVisita:"nice.png"
-},
-
-{
-id:3,
-local:"PEÑAROL",
-logoLocal:"peñarol.png",
-visita:"CORINTHIANS",
-logoVisita:"corinthians.jpg"
-},
-
-{
-id:4,
-local:"VALENCIA",
-logoLocal:"valencia.png",
-visita:"BARCELONA",
-logoVisita:"barcelona.png"
-},
-
-{
-id:5,
-local:"REAL MADRID",
-logoLocal:"realmadrid.png",
-visita:"ATHLETIC BILBAO",
-logoVisita:"athleticbilbao.png"
-},
-
-{
-id:6,
-local:"INTER MIAMI",
-logoLocal:"intermiami.png",
-visita:"PORTLAND",
-logoVisita:"portlandtimbers.png"
-},
-
-{
-id:7,
-local:"MANCHESTER CITY",
-logoLocal:"manchestercity.png",
-visita:"ASTON VILLA",
-logoVisita:"astonvilla.png"
-},
-
-{
-id:8,
-local:"VILLARREAL",
-logoLocal:"villareal.png",
-visita:"ATLÉTICO MADRID",
-logoVisita:"atleticomadrid.png"
-},
-
-{
-id:9,
-local:"PUMAS",
-logoLocal:"pumas.png",
-visita:"CRUZ AZUL",
-logoVisita:"cruzazul.png"
-}
+{id:1,local:"MÉXICO",logoLocal:"mexico.png",visita:"GHANA",logoVisita:"ghana.png"},
+{id:2,local:"LENS",logoLocal:"lens.jpg",visita:"NICE",logoVisita:"nice.png"},
+{id:3,local:"PEÑAROL",logoLocal:"peñarol.png",visita:"CORINTHIANS",logoVisita:"corinthians.jpg"},
+{id:4,local:"VALENCIA",logoLocal:"valencia.png",visita:"BARCELONA",logoVisita:"barcelona.png"},
+{id:5,local:"REAL MADRID",logoLocal:"realmadrid.png",visita:"ATHLETIC BILBAO",logoVisita:"athleticbilbao.png"},
+{id:6,local:"INTER MIAMI",logoLocal:"intermiami.png",visita:"PORTLAND",logoVisita:"portlandtimbers.png"},
+{id:7,local:"MANCHESTER CITY",logoLocal:"manchestercity.png",visita:"ASTON VILLA",logoVisita:"astonvilla.png"},
+{id:8,local:"VILLARREAL",logoLocal:"villareal.png",visita:"ATLÉTICO MADRID",logoVisita:"atleticomadrid.png"},
+{id:9,local:"PUMAS",logoLocal:"pumas.png",visita:"CRUZ AZUL",logoVisita:"cruzazul.png"}
 
 ];
 
@@ -514,11 +469,7 @@ fila.className = 'fila-partido';
 
 fila.innerHTML = `
 
-<td class="col-letra-l"
-onclick="marcarCelda(${p.id}, 'L')"
-id="cell-L-${p.id}">
-L
-</td>
+<td class="col-letra-l" onclick="marcarCelda(${p.id}, 'L')" id="cell-L-${p.id}">L</td>
 
 <td class="col-equipo-local">
 <div class="equipo-con-icono">
@@ -527,11 +478,7 @@ L
 </div>
 </td>
 
-<td class="col-empate"
-onclick="marcarCelda(${p.id}, 'E')"
-id="cell-E-${p.id}">
-E
-</td>
+<td class="col-empate" onclick="marcarCelda(${p.id}, 'E')" id="cell-E-${p.id}">E</td>
 
 <td class="col-equipo-visita">
 <div class="equipo-con-icono equipo-visita-icono">
@@ -540,11 +487,8 @@ E
 </div>
 </td>
 
-<td class="col-letra-v"
-onclick="marcarCelda(${p.id}, 'V')"
-id="cell-V-${p.id}">
-V
-</td>
+<td class="col-letra-v" onclick="marcarCelda(${p.id}, 'V')" id="cell-V-${p.id}">V</td>
+
 `;
 
 tabla.appendChild(fila);
