@@ -107,7 +107,7 @@ header{
 }
 
 .fila-partido{
-    height:44px;
+    height:32px;
     border-bottom:1px solid #cbd5e1;
     background:rgba(255,255,255,0.92);
 }
@@ -115,11 +115,12 @@ header{
 .col-letra-l,
 .col-empate,
 .col-letra-v{
-    width:60px;
-    min-width:60px;
+    width:48px;
+    min-width:48px;
     text-align:center;
     cursor:pointer;
     font-weight:bold;
+    font-size:0.8rem;
     transition:0.2s;
     border-left:1px solid #cbd5e1;
     border-right:1px solid #cbd5e1;
@@ -133,7 +134,7 @@ header{
 
 .col-equipo-local{
     padding-left:6px;
-    font-size:0.95rem;
+    font-size:0.78rem;
     font-weight:bold;
     border-right:1px solid #cbd5e1;
 }
@@ -141,7 +142,7 @@ header{
 .col-equipo-visita{
     padding-right:6px;
     text-align:right;
-    font-size:0.95rem;
+    font-size:0.78rem;
     font-weight:bold;
     border-left:1px solid #cbd5e1;
 }
@@ -149,7 +150,7 @@ header{
 .equipo-con-icono{
     display:flex;
     align-items:center;
-    gap:6px;
+    gap:5px;
 }
 
 .equipo-visita-icono{
@@ -157,8 +158,8 @@ header{
 }
 
 .logo-equipo{
-    width:23px;
-    height:23px;
+    width:18px;
+    height:18px;
     object-fit:contain;
 }
 
@@ -594,9 +595,7 @@ return;
 let jugada = '';
 
 partidosData.forEach(p=>{
-
 jugada += respuestas[p.id] + ' ';
-
 });
 
 document.getElementById('mensajeJugadas').innerHTML = `
@@ -640,9 +639,7 @@ const goles = document.querySelectorAll('.inputs-goles input');
 let jugada = '';
 
 partidosData.forEach(p=>{
-
 jugada += respuestas[p.id] + ' ';
-
 });
 
 const mensaje = `
