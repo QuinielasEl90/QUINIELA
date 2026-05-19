@@ -400,25 +400,25 @@ const partidosData = [
 {
 id:1,
 local:"México",
-logoLocal:"logos/MEXICO.png",
+logoLocal:"logotipos/mexico.png",
 visita:"Ghana",
-logoVisita:"logos/GHANA.png"
+logoVisita:"logotipos/ghana.png"
 },
 
 {
 id:2,
 local:"Lens",
-logoLocal:"logos/LENS.jpg",
+logoLocal:"logotipos/lens.jpg",
 visita:"Nice",
-logoVisita:"logos/NICE.png"
+logoVisita:"logotipos/nice.png"
 },
 
 {
 id:3,
 local:"Peñarol",
-logoLocal:"logos/PENAROL.png",
+logoLocal:"logotipos/penarol.png",
 visita:"Corinthians",
-logoVisita:"logos/CORINTHIANS.jpg"
+logoVisita:"logotipos/corinthians.jpg"
 },
 
 { tipo:"fecha", texto:"Sábado 23 de Mayo" },
@@ -426,25 +426,25 @@ logoVisita:"logos/CORINTHIANS.jpg"
 {
 id:4,
 local:"Valencia",
-logoLocal:"logos/VALENCIA.png",
+logoLocal:"logotipos/valencia.png",
 visita:"Barcelona",
-logoVisita:"logos/BARCELONA.png"
+logoVisita:"logotipos/barcelona.png"
 },
 
 {
 id:5,
 local:"Real Madrid",
-logoLocal:"logos/REALMADRID.png",
+logoLocal:"logotipos/realmadrid.png",
 visita:"Athletic Bilbao",
-logoVisita:"logos/BILBAO.png"
+logoVisita:"logotipos/bilbao.png"
 },
 
 {
 id:6,
 local:"Inter Miami",
-logoLocal:"logos/INTERMIAMI.png",
+logoLocal:"logotipos/intermiami.png",
 visita:"Portland Timbers",
-logoVisita:"logos/PORTLANDTIMBERS.png"
+logoVisita:"logotipos/portlandtimbers.png"
 },
 
 { tipo:"fecha", texto:"Domingo 24 de Mayo" },
@@ -452,25 +452,25 @@ logoVisita:"logos/PORTLANDTIMBERS.png"
 {
 id:7,
 local:"Manchester City",
-logoLocal:"logos/MANCITY.png",
+logoLocal:"logotipos/mancity.png",
 visita:"Aston Villa",
-logoVisita:"logos/ASTONVILLA.png"
+logoVisita:"logotipos/astonvilla.png"
 },
 
 {
 id:8,
 local:"Villarreal",
-logoLocal:"logos/VILLARREAL.png",
+logoLocal:"logotipos/villarreal.png",
 visita:"Atlético Madrid",
-logoVisita:"logos/ATLETICO.png"
+logoVisita:"logotipos/atletico.png"
 },
 
 {
 id:9,
 local:"Pumas",
-logoLocal:"logos/PUMAS.png",
+logoLocal:"logotipos/pumas.png",
 visita:"Cruz Azul",
-logoVisita:"logos/CRUZAZUL.png"
+logoVisita:"logotipos/cruzazul.png"
 }
 
 ];
@@ -572,172 +572,6 @@ if(opcion === 'E') cellE.classList.add('selected-cell');
 if(opcion === 'V') cellV.classList.add('selected-cell');
 
 respuestas[id] = opcion;
-
-}
-
-function limpiarTodo(){
-
-Object.keys(respuestas).forEach(id=>{
-
-document.getElementById(`cell-L-${id}`)?.classList.remove('selected-cell');
-document.getElementById(`cell-E-${id}`)?.classList.remove('selected-cell');
-document.getElementById(`cell-V-${id}`)?.classList.remove('selected-cell');
-
-});
-
-for(let key in respuestas){
-delete respuestas[key];
-}
-
-document.getElementById('nombreParticipante').value = '';
-document.getElementById('golLocal').value = '';
-document.getElementById('golVisita').value = '';
-document.getElementById('mensajeJugadas').innerHTML = '';
-
-aleatorioYaUsado = false;
-
-}
-
-function agregarJugada(){
-
-const nombre = document.getElementById('nombreParticipante').value.trim();
-
-if(nombre === ''){
-alert('⚠️ QUINIELA SIN NOMBRE');
-return;
-}
-
-let faltan = false;
-
-partidosData.forEach(p=>{
-if(!p.tipo && !respuestas[p.id]){
-faltan = true;
-}
-});
-
-if(faltan){
-alert('⚠️ QUINIELA INCOMPLETA');
-return;
-}
-
-const gol1 = document.getElementById('golLocal').value;
-const gol2 = document.getElementById('golVisita').value;
-
-if(gol1 === '' || gol2 === ''){
-alert('⚠️ MARCADOR EXACTO INCOMPLETO');
-return;
-}
-
-let jugada = '';
-
-partidosData.forEach(p=>{
-if(!p.tipo){
-jugada += respuestas[p.id] + ' ';
-}
-});
-
-document.getElementById('mensajeJugadas').innerHTML = `
-${jugada}
-`;
-
-}
-
-function seleccionAleatoria(){
-
-const opciones = ['L','E','V'];
-
-partidosData.forEach(p=>{
-
-if(!p.tipo){
-
-if(!aleatorioYaUsado){
-
-if(!respuestas[p.id]){
-
-const random = opciones[Math.floor(Math.random()*3)];
-marcarCelda(p.id, random);
-
-}
-
-}else{
-
-document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
-document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
-document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
-
-const random = opciones[Math.floor(Math.random()*3)];
-
-marcarCelda(p.id, random);
-
-}
-
-}
-
-});
-
-document.getElementById('golLocal').value = Math.floor(Math.random()*6);
-document.getElementById('golVisita').value = Math.floor(Math.random()*6);
-
-aleatorioYaUsado = true;
-
-}
-
-function enviarWhatsApp(){
-
-const nombre = document.getElementById('nombreParticipante').value.trim();
-
-if(nombre === ''){
-alert('⚠️ QUINIELA SIN NOMBRE');
-return;
-}
-
-let faltan = false;
-
-partidosData.forEach(p=>{
-if(!p.tipo && !respuestas[p.id]){
-faltan = true;
-}
-});
-
-if(faltan){
-alert('⚠️ QUINIELA INCOMPLETA');
-return;
-}
-
-const gol1 = document.getElementById('golLocal').value;
-const gol2 = document.getElementById('golVisita').value;
-
-if(gol1 === '' || gol2 === ''){
-alert('⚠️ MARCADOR EXACTO INCOMPLETO');
-return;
-}
-
-let jugada = '';
-
-partidosData.forEach(p=>{
-if(!p.tipo){
-jugada += respuestas[p.id] + ' ';
-}
-});
-
-const mensaje = `
-🏆 QUINIELAS EL 90 🏆
-
-👤 Nombre:
-${nombre}
-
-📋 Jugada:
-${jugada}
-
-🔥 Desempate:
-México ${gol1} - ${gol2} Ghana
-`;
-
-const numero = '524439000088';
-
-const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-
-window.open(url, '_blank');
 
 }
 
