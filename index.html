@@ -37,27 +37,37 @@ header{
     position:relative;
     background:linear-gradient(
         90deg,
-        #0b2240 0%,
-        #1d4ed8 50%,
-        #d4af37 100%
+        #001f54 0%,
+        #0066ff 35%,
+        #00c3ff 70%,
+        #ffd700 100%
     );
     color:#ffffff;
     text-align:center;
-    padding:18px 15px;
-    border-bottom:3px solid #ffffff;
+    padding:22px 15px;
+    border-bottom:4px solid #ffffff;
+    box-shadow:0 4px 10px rgba(0,0,0,0.25);
 }
 
 .header-title{
-    font-size:2rem;
+    font-family:'Trebuchet MS',sans-serif;
+    font-size:2.5rem;
     font-weight:900;
-    letter-spacing:2px;
+    letter-spacing:3px;
+    color:#ffffff;
+    text-shadow:
+        0 0 5px rgba(255,255,255,0.5),
+        0 0 10px rgba(0,195,255,0.7),
+        2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .header-subtitle{
-    color:#ffffff;
-    font-size:0.95rem;
+    color:#ffe66d;
+    font-size:1rem;
     font-weight:bold;
-    margin-top:4px;
+    margin-top:6px;
+    letter-spacing:1px;
+    text-shadow:1px 1px 3px rgba(0,0,0,0.4);
 }
 
 .logo-superior{
@@ -65,8 +75,8 @@ header{
     right:12px;
     top:50%;
     transform:translateY(-50%);
-    width:58px;
-    height:58px;
+    width:60px;
+    height:60px;
     object-fit:contain;
     border-radius:50%;
     background:#ffffff;
@@ -83,8 +93,8 @@ header{
     position:absolute;
     inset:0;
     background:url('LOGO.PNG.jpeg') center center no-repeat;
-    background-size:240px;
-    opacity:0.08;
+    background-size:320px;
+    opacity:0.18;
     pointer-events:none;
 }
 
@@ -153,16 +163,17 @@ header{
 }
 
 .selected-cell{
-    background:#0b2240 !important;
-    color:#d4af37 !important;
+    background:#001f54 !important;
+    color:#ffd700 !important;
 }
 
 .banner-negro{
     background:linear-gradient(
         90deg,
-        #0b2240 0%,
-        #1d4ed8 50%,
-        #d4af37 100%
+        #001f54 0%,
+        #0066ff 35%,
+        #00c3ff 70%,
+        #ffd700 100%
     );
     color:#ffffff;
     display:flex;
@@ -187,8 +198,8 @@ header{
     background:#1877f2;
     color:#ffffff;
     text-align:center;
-    padding:6px;
-    font-size:0.9rem;
+    padding:7px;
+    font-size:0.95rem;
     font-weight:bold;
     display:flex;
     align-items:center;
@@ -197,8 +208,9 @@ header{
 }
 
 .logo-facebook{
-    width:20px;
-    height:20px;
+    width:22px;
+    height:22px;
+    object-fit:contain;
 }
 
 .banner-total{
@@ -236,6 +248,11 @@ header{
     font-weight:bold;
     border-radius:4px;
     cursor:pointer;
+    transition:0.2s;
+}
+
+.btn-accion:hover{
+    transform:scale(1.02);
 }
 
 .btn-rojo{
