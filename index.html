@@ -17,22 +17,24 @@
 }
 
 body{
-    background:#ffffff;
+    background:#f1f5f9;
     font-family:'Roboto',sans-serif;
-    padding:4px;
+    padding:5px;
     display:flex;
     justify-content:center;
 }
 
 .container{
     width:100%;
-    max-width:630px;
+    max-width:650px;
     border:1px solid #cbd5e1;
     background:#ffffff;
-    box-shadow:0 4px 6px rgba(0,0,0,0.1);
+    box-shadow:0 6px 12px rgba(0,0,0,0.15);
+    overflow:hidden;
 }
 
 header{
+    position:relative;
     background:linear-gradient(
         90deg,
         #0b2240 0%,
@@ -41,45 +43,63 @@ header{
     );
     color:#ffffff;
     text-align:center;
-    padding:7px 10px;
-    border-bottom:2px solid #ffffff;
+    padding:18px 15px;
+    border-bottom:3px solid #ffffff;
 }
 
 .header-title{
-    font-size:1.4rem;
+    font-size:2rem;
     font-weight:900;
-    letter-spacing:1px;
+    letter-spacing:2px;
 }
 
 .header-subtitle{
     color:#ffffff;
-    font-size:0.75rem;
+    font-size:0.95rem;
     font-weight:bold;
-    margin-top:2px;
+    margin-top:4px;
+}
+
+.logo-superior{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    width:58px;
+    height:58px;
+    object-fit:contain;
+    border-radius:50%;
+    background:#ffffff;
+    padding:3px;
 }
 
 .tabla-contenedor{
-    background:#ffffff;
+    position:relative;
+    overflow:hidden;
+}
+
+.tabla-contenedor::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:url('LOGO.PNG.jpeg') center center no-repeat;
+    background-size:240px;
+    opacity:0.08;
+    pointer-events:none;
 }
 
 .tabla-quiniela{
     width:100%;
     border-collapse:collapse;
-}
-
-.fecha-cabecera{
-    background:#f8fafc;
-    text-align:center;
-    font-size:0.68rem;
-    padding:4px;
-    font-weight:bold;
-    border-top:1px solid #cbd5e1;
-    border-bottom:1px solid #cbd5e1;
+    position:relative;
+    z-index:2;
+    background:transparent;
 }
 
 .fila-partido{
-    height:42px;
+    height:44px;
     border-bottom:1px solid #cbd5e1;
+    background:rgba(255,255,255,0.92);
 }
 
 .col-letra-l,
@@ -103,7 +123,7 @@ header{
 
 .col-equipo-local{
     padding-left:6px;
-    font-size:0.92rem;
+    font-size:0.95rem;
     font-weight:bold;
     border-right:1px solid #cbd5e1;
 }
@@ -111,7 +131,7 @@ header{
 .col-equipo-visita{
     padding-right:6px;
     text-align:right;
-    font-size:0.92rem;
+    font-size:0.95rem;
     font-weight:bold;
     border-left:1px solid #cbd5e1;
 }
@@ -127,8 +147,8 @@ header{
 }
 
 .logo-equipo{
-    width:22px;
-    height:22px;
+    width:23px;
+    height:23px;
     object-fit:contain;
 }
 
@@ -147,8 +167,8 @@ header{
     color:#ffffff;
     display:flex;
     justify-content:space-between;
-    padding:5px 10px;
-    font-size:0.75rem;
+    padding:6px 12px;
+    font-size:0.8rem;
     font-weight:bold;
 }
 
@@ -158,51 +178,60 @@ header{
 
 .banner-informes{
     text-align:center;
-    padding:4px;
+    padding:5px;
     font-size:1rem;
     font-weight:bold;
 }
 
 .banner-facebook{
-    background:#0b2240;
+    background:#1877f2;
     color:#ffffff;
     text-align:center;
-    padding:4px;
-    font-size:0.75rem;
+    padding:6px;
+    font-size:0.9rem;
     font-weight:bold;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+}
+
+.logo-facebook{
+    width:20px;
+    height:20px;
 }
 
 .banner-total{
     text-align:center;
-    padding:4px;
+    padding:5px;
     font-size:1rem;
     font-weight:bold;
 }
 
 .seccion-inputs{
-    padding:8px;
+    padding:10px;
 }
 
 .input-nombre{
     width:100%;
-    padding:7px;
+    padding:8px;
     border:1px solid #cbd5e1;
     border-radius:4px;
     text-align:center;
     font-weight:bold;
-    margin-bottom:5px;
+    margin-bottom:6px;
 }
 
 .bloque-botones-triples{
     display:flex;
     gap:5px;
-    margin-bottom:5px;
+    margin-bottom:6px;
 }
 
 .btn-accion{
     flex:1;
     border:none;
-    padding:7px;
+    padding:8px;
     color:#ffffff;
     font-weight:bold;
     border-radius:4px;
@@ -225,9 +254,9 @@ header{
     background:#f8fafc;
     border:1px solid #e2e8f0;
     border-radius:4px;
-    padding:5px;
+    padding:6px;
     text-align:center;
-    margin-bottom:5px;
+    margin-bottom:6px;
 }
 
 .inputs-goles{
@@ -239,7 +268,7 @@ header{
 
 .inputs-goles input{
     width:40px;
-    padding:2px;
+    padding:3px;
     text-align:center;
     font-weight:bold;
 }
@@ -260,7 +289,7 @@ header{
     background:#25d366;
     border:none;
     color:#ffffff;
-    padding:10px;
+    padding:11px;
     font-size:1rem;
     font-weight:bold;
     border-radius:4px;
@@ -284,6 +313,8 @@ QUINIELAS EL 90
 QUINIELA DE INAUGURACIÓN
 </div>
 
+<img src="LOGO.PNG.jpeg" class="logo-superior">
+
 </header>
 
 <div class="tabla-contenedor">
@@ -304,7 +335,8 @@ INFORMES: +52 4439000088
 </div>
 
 <div class="banner-facebook">
-QUINIELAS EL 90
+<img src="facebook.png" class="logo-facebook">
+<span>QUINIELAS EL 90</span>
 </div>
 
 <div class="banner-total">
@@ -364,8 +396,6 @@ ENVIAR JUGADA
 
 const partidosData = [
 
-{ tipo:"fecha", texto:"Viernes 22 de Mayo" },
-
 {
 id:1,
 local:"México",
@@ -390,8 +420,6 @@ visita:"Corinthians",
 logoVisita:"corinthians.jpg"
 },
 
-{ tipo:"fecha", texto:"Sábado 23 de Mayo" },
-
 {
 id:4,
 local:"Valencia",
@@ -415,8 +443,6 @@ logoLocal:"intermiami.png",
 visita:"Portland",
 logoVisita:"portlandtimbers.png"
 },
-
-{ tipo:"fecha", texto:"Domingo 24 de Mayo" },
 
 {
 id:7,
@@ -445,27 +471,12 @@ logoVisita:"cruzazul.png"
 ];
 
 const respuestas = {};
-let aleatorioYaUsado = false;
 
 function inicializarTabla(){
 
 const tabla = document.getElementById('cuerpoTabla');
 
 partidosData.forEach(p=>{
-
-if(p.tipo){
-
-const filaFecha = document.createElement('tr');
-
-filaFecha.innerHTML = `
-<td colspan="5" class="fecha-cabecera">
-${p.texto}
-</td>
-`;
-
-tabla.appendChild(filaFecha);
-
-}else{
 
 const fila = document.createElement('tr');
 
@@ -507,8 +518,6 @@ V
 `;
 
 tabla.appendChild(fila);
-
-}
 
 });
 
@@ -569,9 +578,7 @@ let jugada = '';
 
 partidosData.forEach(p=>{
 
-if(!p.tipo){
 jugada += respuestas[p.id] + ' ';
-}
 
 });
 
@@ -589,13 +596,9 @@ const opciones = ['L','E','V'];
 
 partidosData.forEach(p=>{
 
-if(!p.tipo){
-
 const random = opciones[Math.floor(Math.random()*3)];
 
 marcarCelda(p.id, random);
-
-}
 
 });
 
@@ -621,9 +624,7 @@ let jugada = '';
 
 partidosData.forEach(p=>{
 
-if(!p.tipo){
 jugada += respuestas[p.id] + ' ';
-}
 
 });
 
