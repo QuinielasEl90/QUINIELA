@@ -33,11 +33,16 @@ body{
 }
 
 header{
-    background:#0b2240;
+    background:linear-gradient(
+        90deg,
+        #0b2240 0%,
+        #1d4ed8 50%,
+        #d4af37 100%
+    );
     color:#ffffff;
     text-align:center;
-    padding:5px 10px;
-    border-bottom:2px solid #d4af37;
+    padding:7px 10px;
+    border-bottom:2px solid #ffffff;
 }
 
 .header-title{
@@ -47,7 +52,7 @@ header{
 }
 
 .header-subtitle{
-    color:#d4af37;
+    color:#ffffff;
     font-size:0.75rem;
     font-weight:bold;
     margin-top:2px;
@@ -133,17 +138,22 @@ header{
 }
 
 .banner-negro{
-    background:#000000;
+    background:linear-gradient(
+        90deg,
+        #0b2240 0%,
+        #1d4ed8 50%,
+        #d4af37 100%
+    );
     color:#ffffff;
     display:flex;
     justify-content:space-between;
-    padding:4px 10px;
+    padding:5px 10px;
     font-size:0.75rem;
     font-weight:bold;
 }
 
 .banner-negro span{
-    color:#ffcc00;
+    color:#ffffff;
 }
 
 .banner-informes{
@@ -208,7 +218,7 @@ header{
 }
 
 .btn-gris{
-    background:#434950;
+    background:#000000;
 }
 
 .desempate-contenedor{
@@ -510,18 +520,6 @@ const cellL = document.getElementById(`cell-L-${id}`);
 const cellE = document.getElementById(`cell-E-${id}`);
 const cellV = document.getElementById(`cell-V-${id}`);
 
-if(respuestas[id] === opcion){
-
-cellL.classList.remove('selected-cell');
-cellE.classList.remove('selected-cell');
-cellV.classList.remove('selected-cell');
-
-delete respuestas[id];
-
-return;
-
-}
-
 cellL.classList.remove('selected-cell');
 cellE.classList.remove('selected-cell');
 cellV.classList.remove('selected-cell');
@@ -548,8 +546,6 @@ for(let key in respuestas){
 delete respuestas[key];
 }
 
-aleatorioYaUsado = false;
-
 document.getElementById('nombreParticipante').value = '';
 
 document.querySelectorAll('.inputs-goles input').forEach(input=>{
@@ -566,31 +562,6 @@ const nombre = document.getElementById('nombreParticipante').value.trim();
 
 if(nombre === ''){
 alert('⚠️ QUINIELA SIN NOMBRE');
-return;
-}
-
-let faltanPartidos = false;
-
-partidosData.forEach(p=>{
-
-if(!p.tipo && !respuestas[p.id]){
-faltanPartidos = true;
-}
-
-});
-
-if(faltanPartidos){
-alert('⚠️ QUINIELA INCOMPLETA');
-return;
-}
-
-const goles = document.querySelectorAll('.inputs-goles input');
-
-const gol1 = goles[0].value;
-const gol2 = goles[1].value;
-
-if(gol1 === '' || gol2 === ''){
-alert('⚠️ MARCADOR EXACTO INCOMPLETO');
 return;
 }
 
@@ -620,12 +591,6 @@ partidosData.forEach(p=>{
 
 if(!p.tipo){
 
-document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
-document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
-document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
-
-delete respuestas[p.id];
-
 const random = opciones[Math.floor(Math.random()*3)];
 
 marcarCelda(p.id, random);
@@ -650,30 +615,7 @@ alert('⚠️ QUINIELA SIN NOMBRE');
 return;
 }
 
-let faltanPartidos = false;
-
-partidosData.forEach(p=>{
-
-if(!p.tipo && !respuestas[p.id]){
-faltanPartidos = true;
-}
-
-});
-
-if(faltanPartidos){
-alert('⚠️ QUINIELA INCOMPLETA');
-return;
-}
-
 const goles = document.querySelectorAll('.inputs-goles input');
-
-const gol1 = goles[0].value;
-const gol2 = goles[1].value;
-
-if(gol1 === '' || gol2 === ''){
-alert('⚠️ MARCADOR EXACTO INCOMPLETO');
-return;
-}
 
 let jugada = '';
 
@@ -695,7 +637,7 @@ ${nombre}
 ${jugada}
 
 🔥 Desempate:
-México ${gol1} - ${gol2} Ghana
+México ${goles[0].value} - ${goles[1].value} Ghana
 `;
 
 const numero = '524439000088';
