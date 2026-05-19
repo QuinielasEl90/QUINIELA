@@ -158,9 +158,10 @@ header{
 }
 
 .logo-equipo{
-    width:18px;
-    height:18px;
+    width:20px;
+    height:20px;
     object-fit:contain;
+    display:block;
 }
 
 .selected-cell{
@@ -399,7 +400,7 @@ const partidosData = [
 {
 id:1,
 local:"México",
-logoLocal:"https://upload.wikimedia.org/wikipedia/en/f/fc/Mexico_national_football_team_logo.svg",
+logoLocal:"https://crests.football-data.org/760.svg",
 visita:"Ghana",
 logoVisita:"https://upload.wikimedia.org/wikipedia/en/e/e5/Ghana_FA.png"
 },
@@ -407,9 +408,9 @@ logoVisita:"https://upload.wikimedia.org/wikipedia/en/e/e5/Ghana_FA.png"
 {
 id:2,
 local:"Lens",
-logoLocal:"https://upload.wikimedia.org/wikipedia/en/8/8c/RC_Lens_logo.svg",
+logoLocal:"https://crests.football-data.org/546.svg",
 visita:"Nice",
-logoVisita:"https://upload.wikimedia.org/wikipedia/en/3/3b/OGC_Nice_logo.svg"
+logoVisita:"https://crests.football-data.org/522.svg"
 },
 
 {
@@ -425,17 +426,17 @@ logoVisita:"https://upload.wikimedia.org/wikipedia/en/5/5b/Sport_Club_Corinthian
 {
 id:4,
 local:"Valencia",
-logoLocal:"https://upload.wikimedia.org/wikipedia/en/c/ce/Valenciacf.svg",
+logoLocal:"https://crests.football-data.org/95.svg",
 visita:"Barcelona",
-logoVisita:"https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg"
+logoVisita:"https://crests.football-data.org/81.svg"
 },
 
 {
 id:5,
 local:"Real Madrid",
-logoLocal:"https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg",
+logoLocal:"https://crests.football-data.org/86.svg",
 visita:"Athletic Bilbao",
-logoVisita:"https://upload.wikimedia.org/wikipedia/en/9/98/Club_Athletic_Bilbao_logo.svg"
+logoVisita:"https://crests.football-data.org/77.svg"
 },
 
 {
@@ -451,17 +452,17 @@ logoVisita:"https://upload.wikimedia.org/wikipedia/en/7/77/Portland_Timbers_logo
 {
 id:7,
 local:"Manchester City",
-logoLocal:"https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
+logoLocal:"https://crests.football-data.org/65.svg",
 visita:"Aston Villa",
-logoVisita:"https://upload.wikimedia.org/wikipedia/en/f/f9/Aston_Villa_FC_crest_%282016%29.svg"
+logoVisita:"https://crests.football-data.org/58.svg"
 },
 
 {
 id:8,
 local:"Villarreal",
-logoLocal:"https://upload.wikimedia.org/wikipedia/en/7/70/Villarreal_CF_logo.svg",
+logoLocal:"https://crests.football-data.org/94.svg",
 visita:"Atlético Madrid",
-logoVisita:"https://upload.wikimedia.org/wikipedia/en/f/f4/Atletico_Madrid_2017_logo.svg"
+logoVisita:"https://crests.football-data.org/78.svg"
 },
 
 {
@@ -571,194 +572,6 @@ if(opcion === 'E') cellE.classList.add('selected-cell');
 if(opcion === 'V') cellV.classList.add('selected-cell');
 
 respuestas[id] = opcion;
-
-}
-
-function limpiarTodo(){
-
-Object.keys(respuestas).forEach(id=>{
-
-document.getElementById(`cell-L-${id}`)?.classList.remove('selected-cell');
-document.getElementById(`cell-E-${id}`)?.classList.remove('selected-cell');
-document.getElementById(`cell-V-${id}`)?.classList.remove('selected-cell');
-
-});
-
-for(let key in respuestas){
-delete respuestas[key];
-}
-
-aleatorioYaUsado = false;
-
-document.getElementById('nombreParticipante').value = '';
-
-document.querySelectorAll('.inputs-goles input').forEach(input=>{
-input.value = '';
-});
-
-document.getElementById('mensajeJugadas').innerHTML = '';
-
-}
-
-function agregarJugada(){
-
-const nombre = document.getElementById('nombreParticipante').value.trim();
-
-if(nombre === ''){
-alert('⚠️ QUINIELA SIN NOMBRE');
-return;
-}
-
-let faltanPartidos = false;
-
-partidosData.forEach(p=>{
-
-if(!p.tipo && !respuestas[p.id]){
-faltanPartidos = true;
-}
-
-});
-
-if(faltanPartidos){
-alert('⚠️ QUINIELA INCOMPLETA');
-return;
-}
-
-const goles = document.querySelectorAll('.inputs-goles input');
-
-const gol1 = goles[0].value;
-const gol2 = goles[1].value;
-
-if(gol1 === '' || gol2 === ''){
-alert('⚠️ MARCADOR EXACTO INCOMPLETO');
-return;
-}
-
-let jugada = '';
-
-partidosData.forEach(p=>{
-
-if(!p.tipo){
-jugada += respuestas[p.id] + ' ';
-}
-
-});
-
-document.getElementById('mensajeJugadas').innerHTML = `
-TU JUGADA:
-<br>
-${jugada}
-`;
-
-}
-
-function seleccionAleatoria(){
-
-const opciones = ['L','E','V'];
-
-partidosData.forEach(p=>{
-
-if(!p.tipo){
-
-if(!aleatorioYaUsado){
-
-if(!respuestas[p.id]){
-
-const random = opciones[Math.floor(Math.random()*3)];
-
-marcarCelda(p.id, random);
-
-}
-
-}else{
-
-document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
-document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
-document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
-
-delete respuestas[p.id];
-
-const random = opciones[Math.floor(Math.random()*3)];
-
-marcarCelda(p.id, random);
-
-}
-
-}
-
-});
-
-const goles = document.querySelectorAll('.inputs-goles input');
-
-goles[0].value = Math.floor(Math.random()*6);
-goles[1].value = Math.floor(Math.random()*6);
-
-aleatorioYaUsado = true;
-
-}
-
-function enviarWhatsApp(){
-
-const nombre = document.getElementById('nombreParticipante').value.trim();
-
-if(nombre === ''){
-alert('⚠️ QUINIELA SIN NOMBRE');
-return;
-}
-
-let faltanPartidos = false;
-
-partidosData.forEach(p=>{
-
-if(!p.tipo && !respuestas[p.id]){
-faltanPartidos = true;
-}
-
-});
-
-if(faltanPartidos){
-alert('⚠️ QUINIELA INCOMPLETA');
-return;
-}
-
-const goles = document.querySelectorAll('.inputs-goles input');
-
-const gol1 = goles[0].value;
-const gol2 = goles[1].value;
-
-if(gol1 === '' || gol2 === ''){
-alert('⚠️ MARCADOR EXACTO INCOMPLETO');
-return;
-}
-
-let jugada = '';
-
-partidosData.forEach(p=>{
-
-if(!p.tipo){
-jugada += respuestas[p.id] + ' ';
-}
-
-});
-
-const mensaje = `
-🏆 QUINIELAS EL 90 🏆
-
-👤 Nombre:
-${nombre}
-
-📋 Jugada:
-${jugada}
-
-🔥 Desempate:
-México ${gol1} - ${gol2} Ghana
-`;
-
-const numero = '524439000088';
-
-const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-
-window.open(url, '_blank');
 
 }
 
