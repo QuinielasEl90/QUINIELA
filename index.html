@@ -493,10 +493,7 @@ const partidosData = [
         logoVisita: "logos/portland.png"
     },
 
-    {
-        tipo: "fecha",
-        texto: "Domingo 24 de Mayo"
-    },
+    { tipo: "fecha", texto: "Domingo 24 de Mayo" },
 
     {
         id: 7,
@@ -746,6 +743,12 @@ function seleccionAleatoria() {
         }
 
     });
+
+    // MARCADOR EXACTO ALEATORIO
+    const goles = document.querySelectorAll('.inputs-goles input');
+
+    goles[0].value = Math.floor(Math.random() * 6);
+    goles[1].value = Math.floor(Math.random() * 6);
 
     aleatorioYaUsado = true;
 
