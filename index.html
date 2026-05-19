@@ -92,7 +92,7 @@
         .tabla-quiniela {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
+            table-layout: auto; /* Cambiado a auto para permitir que los equipos empujen el espacio */
             position: relative;
             z-index: 2;
         }
@@ -115,11 +115,14 @@
             height: 28px;
         }
 
-        .col-letra-l { width: 5%; text-align: center; cursor: pointer; user-select: none; border-right: 1px solid #e2e8f0; }
-        .col-equipo-local { width: 39%; padding-left: 6px; text-align: left; user-select: none; }
-        .col-empate { width: 6%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
-        .col-equipo-visita { width: 39%; padding-right: 6px; text-align: right; user-select: none; }
-        .col-letra-v { width: 5%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; }
+        /* AJUSTE AGRESIVO DE ANCHOS: 1% obliga a la celda a cerrarse al tamaño de su letra */
+        .col-letra-l { width: 1%; text-align: center; cursor: pointer; user-select: none; border-right: 1px solid #e2e8f0; padding: 0 8px; white-space: nowrap; }
+        .col-empate { width: 1%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; padding: 0 10px; white-space: nowrap; }
+        .col-letra-v { width: 1%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; padding: 0 8px; white-space: nowrap; }
+        
+        /* Al no ponerles ancho fijo, se reparten de forma equitativa todo el espacio restante de la pantalla */
+        .col-equipo-local { padding-left: 8px; text-align: left; user-select: none; }
+        .col-equipo-visita { padding-right: 8px; text-align: right; user-select: none; }
 
         .letra-fija, .btn-empate-cuadro {
             font-weight: bold;
@@ -142,8 +145,7 @@
             font-size: 0.78rem;
             text-transform: uppercase;
             white-space: nowrap; 
-            overflow: hidden;
-            text-overflow: ellipsis;
+            overflow: visible;
         }
         
         .balon-icono-nativo {
