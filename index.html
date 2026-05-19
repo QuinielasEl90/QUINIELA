@@ -8,11 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: #ffffff;
@@ -100,7 +96,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(255, 255, 255, 0.93);
+            background-color: rgba(255,255,255,0.93);
             z-index: 1;
         }
 
@@ -125,12 +121,14 @@
             letter-spacing: 0.5px;
         }
 
+        /* FILAS MÁS ALTAS */
+
         .fila-partido {
             border-bottom: 1px solid #cbd5e1;
-            height: 28px;
+            height: 42px;
         }
 
-        /* COLUMNAS L E V MÁS GRANDES */
+        /* CASILLAS MÁS GRANDES */
 
         .col-letra-l {
             width: 60px;
@@ -310,17 +308,9 @@
             text-transform: uppercase;
         }
 
-        .btn-rojo {
-            background-color: #ff0044;
-        }
-
-        .btn-azul {
-            background-color: #257ae6;
-        }
-
-        .btn-gris {
-            background-color: #434950;
-        }
+        .btn-rojo { background-color: #ff0044; }
+        .btn-azul { background-color: #257ae6; }
+        .btn-gris { background-color: #434950; }
 
         .desempate-contenedor {
             background-color: #f8fafc;
@@ -379,16 +369,115 @@
 
 <div class="container">
 
-    <header>
-        <div class="header-title">QUINIELAS EL 90</div>
-        <div class="header-subtitle">QUINIELA DE INAUGURACIÓN</div>
+<header>
+    <div class="header-title">QUINIELAS EL 90</div>
+    <div class="header-subtitle">QUINIELA DE INAUGURACIÓN</div>
 
-        <div class="header-logo-container">
-            <img src="LOGO.PNG.jpeg" class="header-logo-img" alt="Logo El 90">
-        </div>
-    </header>
+    <div class="header-logo-container">
+        <img src="LOGO.PNG.jpeg" class="header-logo-img" alt="Logo El 90">
+    </div>
+</header>
+
+<div class="tabla-contenedor">
+    <table class="tabla-quiniela">
+        <tbody id="cuerpoTabla"></tbody>
+    </table>
+</div>
 
 </div>
+
+<script>
+
+const partidosData = [
+    { tipo: "fecha", texto: "Viernes 22 de Mayo" },
+    { id: 1, local: "México", visita: "Ghana" },
+    { id: 2, local: "Lens", visita: "Nice" },
+    { id: 3, local: "Peñarol", visita: "Corinthians" },
+
+    { tipo: "fecha", texto: "Sábado 23 de Mayo" },
+    { id: 4, local: "Valencia", visita: "Barcelona" },
+    { id: 5, local: "Real Madrid", visita: "Athletic Bilbao" },
+    { id: 6, local: "Inter Miami", visita: "Portland" },
+
+    { tipo: "fecha", texto: "Domingo 24 de Mayo" },
+    { id: 7, local: "Manchester City", visita: "Aston Villa" },
+    { id: 8, local: "Villarreal", visita: "Atlético Madrid" },
+    { id: 9, local: "Gran Final", visita: "Liga MX" }
+];
+
+const respuestas = {};
+
+function inicializarTabla() {
+
+    const tabla = document.getElementById('cuerpoTabla');
+
+    partidosData.forEach(p => {
+
+        if (p.tipo === "fecha") {
+
+            const filaFecha = document.createElement('tr');
+
+            filaFecha.innerHTML = `
+                <td colspan="5" class="fecha-cabecera">
+                    ${p.texto}
+                </td>
+            `;
+
+            tabla.appendChild(filaFecha);
+
+        } else {
+
+            const fila = document.createElement('tr');
+
+            fila.className = "fila-partido";
+
+            fila.innerHTML = `
+                <td class="col-letra-l" onclick="marcarCelda(${p.id}, 'L')" id="cell-L-${p.id}">
+                    <span class="letra-fija">L</span>
+                </td>
+
+                <td class="col-equipo-local">
+                    ${p.local}
+                </td>
+
+                <td class="col-empate" onclick="marcarCelda(${p.id}, 'E')" id="cell-E-${p.id}">
+                    <span class="btn-empate-cuadro">E</span>
+                </td>
+
+                <td class="col-equipo-visita">
+                    ${p.visita}
+                </td>
+
+                <td class="col-letra-v" onclick="marcarCelda(${p.id}, 'V')" id="cell-V-${p.id}">
+                    <span class="letra-fija">V</span>
+                </td>
+            `;
+
+            tabla.appendChild(fila);
+        }
+    });
+}
+
+function marcarCelda(id, opcion) {
+
+    const cellL = document.getElementById(`cell-L-${id}`);
+    const cellE = document.getElementById(`cell-E-${id}`);
+    const cellV = document.getElementById(`cell-V-${id}`);
+
+    cellL.classList.remove('selected-cell');
+    cellE.classList.remove('selected-cell');
+    cellV.classList.remove('selected-cell');
+
+    if(opcion === 'L') cellL.classList.add('selected-cell');
+    if(opcion === 'E') cellE.classList.add('selected-cell');
+    if(opcion === 'V') cellV.classList.add('selected-cell');
+
+    respuestas[id] = opcion;
+}
+
+window.onload = inicializarTabla;
+
+</script>
 
 </body>
 </html>
