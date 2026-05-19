@@ -8,7 +8,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             background-color: #ffffff;
@@ -92,10 +97,7 @@
         .tabla-contenedor::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             background-color: rgba(255,255,255,0.93);
             z-index: 1;
         }
@@ -103,7 +105,6 @@
         .tabla-quiniela {
             width: 100%;
             border-collapse: collapse;
-            table-layout: auto;
             position: relative;
             z-index: 2;
         }
@@ -160,21 +161,19 @@
 
         .col-equipo-local {
             padding-left: 8px;
-            text-align: left;
             font-weight: bold;
         }
 
         .col-equipo-visita {
             padding-right: 8px;
-            text-align: right;
             font-weight: bold;
+            text-align: right;
         }
 
         .equipo-con-logo {
             display: flex;
             align-items: center;
             gap: 6px;
-            font-weight: bold;
         }
 
         .equipo-visita-logo {
@@ -250,7 +249,7 @@
         }
 
         .seccion-inputs {
-            padding: 0 10px 6px 10px;
+            padding: 0 10px 10px 10px;
         }
 
         .input-nombre {
@@ -283,9 +282,17 @@
             text-transform: uppercase;
         }
 
-        .btn-rojo { background-color: #ff0044; }
-        .btn-azul { background-color: #257ae6; }
-        .btn-gris { background-color: #434950; }
+        .btn-rojo {
+            background-color: #ff0044;
+        }
+
+        .btn-azul {
+            background-color: #257ae6;
+        }
+
+        .btn-gris {
+            background-color: #434950;
+        }
 
         .desempate-contenedor {
             background-color: #f8fafc;
@@ -310,6 +317,17 @@
             font-weight: bold;
         }
 
+        #mensajeJugadas {
+            margin-top: 6px;
+            margin-bottom: 6px;
+            padding: 6px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-weight: bold;
+            text-align: center;
+            min-height: 35px;
+        }
+
         .btn-whatsapp-enviar {
             width: 100%;
             background-color: #25d366;
@@ -322,6 +340,7 @@
             cursor: pointer;
             text-transform: uppercase;
         }
+
     </style>
 </head>
 <body>
@@ -329,18 +348,27 @@
 <div class="container">
 
 <header>
-    <div class="header-title">QUINIELAS EL 90</div>
-    <div class="header-subtitle">QUINIELA DE INAUGURACIÓN</div>
+
+    <div class="header-title">
+        QUINIELAS EL 90
+    </div>
+
+    <div class="header-subtitle">
+        QUINIELA DE INAUGURACIÓN
+    </div>
 
     <div class="header-logo-container">
         <img src="LOGO.PNG.jpeg" class="header-logo-img">
     </div>
+
 </header>
 
 <div class="tabla-contenedor">
+
     <table class="tabla-quiniela">
         <tbody id="cuerpoTabla"></tbody>
     </table>
+
 </div>
 
 <div class="banner-negro">
@@ -363,15 +391,31 @@
 
 <div class="seccion-inputs">
 
-    <input type="text" class="input-nombre" placeholder="NOMBRE DEL PARTICIPANTE">
+    <input 
+        type="text" 
+        id="nombreParticipante" 
+        class="input-nombre" 
+        placeholder="NOMBRE DEL PARTICIPANTE"
+    >
 
     <div class="bloque-botones-triples">
-        <button class="btn-accion btn-rojo">Limpiar</button>
-        <button class="btn-accion btn-azul">Agregar</button>
-        <button class="btn-accion btn-gris">Aleatorio</button>
+
+        <button class="btn-accion btn-rojo" onclick="limpiarTodo()">
+            Limpiar
+        </button>
+
+        <button class="btn-accion btn-azul" onclick="agregarJugada()">
+            Agregar
+        </button>
+
+        <button class="btn-accion btn-gris" onclick="seleccionAleatoria()">
+            Aleatorio
+        </button>
+
     </div>
 
     <div class="desempate-contenedor">
+
         <div style="font-weight:bold; margin-bottom:4px;">
             🔥 MARCADOR DESEMPATE: MÉXICO VS GHANA 🔥
         </div>
@@ -381,9 +425,12 @@
             <span>-</span>
             <input type="number" placeholder="0">
         </div>
+
     </div>
 
-    <button class="btn-whatsapp-enviar">
+    <div id="mensajeJugadas"></div>
+
+    <button class="btn-whatsapp-enviar" onclick="enviarWhatsApp()">
         ENVIAR JUGADA
     </button>
 
@@ -472,6 +519,7 @@ const partidosData = [
         visita: "Liga MX",
         logoVisita: "logos/ligamx.png"
     }
+
 ];
 
 const respuestas = {};
@@ -500,6 +548,7 @@ function inicializarTabla() {
             fila.className = 'fila-partido';
 
             fila.innerHTML = `
+
                 <td class="col-letra-l" onclick="marcarCelda(${p.id}, 'L')" id="cell-L-${p.id}">
                     L
                 </td>
@@ -525,11 +574,15 @@ function inicializarTabla() {
                 <td class="col-letra-v" onclick="marcarCelda(${p.id}, 'V')" id="cell-V-${p.id}">
                     V
                 </td>
+
             `;
 
             tabla.appendChild(fila);
+
         }
+
     });
+
 }
 
 function marcarCelda(id, opcion) {
@@ -547,6 +600,7 @@ function marcarCelda(id, opcion) {
         delete respuestas[id];
 
         return;
+
     }
 
     cellL.classList.remove('selected-cell');
@@ -558,6 +612,121 @@ function marcarCelda(id, opcion) {
     if (opcion === 'V') cellV.classList.add('selected-cell');
 
     respuestas[id] = opcion;
+
+}
+
+function limpiarTodo() {
+
+    Object.keys(respuestas).forEach(id => {
+
+        document.getElementById(`cell-L-${id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-E-${id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-V-${id}`)?.classList.remove('selected-cell');
+
+    });
+
+    for (let key in respuestas) {
+        delete respuestas[key];
+    }
+
+    document.getElementById('nombreParticipante').value = '';
+
+    document.querySelectorAll('.inputs-goles input').forEach(input => {
+        input.value = '';
+    });
+
+    document.getElementById('mensajeJugadas').innerHTML = '';
+
+}
+
+function agregarJugada() {
+
+    let jugada = '';
+
+    partidosData.forEach(p => {
+
+        if (!p.tipo) {
+
+            if (respuestas[p.id]) {
+                jugada += respuestas[p.id] + ' ';
+            } else {
+                jugada += '- ';
+            }
+
+        }
+
+    });
+
+    document.getElementById('mensajeJugadas').innerHTML = `
+        TU JUGADA:
+        <br>
+        ${jugada}
+    `;
+
+}
+
+function seleccionAleatoria() {
+
+    const opciones = ['L', 'E', 'V'];
+
+    partidosData.forEach(p => {
+
+        if (!p.tipo) {
+
+            const random = opciones[Math.floor(Math.random() * 3)];
+
+            marcarCelda(p.id, random);
+
+        }
+
+    });
+
+}
+
+function enviarWhatsApp() {
+
+    const nombre = document.getElementById('nombreParticipante').value;
+
+    let jugada = '';
+
+    partidosData.forEach(p => {
+
+        if (!p.tipo) {
+
+            if (respuestas[p.id]) {
+                jugada += respuestas[p.id] + ' ';
+            } else {
+                jugada += '- ';
+            }
+
+        }
+
+    });
+
+    const goles = document.querySelectorAll('.inputs-goles input');
+
+    const gol1 = goles[0].value || '0';
+    const gol2 = goles[1].value || '0';
+
+    const mensaje = `
+🏆 QUINIELAS EL 90 🏆
+
+👤 Nombre:
+${nombre}
+
+📋 Jugada:
+${jugada}
+
+🔥 Desempate:
+México ${gol1} - ${gol2} Ghana
+`;
+
+    const numero = '524439000088';
+
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+
+    window.open(url, '_blank');
+
 }
 
 window.onload = inicializarTabla;
