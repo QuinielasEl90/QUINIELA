@@ -31,7 +31,7 @@
             width: 100%;
             max-width: 630px;
             border: 1px solid #cbd5e1;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             background-color: #ffffff;
         }
 
@@ -49,7 +49,6 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #ffffff;
             line-height: 1.1;
         }
 
@@ -652,17 +651,44 @@ function limpiarTodo() {
 
 function agregarJugada() {
 
+    const nombre = document.getElementById('nombreParticipante').value.trim();
+
+    if (nombre === '') {
+
+        alert('⚠️ QUINIELA SIN NOMBRE');
+
+        return;
+    }
+
+    let faltanPartidos = false;
+
+    partidosData.forEach(p => {
+
+        if (!p.tipo && !respuestas[p.id]) {
+            faltanPartidos = true;
+        }
+
+    });
+
+    const goles = document.querySelectorAll('.inputs-goles input');
+
+    const gol1 = goles[0].value;
+    const gol2 = goles[1].value;
+
+    if (faltanPartidos || gol1 === '' || gol2 === '') {
+
+        alert('⚠️ QUINIELA INCOMPLETA');
+
+        return;
+    }
+
     let jugada = '';
 
     partidosData.forEach(p => {
 
         if (!p.tipo) {
 
-            if (respuestas[p.id]) {
-                jugada += respuestas[p.id] + ' ';
-            } else {
-                jugada += '- ';
-            }
+            jugada += respuestas[p.id] + ' ';
 
         }
 
@@ -718,7 +744,36 @@ function seleccionAleatoria() {
 
 function enviarWhatsApp() {
 
-    const nombre = document.getElementById('nombreParticipante').value;
+    const nombre = document.getElementById('nombreParticipante').value.trim();
+
+    if (nombre === '') {
+
+        alert('⚠️ QUINIELA SIN NOMBRE');
+
+        return;
+    }
+
+    let faltanPartidos = false;
+
+    partidosData.forEach(p => {
+
+        if (!p.tipo && !respuestas[p.id]) {
+            faltanPartidos = true;
+        }
+
+    });
+
+    const goles = document.querySelectorAll('.inputs-goles input');
+
+    const gol1 = goles[0].value;
+    const gol2 = goles[1].value;
+
+    if (faltanPartidos || gol1 === '' || gol2 === '') {
+
+        alert('⚠️ QUINIELA INCOMPLETA');
+
+        return;
+    }
 
     let jugada = '';
 
@@ -726,20 +781,11 @@ function enviarWhatsApp() {
 
         if (!p.tipo) {
 
-            if (respuestas[p.id]) {
-                jugada += respuestas[p.id] + ' ';
-            } else {
-                jugada += '- ';
-            }
+            jugada += respuestas[p.id] + ' ';
 
         }
 
     });
-
-    const goles = document.querySelectorAll('.inputs-goles input');
-
-    const gol1 = goles[0].value || '0';
-    const gol2 = goles[1].value || '0';
 
     const mensaje = `
 🏆 QUINIELAS EL 90 🏆
