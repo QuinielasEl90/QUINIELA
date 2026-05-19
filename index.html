@@ -391,10 +391,10 @@
 
 <div class="seccion-inputs">
 
-    <input 
-        type="text" 
-        id="nombreParticipante" 
-        class="input-nombre" 
+    <input
+        type="text"
+        id="nombreParticipante"
+        class="input-nombre"
         placeholder="NOMBRE DEL PARTICIPANTE"
     >
 
@@ -524,6 +524,8 @@ const partidosData = [
 
 const respuestas = {};
 
+let aleatorioYaUsado = false;
+
 function inicializarTabla() {
 
     const tabla = document.getElementById('cuerpoTabla');
@@ -545,11 +547,14 @@ function inicializarTabla() {
         } else {
 
             const fila = document.createElement('tr');
+
             fila.className = 'fila-partido';
 
             fila.innerHTML = `
 
-                <td class="col-letra-l" onclick="marcarCelda(${p.id}, 'L')" id="cell-L-${p.id}">
+                <td class="col-letra-l"
+                    onclick="marcarCelda(${p.id}, 'L')"
+                    id="cell-L-${p.id}">
                     L
                 </td>
 
@@ -560,7 +565,9 @@ function inicializarTabla() {
                     </div>
                 </td>
 
-                <td class="col-empate" onclick="marcarCelda(${p.id}, 'E')" id="cell-E-${p.id}">
+                <td class="col-empate"
+                    onclick="marcarCelda(${p.id}, 'E')"
+                    id="cell-E-${p.id}">
                     E
                 </td>
 
@@ -571,7 +578,9 @@ function inicializarTabla() {
                     </div>
                 </td>
 
-                <td class="col-letra-v" onclick="marcarCelda(${p.id}, 'V')" id="cell-V-${p.id}">
+                <td class="col-letra-v"
+                    onclick="marcarCelda(${p.id}, 'V')"
+                    id="cell-V-${p.id}">
                     V
                 </td>
 
@@ -629,6 +638,8 @@ function limpiarTodo() {
         delete respuestas[key];
     }
 
+    aleatorioYaUsado = false;
+
     document.getElementById('nombreParticipante').value = '';
 
     document.querySelectorAll('.inputs-goles input').forEach(input => {
@@ -673,13 +684,35 @@ function seleccionAleatoria() {
 
         if (!p.tipo) {
 
-            const random = opciones[Math.floor(Math.random() * 3)];
+            if (!aleatorioYaUsado) {
 
-            marcarCelda(p.id, random);
+                if (!respuestas[p.id]) {
+
+                    const random = opciones[Math.floor(Math.random() * 3)];
+
+                    marcarCelda(p.id, random);
+
+                }
+
+            } else {
+
+                document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
+                document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
+                document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
+
+                delete respuestas[p.id];
+
+                const random = opciones[Math.floor(Math.random() * 3)];
+
+                marcarCelda(p.id, random);
+
+            }
 
         }
 
     });
+
+    aleatorioYaUsado = true;
 
 }
 
