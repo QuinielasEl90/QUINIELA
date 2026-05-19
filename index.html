@@ -493,7 +493,10 @@ const partidosData = [
         logoVisita: "logos/portland.png"
     },
 
-    { tipo: "fecha", texto: "Domingo 24 de Mayo" },
+    {
+        tipo: "fecha",
+        texto: "Domingo 24 de Mayo"
+    },
 
     {
         id: 7,
@@ -522,7 +525,6 @@ const partidosData = [
 ];
 
 const respuestas = {};
-
 let aleatorioYaUsado = false;
 
 function inicializarTabla() {
@@ -675,9 +677,16 @@ function agregarJugada() {
     const gol1 = goles[0].value;
     const gol2 = goles[1].value;
 
-    if (faltanPartidos || gol1 === '' || gol2 === '') {
+    if (faltanPartidos) {
 
         alert('⚠️ QUINIELA INCOMPLETA');
+
+        return;
+    }
+
+    if (gol1 === '' || gol2 === '') {
+
+        alert('⚠️ MARCADOR EXACTO INCOMPLETO');
 
         return;
     }
@@ -768,9 +777,16 @@ function enviarWhatsApp() {
     const gol1 = goles[0].value;
     const gol2 = goles[1].value;
 
-    if (faltanPartidos || gol1 === '' || gol2 === '') {
+    if (faltanPartidos) {
 
         alert('⚠️ QUINIELA INCOMPLETA');
+
+        return;
+    }
+
+    if (gol1 === '' || gol2 === '') {
+
+        alert('⚠️ MARCADOR EXACTO INCOMPLETO');
 
         return;
     }
