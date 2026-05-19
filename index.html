@@ -123,7 +123,7 @@
 
         .fila-partido {
             border-bottom: 1px solid #cbd5e1;
-            height: 42px;
+            height: 48px;
         }
 
         .col-letra-l,
@@ -168,6 +168,23 @@
             padding-right: 8px;
             text-align: right;
             font-weight: bold;
+        }
+
+        .equipo-con-logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: bold;
+        }
+
+        .equipo-visita-logo {
+            justify-content: flex-end;
+        }
+
+        .logo-equipo {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
         }
 
         .selected-cell {
@@ -377,20 +394,84 @@
 <script>
 
 const partidosData = [
+
     { tipo: "fecha", texto: "Viernes 22 de Mayo" },
-    { id: 1, local: "México", visita: "Ghana" },
-    { id: 2, local: "Lens", visita: "Nice" },
-    { id: 3, local: "Peñarol", visita: "Corinthians" },
+
+    {
+        id: 1,
+        local: "México",
+        logoLocal: "logos/mexico.png",
+        visita: "Ghana",
+        logoVisita: "logos/ghana.png"
+    },
+
+    {
+        id: 2,
+        local: "Lens",
+        logoLocal: "logos/lens.png",
+        visita: "Nice",
+        logoVisita: "logos/nice.png"
+    },
+
+    {
+        id: 3,
+        local: "Peñarol",
+        logoLocal: "logos/penarol.png",
+        visita: "Corinthians",
+        logoVisita: "logos/corinthians.png"
+    },
 
     { tipo: "fecha", texto: "Sábado 23 de Mayo" },
-    { id: 4, local: "Valencia", visita: "Barcelona" },
-    { id: 5, local: "Real Madrid", visita: "Athletic Bilbao" },
-    { id: 6, local: "Inter Miami", visita: "Portland" },
+
+    {
+        id: 4,
+        local: "Valencia",
+        logoLocal: "logos/valencia.png",
+        visita: "Barcelona",
+        logoVisita: "logos/barcelona.png"
+    },
+
+    {
+        id: 5,
+        local: "Real Madrid",
+        logoLocal: "logos/realmadrid.png",
+        visita: "Athletic Bilbao",
+        logoVisita: "logos/bilbao.png"
+    },
+
+    {
+        id: 6,
+        local: "Inter Miami",
+        logoLocal: "logos/intermiami.png",
+        visita: "Portland",
+        logoVisita: "logos/portland.png"
+    },
 
     { tipo: "fecha", texto: "Domingo 24 de Mayo" },
-    { id: 7, local: "Manchester City", visita: "Aston Villa" },
-    { id: 8, local: "Villarreal", visita: "Atlético Madrid" },
-    { id: 9, local: "Gran Final", visita: "Liga MX" }
+
+    {
+        id: 7,
+        local: "Manchester City",
+        logoLocal: "logos/mancity.png",
+        visita: "Aston Villa",
+        logoVisita: "logos/astonvilla.png"
+    },
+
+    {
+        id: 8,
+        local: "Villarreal",
+        logoLocal: "logos/villarreal.png",
+        visita: "Atlético Madrid",
+        logoVisita: "logos/atletico.png"
+    },
+
+    {
+        id: 9,
+        local: "Gran Final",
+        logoLocal: "logos/ligamx.png",
+        visita: "Liga MX",
+        logoVisita: "logos/ligamx.png"
+    }
 ];
 
 const respuestas = {};
@@ -424,7 +505,10 @@ function inicializarTabla() {
                 </td>
 
                 <td class="col-equipo-local">
-                    ${p.local}
+                    <div class="equipo-con-logo">
+                        <img src="${p.logoLocal}" class="logo-equipo">
+                        <span>${p.local}</span>
+                    </div>
                 </td>
 
                 <td class="col-empate" onclick="marcarCelda(${p.id}, 'E')" id="cell-E-${p.id}">
@@ -432,7 +516,10 @@ function inicializarTabla() {
                 </td>
 
                 <td class="col-equipo-visita">
-                    ${p.visita}
+                    <div class="equipo-con-logo equipo-visita-logo">
+                        <span>${p.visita}</span>
+                        <img src="${p.logoVisita}" class="logo-equipo">
+                    </div>
                 </td>
 
                 <td class="col-letra-v" onclick="marcarCelda(${p.id}, 'V')" id="cell-V-${p.id}">
@@ -451,7 +538,6 @@ function marcarCelda(id, opcion) {
     const cellE = document.getElementById(`cell-E-${id}`);
     const cellV = document.getElementById(`cell-V-${id}`);
 
-    // Si ya estaba seleccionada, deseleccionar
     if (respuestas[id] === opcion) {
 
         cellL.classList.remove('selected-cell');
@@ -463,12 +549,10 @@ function marcarCelda(id, opcion) {
         return;
     }
 
-    // Limpiar selección previa
     cellL.classList.remove('selected-cell');
     cellE.classList.remove('selected-cell');
     cellV.classList.remove('selected-cell');
 
-    // Seleccionar nueva opción
     if (opcion === 'L') cellL.classList.add('selected-cell');
     if (opcion === 'E') cellE.classList.add('selected-cell');
     if (opcion === 'V') cellV.classList.add('selected-cell');
