@@ -109,14 +109,6 @@ header{
     border-bottom:1px solid #cbd5e1;
 }
 
-.fila-partido td{
-    border-right:1px solid #e2e8f0;
-}
-
-.fila-partido td:last-child{
-    border-right:none;
-}
-
 .col-letra-l,
 .col-empate,
 .col-letra-v{
@@ -158,10 +150,9 @@ header{
 }
 
 .logo-equipo{
-    width:20px;
-    height:20px;
+    width:18px;
+    height:18px;
     object-fit:contain;
-    display:block;
 }
 
 .selected-cell{
@@ -374,9 +365,9 @@ Aleatorio
 </div>
 
 <div class="inputs-goles">
-<input type="number" id="golLocal" placeholder="0">
+<input type="number" placeholder="0">
 <span>-</span>
-<input type="number" id="golVisita" placeholder="0">
+<input type="number" placeholder="0">
 </div>
 
 </div>
@@ -400,25 +391,25 @@ const partidosData = [
 {
 id:1,
 local:"México",
-logoLocal:"logotipos/mexico.png",
+logoLocal:"logos/mexico.png",
 visita:"Ghana",
-logoVisita:"logotipos/ghana.png"
+logoVisita:"logos/ghana.png"
 },
 
 {
 id:2,
 local:"Lens",
-logoLocal:"logotipos/lens.jpg",
+logoLocal:"logos/lens.png",
 visita:"Nice",
-logoVisita:"logotipos/nice.png"
+logoVisita:"logos/nice.png"
 },
 
 {
 id:3,
 local:"Peñarol",
-logoLocal:"logotipos/penarol.png",
+logoLocal:"logos/penarol.png",
 visita:"Corinthians",
-logoVisita:"logotipos/corinthians.jpg"
+logoVisita:"logos/corinthians.png"
 },
 
 { tipo:"fecha", texto:"Sábado 23 de Mayo" },
@@ -426,25 +417,25 @@ logoVisita:"logotipos/corinthians.jpg"
 {
 id:4,
 local:"Valencia",
-logoLocal:"logotipos/valencia.png",
+logoLocal:"logos/valencia.png",
 visita:"Barcelona",
-logoVisita:"logotipos/barcelona.png"
+logoVisita:"logos/barcelona.png"
 },
 
 {
 id:5,
 local:"Real Madrid",
-logoLocal:"logotipos/realmadrid.png",
+logoLocal:"logos/realmadrid.png",
 visita:"Athletic Bilbao",
-logoVisita:"logotipos/bilbao.png"
+logoVisita:"logos/bilbao.png"
 },
 
 {
 id:6,
 local:"Inter Miami",
-logoLocal:"logotipos/intermiami.png",
-visita:"Portland Timbers",
-logoVisita:"logotipos/portlandtimbers.png"
+logoLocal:"logos/intermiami.png",
+visita:"Portland",
+logoVisita:"logos/portland.png"
 },
 
 { tipo:"fecha", texto:"Domingo 24 de Mayo" },
@@ -452,25 +443,25 @@ logoVisita:"logotipos/portlandtimbers.png"
 {
 id:7,
 local:"Manchester City",
-logoLocal:"logotipos/mancity.png",
+logoLocal:"logos/mancity.png",
 visita:"Aston Villa",
-logoVisita:"logotipos/astonvilla.png"
+logoVisita:"logos/astonvilla.png"
 },
 
 {
 id:8,
 local:"Villarreal",
-logoLocal:"logotipos/villarreal.png",
+logoLocal:"logos/villarreal.png",
 visita:"Atlético Madrid",
-logoVisita:"logotipos/atletico.png"
+logoVisita:"logos/atletico.png"
 },
 
 {
 id:9,
-local:"Pumas",
-logoLocal:"logotipos/pumas.png",
-visita:"Cruz Azul",
-logoVisita:"logotipos/cruzazul.png"
+local:"Gran Final",
+logoLocal:"logos/ligamx.png",
+visita:"Liga MX",
+logoVisita:"logos/ligamx.png"
 }
 
 ];
@@ -572,6 +563,194 @@ if(opcion === 'E') cellE.classList.add('selected-cell');
 if(opcion === 'V') cellV.classList.add('selected-cell');
 
 respuestas[id] = opcion;
+
+}
+
+function limpiarTodo(){
+
+Object.keys(respuestas).forEach(id=>{
+
+document.getElementById(`cell-L-${id}`)?.classList.remove('selected-cell');
+document.getElementById(`cell-E-${id}`)?.classList.remove('selected-cell');
+document.getElementById(`cell-V-${id}`)?.classList.remove('selected-cell');
+
+});
+
+for(let key in respuestas){
+delete respuestas[key];
+}
+
+aleatorioYaUsado = false;
+
+document.getElementById('nombreParticipante').value = '';
+
+document.querySelectorAll('.inputs-goles input').forEach(input=>{
+input.value = '';
+});
+
+document.getElementById('mensajeJugadas').innerHTML = '';
+
+}
+
+function agregarJugada(){
+
+const nombre = document.getElementById('nombreParticipante').value.trim();
+
+if(nombre === ''){
+alert('⚠️ QUINIELA SIN NOMBRE');
+return;
+}
+
+let faltanPartidos = false;
+
+partidosData.forEach(p=>{
+
+if(!p.tipo && !respuestas[p.id]){
+faltanPartidos = true;
+}
+
+});
+
+if(faltanPartidos){
+alert('⚠️ QUINIELA INCOMPLETA');
+return;
+}
+
+const goles = document.querySelectorAll('.inputs-goles input');
+
+const gol1 = goles[0].value;
+const gol2 = goles[1].value;
+
+if(gol1 === '' || gol2 === ''){
+alert('⚠️ MARCADOR EXACTO INCOMPLETO');
+return;
+}
+
+let jugada = '';
+
+partidosData.forEach(p=>{
+
+if(!p.tipo){
+jugada += respuestas[p.id] + ' ';
+}
+
+});
+
+document.getElementById('mensajeJugadas').innerHTML = `
+TU JUGADA:
+<br>
+${jugada}
+`;
+
+}
+
+function seleccionAleatoria(){
+
+const opciones = ['L','E','V'];
+
+partidosData.forEach(p=>{
+
+if(!p.tipo){
+
+if(!aleatorioYaUsado){
+
+if(!respuestas[p.id]){
+
+const random = opciones[Math.floor(Math.random()*3)];
+
+marcarCelda(p.id, random);
+
+}
+
+}else{
+
+document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
+document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
+document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
+
+delete respuestas[p.id];
+
+const random = opciones[Math.floor(Math.random()*3)];
+
+marcarCelda(p.id, random);
+
+}
+
+}
+
+});
+
+const goles = document.querySelectorAll('.inputs-goles input');
+
+goles[0].value = Math.floor(Math.random()*6);
+goles[1].value = Math.floor(Math.random()*6);
+
+aleatorioYaUsado = true;
+
+}
+
+function enviarWhatsApp(){
+
+const nombre = document.getElementById('nombreParticipante').value.trim();
+
+if(nombre === ''){
+alert('⚠️ QUINIELA SIN NOMBRE');
+return;
+}
+
+let faltanPartidos = false;
+
+partidosData.forEach(p=>{
+
+if(!p.tipo && !respuestas[p.id]){
+faltanPartidos = true;
+}
+
+});
+
+if(faltanPartidos){
+alert('⚠️ QUINIELA INCOMPLETA');
+return;
+}
+
+const goles = document.querySelectorAll('.inputs-goles input');
+
+const gol1 = goles[0].value;
+const gol2 = goles[1].value;
+
+if(gol1 === '' || gol2 === ''){
+alert('⚠️ MARCADOR EXACTO INCOMPLETO');
+return;
+}
+
+let jugada = '';
+
+partidosData.forEach(p=>{
+
+if(!p.tipo){
+jugada += respuestas[p.id] + ' ';
+}
+
+});
+
+const mensaje = `
+🏆 QUINIELAS EL 90 🏆
+
+👤 Nombre:
+${nombre}
+
+📋 Jugada:
+${jugada}
+
+🔥 Desempate:
+México ${gol1} - ${gol2} Ghana
+`;
+
+const numero = '524439000088';
+
+const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+
+window.open(url, '_blank');
 
 }
 
