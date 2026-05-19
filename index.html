@@ -54,44 +54,18 @@ header{
     margin-top:2px;
 }
 
-.header-logo-container{
-    position:absolute;
-    right:10px;
-    top:50%;
-    transform:translateY(-50%);
-    width:32px;
-    height:32px;
-    border-radius:50%;
-    overflow:hidden;
-    border:1px solid #d4af37;
-}
-
-.header-logo-img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
 .tabla-contenedor{
     position:relative;
-    background-image:url('LOGO.PNG.jpeg');
-    background-repeat:no-repeat;
-    background-position:center;
-    background-size:28%;
-}
-
-.tabla-contenedor::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:rgba(255,255,255,0.93);
+    background:linear-gradient(
+        135deg,
+        rgba(11,34,64,0.03),
+        rgba(212,175,55,0.05)
+    );
 }
 
 .tabla-quiniela{
     width:100%;
     border-collapse:collapse;
-    position:relative;
-    z-index:2;
 }
 
 .fecha-cabecera{
@@ -139,20 +113,14 @@ header{
     font-weight:bold;
 }
 
-.equipo-con-logo{
+.equipo-con-icono{
     display:flex;
     align-items:center;
     gap:5px;
 }
 
-.equipo-visita-logo{
+.equipo-visita-icono{
     justify-content:flex-end;
-}
-
-.logo-equipo{
-    width:18px;
-    height:18px;
-    object-fit:contain;
 }
 
 .selected-cell{
@@ -302,10 +270,6 @@ QUINIELAS EL 90
 QUINIELA DE INAUGURACIÓN
 </div>
 
-<div class="header-logo-container">
-<img src="LOGO.PNG.jpeg" class="header-logo-img">
-</div>
-
 </header>
 
 <div class="tabla-contenedor">
@@ -391,25 +355,19 @@ const partidosData = [
 {
 id:1,
 local:"México",
-logoLocal:"logos/mexico.png",
-visita:"Ghana",
-logoVisita:"logos/ghana.png"
+visita:"Ghana"
 },
 
 {
 id:2,
 local:"Lens",
-logoLocal:"logos/lens.png",
-visita:"Nice",
-logoVisita:"logos/nice.png"
+visita:"Nice"
 },
 
 {
 id:3,
 local:"Peñarol",
-logoLocal:"logos/penarol.png",
-visita:"Corinthians",
-logoVisita:"logos/corinthians.png"
+visita:"Corinthians"
 },
 
 { tipo:"fecha", texto:"Sábado 23 de Mayo" },
@@ -417,25 +375,19 @@ logoVisita:"logos/corinthians.png"
 {
 id:4,
 local:"Valencia",
-logoLocal:"logos/valencia.png",
-visita:"Barcelona",
-logoVisita:"logos/barcelona.png"
+visita:"Barcelona"
 },
 
 {
 id:5,
 local:"Real Madrid",
-logoLocal:"logos/realmadrid.png",
-visita:"Athletic Bilbao",
-logoVisita:"logos/bilbao.png"
+visita:"Athletic Bilbao"
 },
 
 {
 id:6,
 local:"Inter Miami",
-logoLocal:"logos/intermiami.png",
-visita:"Portland",
-logoVisita:"logos/portland.png"
+visita:"Portland"
 },
 
 { tipo:"fecha", texto:"Domingo 24 de Mayo" },
@@ -443,25 +395,19 @@ logoVisita:"logos/portland.png"
 {
 id:7,
 local:"Manchester City",
-logoLocal:"logos/mancity.png",
-visita:"Aston Villa",
-logoVisita:"logos/astonvilla.png"
+visita:"Aston Villa"
 },
 
 {
 id:8,
 local:"Villarreal",
-logoLocal:"logos/villarreal.png",
-visita:"Atlético Madrid",
-logoVisita:"logos/atletico.png"
+visita:"Atlético Madrid"
 },
 
 {
 id:9,
 local:"Gran Final",
-logoLocal:"logos/ligamx.png",
-visita:"Liga MX",
-logoVisita:"logos/ligamx.png"
+visita:"Liga MX"
 }
 
 ];
@@ -502,8 +448,8 @@ L
 </td>
 
 <td class="col-equipo-local">
-<div class="equipo-con-logo">
-<img src="${p.logoLocal}" class="logo-equipo">
+<div class="equipo-con-icono">
+<span>⚽</span>
 <span>${p.local}</span>
 </div>
 </td>
@@ -515,9 +461,9 @@ E
 </td>
 
 <td class="col-equipo-visita">
-<div class="equipo-con-logo equipo-visita-logo">
+<div class="equipo-con-icono equipo-visita-icono">
 <span>${p.visita}</span>
-<img src="${p.logoVisita}" class="logo-equipo">
+<span>⚽</span>
 </div>
 </td>
 
