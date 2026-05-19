@@ -15,8 +15,8 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            overflow-y: hidden;
-            height: 100vh;
+            overflow-y: auto; /* Cambiado a auto para permitir scroll si el contenido crece */
+            min-height: 100vh;
         }
 
         .container {
@@ -102,7 +102,7 @@
             color: #1e293b;
             font-weight: bold;
             text-align: center;
-            padding: 2px;
+            padding: 4px;
             font-size: 0.68rem;
             text-transform: uppercase;
             border-bottom: 1px solid #cbd5e1;
@@ -112,13 +112,13 @@
 
         .fila-partido {
             border-bottom: 1px solid #cbd5e1;
-            height: 25.5px;
+            min-height: 30px; /* Cambiado de height fijo a min-height para dar flexibilidad */
         }
 
         .col-letra-l { width: 8%; text-align: center; cursor: pointer; user-select: none; border-right: 1px solid #e2e8f0; }
-        .col-equipo-local { width: 35%; padding-left: 5px; text-align: left; user-select: none; }
+        .col-equipo-local { width: 35%; padding: 4px 2px 4px 5px; text-align: left; user-select: none; }
         .col-empate { width: 14%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
-        .col-equipo-visita { width: 35%; padding-right: 5px; text-align: right; user-select: none; }
+        .col-equipo-visita { width: 35%; padding: 4px 5px 4px 2px; text-align: right; user-select: none; }
         .col-letra-v { width: 8%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; }
 
         .letra-fija, .btn-empate-cuadro {
@@ -141,14 +141,16 @@
             color: #1e293b;
             font-size: 0.75rem;
             text-transform: uppercase;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            /* Modificado para permitir que el texto largo se muestre completo */
+            white-space: normal; 
+            overflow: visible;
+            text-overflow: clip;
+            line-height: 1.2;
         }
         
         .balon-icono-nativo {
-            width: 10px;
-            height: 10px;
+            width: 8px; /* Ligeramente más chico para dar más espacio al texto */
+            height: 8px;
             color: #94a3b8;
             flex-shrink: 0;
         }
@@ -363,7 +365,6 @@
     </div>
 
     <script>
-        // Función mágica para limpiar los códigos raros que mete Facebook (?fbclid=...) de la barra de direcciones
         function limpiarEnlaceFacebook() {
             if (window.location.search.indexOf('fbclid=') !== -1) {
                 try {
@@ -395,14 +396,14 @@
         const respuestas = {};
         
         const balonSvgHtml = `
-            <svg class="balon-icono-nativo" viewBox="0 0 16 16" fill="currentColor">
+            <svg class="balon-icono-native" viewBox="0 0 16 16" fill="currentColor" style="width: 8px; height: 8px; color: #94a3b8; flex-shrink: 0;">
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                 <path d="M11.5 5.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/>
             </svg>
         `;
 
         function inicializarTabla() {
-            limpiarEnlaceFacebook(); // Ejecuta la limpieza de inmediato al cargar la página
+            limpiarEnlaceFacebook();
             try {
                 const tabla = document.getElementById('cuerpoTabla');
                 if(!tabla) return;
