@@ -15,7 +15,7 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            overflow-y: auto; /* Cambiado a auto para permitir scroll si el contenido crece */
+            overflow-y: auto;
             min-height: 100vh;
         }
 
@@ -92,7 +92,7 @@
         .tabla-quiniela {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
+            table-layout: fixed; /* Mantenemos fixed para controlar los anchos exactos */
             position: relative;
             z-index: 2;
         }
@@ -102,7 +102,7 @@
             color: #1e293b;
             font-weight: bold;
             text-align: center;
-            padding: 4px;
+            padding: 2px;
             font-size: 0.68rem;
             text-transform: uppercase;
             border-bottom: 1px solid #cbd5e1;
@@ -112,14 +112,15 @@
 
         .fila-partido {
             border-bottom: 1px solid #cbd5e1;
-            min-height: 30px; /* Cambiado de height fijo a min-height para dar flexibilidad */
+            height: 25.5px; /* Altura fija para mantener consistencia */
         }
 
-        .col-letra-l { width: 8%; text-align: center; cursor: pointer; user-select: none; border-right: 1px solid #e2e8f0; }
-        .col-equipo-local { width: 35%; padding: 4px 2px 4px 5px; text-align: left; user-select: none; }
-        .col-empate { width: 14%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
-        .col-equipo-visita { width: 35%; padding: 4px 5px 4px 2px; text-align: right; user-select: none; }
-        .col-letra-v { width: 8%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; }
+        /* AJUSTE DE ANCHOS: Mínimo para L, E, V. Máximo para equipos. */
+        .col-letra-l { width: 5%; text-align: center; cursor: pointer; user-select: none; border-right: 1px solid #e2e8f0; }
+        .col-equipo-local { width: 38%; padding-left: 5px; text-align: left; user-select: none; }
+        .col-empate { width: 8%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
+        .col-equipo-visita { width: 38%; padding-right: 5px; text-align: right; user-select: none; }
+        .col-letra-v { width: 5%; text-align: center; cursor: pointer; user-select: none; border-left: 1px solid #e2e8f0; }
 
         .letra-fija, .btn-empate-cuadro {
             font-weight: bold;
@@ -141,16 +142,15 @@
             color: #1e293b;
             font-size: 0.75rem;
             text-transform: uppercase;
-            /* Modificado para permitir que el texto largo se muestre completo */
-            white-space: normal; 
+            /* Modificado para asegurar UNA SOLA FILA y que no se corte */
+            white-space: nowrap; 
             overflow: visible;
             text-overflow: clip;
-            line-height: 1.2;
         }
         
         .balon-icono-nativo {
-            width: 8px; /* Ligeramente más chico para dar más espacio al texto */
-            height: 8px;
+            width: 10px;
+            height: 10px;
             color: #94a3b8;
             flex-shrink: 0;
         }
@@ -365,6 +365,7 @@
     </div>
 
     <script>
+        // Función mágica para limpiar los códigos raros que mete Facebook (?fbclid=...) de la barra de direcciones
         function limpiarEnlaceFacebook() {
             if (window.location.search.indexOf('fbclid=') !== -1) {
                 try {
@@ -396,7 +397,7 @@
         const respuestas = {};
         
         const balonSvgHtml = `
-            <svg class="balon-icono-native" viewBox="0 0 16 16" fill="currentColor" style="width: 8px; height: 8px; color: #94a3b8; flex-shrink: 0;">
+            <svg class="balon-icono-nativo" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                 <path d="M11.5 5.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/>
             </svg>
