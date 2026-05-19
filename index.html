@@ -1,3 +1,6 @@
+# Código completo actualizado
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -121,99 +124,50 @@
             letter-spacing: 0.5px;
         }
 
-        /* FILAS MÁS ALTAS */
-
         .fila-partido {
             border-bottom: 1px solid #cbd5e1;
             height: 42px;
         }
 
-        /* CASILLAS MÁS GRANDES */
-
-        .col-letra-l {
-            width: 60px;
-            min-width: 60px;
-            text-align: center;
-            cursor: pointer;
-            user-select: none;
-            border-right: 1px solid #e2e8f0;
-        }
-
-        .col-empate {
-            width: 60px;
-            min-width: 60px;
-            text-align: center;
-            cursor: pointer;
-            user-select: none;
-            border-left: 1px solid #e2e8f0;
-            border-right: 1px solid #e2e8f0;
-        }
-
+        .col-letra-l,
+        .col-empate,
         .col-letra-v {
             width: 60px;
             min-width: 60px;
             text-align: center;
             cursor: pointer;
             user-select: none;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .col-letra-l {
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .col-empate {
+            border-left: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .col-letra-v {
             border-left: 1px solid #e2e8f0;
         }
 
         .col-equipo-local {
             padding-left: 8px;
             text-align: left;
-            user-select: none;
+            font-weight: bold;
         }
 
         .col-equipo-visita {
             padding-right: 8px;
             text-align: right;
-            user-select: none;
-        }
-
-        .letra-fija,
-        .btn-empate-cuadro {
             font-weight: bold;
-            font-size: 1rem;
-            color: #334155;
-        }
-
-        .bloque-equipo-interno {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            height: 100%;
-        }
-
-        .bloque-equipo-interno.local {
-            justify-content: flex-start;
-        }
-
-        .bloque-equipo-interno.visita {
-            justify-content: flex-end;
-        }
-
-        .equipo-texto {
-            font-weight: bold;
-            color: #1e293b;
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            white-space: nowrap;
-            overflow: visible;
-        }
-
-        .balon-icono-nativo {
-            width: 11px;
-            height: 11px;
-            color: #94a3b8;
-            flex-shrink: 0;
         }
 
         .selected-cell {
             background-color: #0b2240 !important;
-        }
-
-        .selected-cell .letra-fija,
-        .selected-cell .btn-empate-cuadro {
             color: #d4af37 !important;
         }
 
@@ -321,14 +275,6 @@
             text-align: center;
         }
 
-        .desempate-txt {
-            font-size: 0.68rem;
-            font-weight: bold;
-            color: #475569;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-        }
-
         .inputs-goles {
             display: flex;
             justify-content: center;
@@ -341,9 +287,6 @@
             padding: 2px;
             text-align: center;
             font-weight: bold;
-            font-size: 0.95rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
         }
 
         .btn-whatsapp-enviar {
@@ -356,15 +299,10 @@
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
             text-transform: uppercase;
         }
     </style>
 </head>
-
 <body>
 
 <div class="container">
@@ -374,7 +312,7 @@
     <div class="header-subtitle">QUINIELA DE INAUGURACIÓN</div>
 
     <div class="header-logo-container">
-        <img src="LOGO.PNG.jpeg" class="header-logo-img" alt="Logo El 90">
+        <img src="LOGO.PNG.jpeg" class="header-logo-img">
     </div>
 </header>
 
@@ -382,6 +320,52 @@
     <table class="tabla-quiniela">
         <tbody id="cuerpoTabla"></tbody>
     </table>
+</div>
+
+<div class="banner-negro">
+    <div>PRECIO: <span>GRATIS</span></div>
+    <div>CIERRE: <span>JUEVES 11:00 P. M.</span></div>
+</div>
+
+<div class="banner-informes">
+    INFORMES: +52 4439000088
+</div>
+
+<div class="banner-facebook">
+    <span class="fb-icono">f</span>
+    QUINIELAS EL 90
+</div>
+
+<div class="banner-total">
+    TOTAL: $0.00
+</div>
+
+<div class="seccion-inputs">
+
+    <input type="text" class="input-nombre" placeholder="NOMBRE DEL PARTICIPANTE">
+
+    <div class="bloque-botones-triples">
+        <button class="btn-accion btn-rojo">Limpiar</button>
+        <button class="btn-accion btn-azul">Agregar</button>
+        <button class="btn-accion btn-gris">Aleatorio</button>
+    </div>
+
+    <div class="desempate-contenedor">
+        <div style="font-weight:bold; margin-bottom:4px;">
+            🔥 MARCADOR DESEMPATE: MÉXICO VS GHANA 🔥
+        </div>
+
+        <div class="inputs-goles">
+            <input type="number" placeholder="0">
+            <span>-</span>
+            <input type="number" placeholder="0">
+        </div>
+    </div>
+
+    <button class="btn-whatsapp-enviar">
+        ENVIAR JUGADA
+    </button>
+
 </div>
 
 </div>
@@ -413,7 +397,7 @@ function inicializarTabla() {
 
     partidosData.forEach(p => {
 
-        if (p.tipo === "fecha") {
+        if (p.tipo === 'fecha') {
 
             const filaFecha = document.createElement('tr');
 
@@ -428,12 +412,11 @@ function inicializarTabla() {
         } else {
 
             const fila = document.createElement('tr');
-
-            fila.className = "fila-partido";
+            fila.className = 'fila-partido';
 
             fila.innerHTML = `
                 <td class="col-letra-l" onclick="marcarCelda(${p.id}, 'L')" id="cell-L-${p.id}">
-                    <span class="letra-fija">L</span>
+                    L
                 </td>
 
                 <td class="col-equipo-local">
@@ -441,7 +424,7 @@ function inicializarTabla() {
                 </td>
 
                 <td class="col-empate" onclick="marcarCelda(${p.id}, 'E')" id="cell-E-${p.id}">
-                    <span class="btn-empate-cuadro">E</span>
+                    E
                 </td>
 
                 <td class="col-equipo-visita">
@@ -449,7 +432,7 @@ function inicializarTabla() {
                 </td>
 
                 <td class="col-letra-v" onclick="marcarCelda(${p.id}, 'V')" id="cell-V-${p.id}">
-                    <span class="letra-fija">V</span>
+                    V
                 </td>
             `;
 
@@ -468,9 +451,9 @@ function marcarCelda(id, opcion) {
     cellE.classList.remove('selected-cell');
     cellV.classList.remove('selected-cell');
 
-    if(opcion === 'L') cellL.classList.add('selected-cell');
-    if(opcion === 'E') cellE.classList.add('selected-cell');
-    if(opcion === 'V') cellV.classList.add('selected-cell');
+    if (opcion === 'L') cellL.classList.add('selected-cell');
+    if (opcion === 'E') cellE.classList.add('selected-cell');
+    if (opcion === 'V') cellV.classList.add('selected-cell');
 
     respuestas[id] = opcion;
 }
@@ -481,3 +464,4 @@ window.onload = inicializarTabla;
 
 </body>
 </html>
+```
