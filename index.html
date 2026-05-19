@@ -37,7 +37,6 @@ header{
     color:#ffffff;
     text-align:center;
     padding:5px 10px;
-    position:relative;
     border-bottom:2px solid #d4af37;
 }
 
@@ -55,12 +54,7 @@ header{
 }
 
 .tabla-contenedor{
-    position:relative;
-    background:linear-gradient(
-        135deg,
-        rgba(11,34,64,0.03),
-        rgba(212,175,55,0.05)
-    );
+    background:#ffffff;
 }
 
 .tabla-quiniela{
@@ -79,7 +73,7 @@ header{
 }
 
 .fila-partido{
-    height:40px;
+    height:42px;
     border-bottom:1px solid #cbd5e1;
 }
 
@@ -120,11 +114,17 @@ header{
 .equipo-con-icono{
     display:flex;
     align-items:center;
-    gap:5px;
+    gap:6px;
 }
 
 .equipo-visita-icono{
     justify-content:flex-end;
+}
+
+.logo-equipo{
+    width:22px;
+    height:22px;
+    object-fit:contain;
 }
 
 .selected-cell{
@@ -359,19 +359,25 @@ const partidosData = [
 {
 id:1,
 local:"México",
-visita:"Ghana"
+logoLocal:"mexico.png",
+visita:"Ghana",
+logoVisita:"ghana.png"
 },
 
 {
 id:2,
 local:"Lens",
-visita:"Nice"
+logoLocal:"lens.jpg",
+visita:"Nice",
+logoVisita:"nice.png"
 },
 
 {
 id:3,
 local:"Peñarol",
-visita:"Corinthians"
+logoLocal:"peñarol.png",
+visita:"Corinthians",
+logoVisita:"corinthians.jpg"
 },
 
 { tipo:"fecha", texto:"Sábado 23 de Mayo" },
@@ -379,19 +385,25 @@ visita:"Corinthians"
 {
 id:4,
 local:"Valencia",
-visita:"Barcelona"
+logoLocal:"valencia.png",
+visita:"Barcelona",
+logoVisita:"barcelona.png"
 },
 
 {
 id:5,
 local:"Real Madrid",
-visita:"Athletic Bilbao"
+logoLocal:"realmadrid.png",
+visita:"Athletic Bilbao",
+logoVisita:"athleticbilbao.png"
 },
 
 {
 id:6,
 local:"Inter Miami",
-visita:"Portland"
+logoLocal:"intermiami.png",
+visita:"Portland",
+logoVisita:"portlandtimbers.png"
 },
 
 { tipo:"fecha", texto:"Domingo 24 de Mayo" },
@@ -399,19 +411,25 @@ visita:"Portland"
 {
 id:7,
 local:"Manchester City",
-visita:"Aston Villa"
+logoLocal:"manchestercity.png",
+visita:"Aston Villa",
+logoVisita:"astonvilla.png"
 },
 
 {
 id:8,
 local:"Villarreal",
-visita:"Atlético Madrid"
+logoLocal:"villareal.png",
+visita:"Atlético Madrid",
+logoVisita:"atleticomadrid.png"
 },
 
 {
 id:9,
 local:"Gran Final",
-visita:"Liga MX"
+logoLocal:"LOGO.PNG.jpeg",
+visita:"Liga MX",
+logoVisita:"LOGO.PNG.jpeg"
 }
 
 ];
@@ -453,7 +471,7 @@ L
 
 <td class="col-equipo-local">
 <div class="equipo-con-icono">
-<span>⚽</span>
+<img src="${p.logoLocal}" class="logo-equipo">
 <span>${p.local}</span>
 </div>
 </td>
@@ -467,7 +485,7 @@ E
 <td class="col-equipo-visita">
 <div class="equipo-con-icono equipo-visita-icono">
 <span>${p.visita}</span>
-<span>⚽</span>
+<img src="${p.logoVisita}" class="logo-equipo">
 </div>
 </td>
 
@@ -602,18 +620,6 @@ partidosData.forEach(p=>{
 
 if(!p.tipo){
 
-if(!aleatorioYaUsado){
-
-if(!respuestas[p.id]){
-
-const random = opciones[Math.floor(Math.random()*3)];
-
-marcarCelda(p.id, random);
-
-}
-
-}else{
-
 document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
 document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
 document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
@@ -626,16 +632,12 @@ marcarCelda(p.id, random);
 
 }
 
-}
-
 });
 
 const goles = document.querySelectorAll('.inputs-goles input');
 
 goles[0].value = Math.floor(Math.random()*6);
 goles[1].value = Math.floor(Math.random()*6);
-
-aleatorioYaUsado = true;
 
 }
 
