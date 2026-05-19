@@ -136,6 +136,13 @@
             user-select: none;
             font-weight: bold;
             font-size: 1rem;
+            transition: 0.2s;
+        }
+
+        .col-letra-l:hover,
+        .col-empate:hover,
+        .col-letra-v:hover {
+            background-color: #e2e8f0;
         }
 
         .col-letra-l {
@@ -444,10 +451,24 @@ function marcarCelda(id, opcion) {
     const cellE = document.getElementById(`cell-E-${id}`);
     const cellV = document.getElementById(`cell-V-${id}`);
 
+    // Si ya estaba seleccionada, deseleccionar
+    if (respuestas[id] === opcion) {
+
+        cellL.classList.remove('selected-cell');
+        cellE.classList.remove('selected-cell');
+        cellV.classList.remove('selected-cell');
+
+        delete respuestas[id];
+
+        return;
+    }
+
+    // Limpiar selección previa
     cellL.classList.remove('selected-cell');
     cellE.classList.remove('selected-cell');
     cellV.classList.remove('selected-cell');
 
+    // Seleccionar nueva opción
     if (opcion === 'L') cellL.classList.add('selected-cell');
     if (opcion === 'E') cellE.classList.add('selected-cell');
     if (opcion === 'V') cellV.classList.add('selected-cell');
