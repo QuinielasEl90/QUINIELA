@@ -444,6 +444,7 @@ const partidosData = [
 
 const respuestas = {};
 let quinielaAgregada = false;
+let aleatorioUsado = false;
 
 function inicializarTabla(){
 
@@ -538,6 +539,7 @@ input.value = '';
 document.getElementById('mensajeJugadas').innerHTML = '';
 
 quinielaAgregada = false;
+aleatorioUsado = false;
 
 }
 
@@ -605,18 +607,59 @@ function seleccionAleatoria(){
 
 const opciones = ['L','E','V'];
 
+// PRIMER CLICK RESPETA SELECCIONES
+
+if(!aleatorioUsado){
+
 partidosData.forEach(p=>{
+
+if(!respuestas[p.id]){
 
 const random = opciones[Math.floor(Math.random()*3)];
 
 marcarCelda(p.id, random);
 
+}
+
 });
+
+}else{
+
+// SEGUNDO CLICK SOBREESCRIBE TODO
+
+partidosData.forEach(p=>{
+
+const random = opciones[Math.floor(Math.random()*3)];
+
+const cellL = document.getElementById(`cell-L-${p.id}`);
+const cellE = document.getElementById(`cell-E-${p.id}`);
+const cellV = document.getElementById(`cell-V-${p.id}`);
+
+cellL.classList.remove('selected-cell');
+cellE.classList.remove('selected-cell');
+cellV.classList.remove('selected-cell');
+
+delete respuestas[p.id];
+
+marcarCelda(p.id, random);
+
+});
+
+}
+
+// MARCADOR AUTOMÁTICO
 
 const goles = document.querySelectorAll('.inputs-goles input');
 
+if(goles[0].value === ''){
 goles[0].value = Math.floor(Math.random()*6);
+}
+
+if(goles[1].value === ''){
 goles[1].value = Math.floor(Math.random()*6);
+}
+
+aleatorioUsado = true;
 
 }
 
