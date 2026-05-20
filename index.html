@@ -48,7 +48,6 @@ header{
     text-align:center;
     padding:22px 15px;
     border-bottom:4px solid #d4af37;
-    box-shadow:0 4px 10px rgba(0,0,0,0.25);
 }
 
 .header-title{
@@ -59,7 +58,6 @@ header{
     color:#ffffff;
     text-shadow:
         0 0 5px rgba(0,0,0,0.6),
-        0 0 10px rgba(0,0,0,0.5),
         2px 2px 4px rgba(0,0,0,0.7);
 }
 
@@ -69,7 +67,6 @@ header{
     font-weight:bold;
     margin-top:4px;
     letter-spacing:1px;
-    text-shadow:1px 1px 3px rgba(0,0,0,0.6);
 }
 
 .logo-superior{
@@ -99,15 +96,11 @@ header{
     top:50%;
     left:50%;
     transform:translate(-50%, -50%);
-    
     width:95%;
     height:95%;
-    
     background:url('LOGO.PNG.jpeg') center center no-repeat;
     background-size:contain;
-
     opacity:0.80;
-
     pointer-events:none;
     z-index:1;
 }
@@ -276,7 +269,6 @@ header{
     font-weight:bold;
     border-radius:4px;
     cursor:pointer;
-    transition:0.2s;
 }
 
 .btn-rojo{
@@ -451,6 +443,7 @@ const partidosData = [
 ];
 
 const respuestas = {};
+let quinielaAgregada = false;
 
 function inicializarTabla(){
 
@@ -544,6 +537,8 @@ input.value = '';
 
 document.getElementById('mensajeJugadas').innerHTML = '';
 
+quinielaAgregada = false;
+
 }
 
 function validarFormulario(){
@@ -597,10 +592,12 @@ jugada += respuestas[p.id] + ' ';
 });
 
 document.getElementById('mensajeJugadas').innerHTML = `
-✅ POR FAVOR AGREGA TU QUINIELA
+✅ QUINIELA AGREGADA
 <br><br>
 ${jugada}
 `;
+
+quinielaAgregada = true;
 
 }
 
@@ -629,6 +626,11 @@ if(!validarFormulario()){
 return;
 }
 
+if(!quinielaAgregada){
+alert('⚠️ PRIMERO DEBES AGREGAR TU QUINIELA');
+return;
+}
+
 const nombre = document.getElementById('nombreParticipante').value.trim();
 
 const goles = document.querySelectorAll('.inputs-goles input');
@@ -641,10 +643,6 @@ let jugada = '';
 partidosData.forEach(p=>{
 jugada += respuestas[p.id] + ' ';
 });
-
-document.getElementById('mensajeJugadas').innerHTML = `
-✅ POR FAVOR AGREGA TU QUINIELA
-`;
 
 const mensaje = `
 🏆 QUINIELAS EL 90 🏆
