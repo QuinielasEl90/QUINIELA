@@ -607,8 +607,6 @@ function seleccionAleatoria(){
 
 const opciones = ['L','E','V'];
 
-// PRIMER CLICK RESPETA SELECCIONES
-
 if(!aleatorioUsado){
 
 partidosData.forEach(p=>{
@@ -624,8 +622,6 @@ marcarCelda(p.id, random);
 });
 
 }else{
-
-// SEGUNDO CLICK SOBREESCRIBE TODO
 
 partidosData.forEach(p=>{
 
@@ -646,8 +642,6 @@ marcarCelda(p.id, random);
 });
 
 }
-
-// MARCADOR AUTOMÁTICO
 
 const goles = document.querySelectorAll('.inputs-goles input');
 
@@ -702,10 +696,14 @@ MÉXICO ${gol1} - ${gol2} GHANA
 
 const numero = '524439000088';
 
-const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
 
 window.open(url, '_blank');
 
+}
+
+if(window.location.search){
+window.history.replaceState({}, document.title, window.location.pathname);
 }
 
 window.onload = inicializarTabla;
