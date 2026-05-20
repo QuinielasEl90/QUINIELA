@@ -123,7 +123,6 @@ header{
     height:32px;
     border-bottom:1px solid rgba(255,255,255,0.35);
     background:rgba(255,255,255,0.30);
-    backdrop-filter:blur(1px);
 }
 
 .col-letra-l,
@@ -154,7 +153,6 @@ header{
     font-weight:900;
     border-right:1px solid rgba(255,255,255,0.35);
     color:#001b5e;
-    text-shadow:1px 1px 2px rgba(255,255,255,0.9);
 }
 
 .col-equipo-visita{
@@ -164,7 +162,6 @@ header{
     font-weight:900;
     border-left:1px solid rgba(255,255,255,0.35);
     color:#001b5e;
-    text-shadow:1px 1px 2px rgba(255,255,255,0.9);
 }
 
 .equipo-con-icono{
@@ -280,10 +277,6 @@ header{
     border-radius:4px;
     cursor:pointer;
     transition:0.2s;
-}
-
-.btn-accion:hover{
-    transform:scale(1.02);
 }
 
 .btn-rojo{
@@ -553,13 +546,13 @@ document.getElementById('mensajeJugadas').innerHTML = '';
 
 }
 
-function agregarJugada(){
+function validarFormulario(){
 
 const nombre = document.getElementById('nombreParticipante').value.trim();
 
 if(nombre === ''){
 alert('⚠️ QUINIELA SIN NOMBRE');
-return;
+return false;
 }
 
 let faltanPartidos = false;
@@ -574,7 +567,7 @@ faltanPartidos = true;
 
 if(faltanPartidos){
 alert('⚠️ QUINIELA INCOMPLETA');
-return;
+return false;
 }
 
 const goles = document.querySelectorAll('.inputs-goles input');
@@ -584,6 +577,16 @@ const gol2 = goles[1].value;
 
 if(gol1 === '' || gol2 === ''){
 alert('⚠️ FALTA MARCADOR EXACTO');
+return false;
+}
+
+return true;
+
+}
+
+function agregarJugada(){
+
+if(!validarFormulario()){
 return;
 }
 
@@ -594,8 +597,8 @@ jugada += respuestas[p.id] + ' ';
 });
 
 document.getElementById('mensajeJugadas').innerHTML = `
-TU JUGADA:
-<br>
+✅ POR FAVOR AGREGA TU QUINIELA
+<br><br>
 ${jugada}
 `;
 
@@ -622,43 +625,26 @@ goles[1].value = Math.floor(Math.random()*6);
 
 function enviarWhatsApp(){
 
+if(!validarFormulario()){
+return;
+}
+
 const nombre = document.getElementById('nombreParticipante').value.trim();
-
-if(nombre === ''){
-alert('⚠️ QUINIELA SIN NOMBRE');
-return;
-}
-
-let faltanPartidos = false;
-
-partidosData.forEach(p=>{
-
-if(!respuestas[p.id]){
-faltanPartidos = true;
-}
-
-});
-
-if(faltanPartidos){
-alert('⚠️ QUINIELA INCOMPLETA');
-return;
-}
 
 const goles = document.querySelectorAll('.inputs-goles input');
 
 const gol1 = goles[0].value;
 const gol2 = goles[1].value;
 
-if(gol1 === '' || gol2 === ''){
-alert('⚠️ FALTA MARCADOR EXACTO');
-return;
-}
-
 let jugada = '';
 
 partidosData.forEach(p=>{
 jugada += respuestas[p.id] + ' ';
 });
+
+document.getElementById('mensajeJugadas').innerHTML = `
+✅ POR FAVOR AGREGA TU QUINIELA
+`;
 
 const mensaje = `
 🏆 QUINIELAS EL 90 🏆
