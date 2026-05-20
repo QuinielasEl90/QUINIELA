@@ -505,6 +505,18 @@ const cellL = document.getElementById(`cell-L-${id}`);
 const cellE = document.getElementById(`cell-E-${id}`);
 const cellV = document.getElementById(`cell-V-${id}`);
 
+if(respuestas[id] === opcion){
+
+cellL.classList.remove('selected-cell');
+cellE.classList.remove('selected-cell');
+cellV.classList.remove('selected-cell');
+
+delete respuestas[id];
+
+return;
+
+}
+
 cellL.classList.remove('selected-cell');
 cellE.classList.remove('selected-cell');
 cellV.classList.remove('selected-cell');
@@ -550,6 +562,31 @@ alert('⚠️ QUINIELA SIN NOMBRE');
 return;
 }
 
+let faltanPartidos = false;
+
+partidosData.forEach(p=>{
+
+if(!respuestas[p.id]){
+faltanPartidos = true;
+}
+
+});
+
+if(faltanPartidos){
+alert('⚠️ QUINIELA INCOMPLETA');
+return;
+}
+
+const goles = document.querySelectorAll('.inputs-goles input');
+
+const gol1 = goles[0].value;
+const gol2 = goles[1].value;
+
+if(gol1 === '' || gol2 === ''){
+alert('⚠️ FALTA MARCADOR EXACTO');
+return;
+}
+
 let jugada = '';
 
 partidosData.forEach(p=>{
@@ -592,7 +629,30 @@ alert('⚠️ QUINIELA SIN NOMBRE');
 return;
 }
 
+let faltanPartidos = false;
+
+partidosData.forEach(p=>{
+
+if(!respuestas[p.id]){
+faltanPartidos = true;
+}
+
+});
+
+if(faltanPartidos){
+alert('⚠️ QUINIELA INCOMPLETA');
+return;
+}
+
 const goles = document.querySelectorAll('.inputs-goles input');
+
+const gol1 = goles[0].value;
+const gol2 = goles[1].value;
+
+if(gol1 === '' || gol2 === ''){
+alert('⚠️ FALTA MARCADOR EXACTO');
+return;
+}
 
 let jugada = '';
 
@@ -610,7 +670,7 @@ ${nombre}
 ${jugada}
 
 🔥 Desempate:
-MÉXICO ${goles[0].value} - ${goles[1].value} GHANA
+MÉXICO ${gol1} - ${gol2} GHANA
 `;
 
 const numero = '524439000088';
