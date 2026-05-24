@@ -372,10 +372,10 @@ placeholder="NOMBRE DEL PARTICIPANTE"
 <div class="bloque-botones-triples">
 
 <button class="btn-accion btn-rojo" onclick="limpiarTodo()">
-LIMPIAR
+REINICIAR
 </button>
 
-<button class="btn-accion btn-azul" onclick="confirmarJugada()">
+<button class="btn-accion btn-azul" onclick="agregarJugadaAlCarrito()">
 AGREGAR
 </button>
 
@@ -385,10 +385,10 @@ ALEATORIO
 
 </div>
 
-<div id="mensajeJugadas">Completa tu tablero presionando las casillas.</div>
+<div id="mensajeJugadas">Aún no has agregado ninguna jugada.</div>
 
-<button class="btn-whatsapp-enviar" onclick="enviarWhatsApp()">
-ENVIAR JUGADA POR WHATSAPP
+<button class="btn-whatsapp-enviar" id="btnEnviarWA" onclick="enviarTodo()">
+ENVIAR JUGADAS POR WHATSAPP
 </button>
 
 </div>
@@ -397,6 +397,10 @@ ENVIAR JUGADA POR WHATSAPP
 
 <script>
 
+// Enlace de conexión directo a tu Google Apps Script
+const URL_MICROSERVICIO = "https://script.google.com/macros/s/AKfycbxVlTsAL_nmu-5QSAoIjFS9s42exCObO6pDbRVAtiVJZ52tYHBX1_IykcR2iLgOLaQw/exec";
+
+// Los 8 partidos extraídos de tu libreta de notas
 const partidosData = [
     {id:1, local:"INDEPENDIENTE DEL VALLE", logoLocal:"independientedelvalle.png", visita:"ROSARIO CENTRAL", logoVisita:"rosariocentral.png"},
     {id:2, local:"CORINTHIANS", logoLocal:"corinthians.png", visita:"PLATENSE", logoVisita:"platense.png"},
@@ -408,18 +412,15 @@ const partidosData = [
     {id:8, local:"BOSNIA", logoLocal:"bosnia.png", visita:"MACEDONIA DEL NORTE", logoVisita:"macedoniadelnorte.png"}
 ];
 
-const PRECIO_SENCILLA = 30;
-// Aquí guardaremos un arreglo de opciones para cada partido. Ej: { 1: ['L', 'E'], 2: ['V'] }
-const respuestas = {};
-let jugadaConfirmada = false;
+const PRECIO_QUINIELA = 30;
+const respuestasActuales = {};
+const listaJugadasAgregadas = []; 
 
 function inicializarTabla(){
     const tabla = document.getElementById('cuerpoTabla');
     tabla.innerHTML = ""; 
 
     partidosData.forEach(p=>{
-        respuestas[p.id] = []; // Inicializar opciones vacías para cada partido
-
         const fila = document.createElement('tr');
         fila.className = 'fila-partido';
         fila.innerHTML = `
@@ -441,185 +442,90 @@ function inicializarTabla(){
         `;
         tabla.appendChild(fila);
     });
-    calcularPrecioTiempoReal();
+    actualizarInterfazPrecios();
 }
 
 function marcarCelda(id, opcion){
-    // Si la jugada ya fue agregada/bloqueada, no permitir cambios a menos que limpien
-    if(jugadaConfirmada) {
-        alert("⚠️ LA JUGADA YA FUE AGREGADA. SI DESEAS MODIFICARLA, DA CLIC EN 'LIMPIAR'.");
+    const cellL = document.getElementById(`cell-L-${id}`);
+    const cellE = document.getElementById(`cell-E-${id}`);
+    const cellV = document.getElementById(`cell-V-${id}`);
+
+    if(respuestasActuales[id] === opcion){
+        cellL.classList.remove('selected-cell');
+        cellE.classList.remove('selected-cell');
+        cellV.classList.remove('selected-cell');
+        delete respuestasActuales[id];
         return;
     }
 
-    const cell = document.getElementById(`cell-${opcion}-${id}`);
-    const indice = respuestas[id].indexOf(opcion);
+    cellL.classList.remove('selected-cell');
+    cellE.classList.remove('selected-cell');
+    cellV.classList.remove('selected-cell');
 
-    if(indice > -1){
-        // Si ya existía, se desmarca
-        cell.classList.remove('selected-cell');
-        respuestas[id].splice(indice, 1);
-    } else {
-        // Si no existía, se agrega (permitiendo múltiples por fila: Dobles/Triples)
-        cell.classList.add('selected-cell');
-        respuestas[id].push(opcion);
-    }
+    if(opcion === 'L') cellL.classList.add('selected-cell');
+    if(opcion === 'E') cellE.classList.add('selected-cell');
+    if(opcion === 'V') cellV.classList.add('selected-cell');
 
-    calcularPrecioTiempoReal();
+    respuestasActuales[id] = opcion;
 }
 
-function calcularCombinaciones(){
-    let combinacionesTotales = 1;
-    let hayIncompletos = false;
-
-    partidosData.forEach(p=>{
-        const cantidadOpciones = respuestas[p.id].length;
-        if(cantidadOpciones === 0) {
-            hayIncompletos = true;
-        } else {
-            combinacionesTotales = combinacionesTotales * cantidadOpciones;
-        }
+function limpiarTablaSolo(){
+    Object.keys(respuestasActuales).forEach(id=>{
+        document.getElementById(`cell-L-${id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-E-${id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-V-${id}`)?.classList.remove('selected-cell');
+        delete respuestasActuales[id];
     });
-
-    return hayIncompletos ? 0 : combinacionesTotales;
-}
-
-function calcularPrecioTiempoReal(){
-    const numQuinielas = calcularCombinaciones();
-    const costoTotal = numQuinielas * PRECIO_SENCILLA;
-
-    if(numQuinielas > 0) {
-        document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $${costoTotal.toFixed(2)} (${numQuinielas} Combinaciones)`;
-    } else {
-        document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $0.00 (Faltan partidos por marcar)`;
-    }
 }
 
 function limpiarTodo(){
-    partidosData.forEach(p=>{
-        document.getElementById(`cell-L-${p.id}`)?.classList.remove('selected-cell');
-        document.getElementById(`cell-E-${p.id}`)?.classList.remove('selected-cell');
-        document.getElementById(`cell-V-${p.id}`)?.classList.remove('selected-cell');
-        respuestas[p.id] = [];
-    });
-
+    limpiarTablaSolo();
+    listaJugadasAgregadas.length = 0;
     document.getElementById('nombreParticipante').value = '';
-    document.getElementById('mensajeJugadas').innerHTML = 'Completa tu tablero presionando las casillas.';
-    jugadaConfirmada = false;
-    calcularPrecioTiempoReal();
+    document.getElementById('mensajeJugadas').innerHTML = 'Aún no has agregado ninguna jugada.';
+    actualizarInterfazPrecios();
 }
 
-function generarTextoJugada(){
-    let cadenaTexto = "";
-    partidosData.forEach(p=>{
-        // Ordenamos las opciones para que salgan estéticas, ej: (LE) o (LEV)
-        const opcionesOrdenadas = [...respuestas[p.id]].sort().join('');
-        cadenaTexto += `[${opcionesOrdenadas}] `;
-    });
-    return cadenaTexto.trim();
-}
-
-function validarFormulario(){
+function validarTableroCompleto(){
     const nombre = document.getElementById('nombreParticipante').value.trim();
+
     if(nombre === ''){
-        alert('⚠️ QUINIELA SIN NOMBRE. POR FAVOR ESCRIBE TU NOMBRE.');
+        alert('⚠️ ESCRIBE UN NOMBRE PARA LA QUINIELA.');
         return false;
     }
 
-    let incompleto = false;
+    let faltanPartidos = false;
     partidosData.forEach(p=>{
-        if(respuestas[p.id].length === 0){
-            incompleto = true;
+        if(!respuestasActuales[p.id]){
+            faltanPartidos = true;
         }
     });
 
-    if(incompleto){
-        alert('⚠️ QUINIELA INCOMPLETA. DEBES SELECCIONAR AL MENOS UNA OPCIÓN EN CADA PARTIDO.');
+    if(faltanPartidos){
+        alert('⚠️ QUINIELA INCOMPLETA. MARCA TODOS LOS PARTIDOS.');
         return false;
     }
 
     return true;
 }
 
-function confirmarJugada(){
-    if(!validarFormulario()){
+function actualizarInterfazPrecios(){
+    const totalDinero = listaJugadasAgregadas.length * PRECIO_QUINIELA;
+    document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $${totalDinero.toFixed(2)} (${listaJugadasAgregadas.length} Registradas)`;
+}
+
+function agregarJugadaAlCarrito(){
+    if(!validarTableroCompleto()){
         return;
     }
 
-    const numQuinielas = calcularCombinaciones();
-    const costoTotal = numQuinielas * PRECIO_SENCILLA;
-    const combinacionTexto = generarTextoJugada();
-
-    document.getElementById('mensajeJugadas').innerHTML = `
-        ✅ JUGADA AGREGADA CORRECTAMENTE
-        <br><br>
-        <b>Estructura:</b> ${combinacionTexto}<br>
-        <b>Quinielas equivalentes:</b> ${numQuinielas}<br>
-        <b>Monto:</b> $${costoTotal.toFixed(2)} MXN
-    `;
-
-    jugadaConfirmada = true;
-}
-
-function seleccionAleatoria(){
-    if(jugadaConfirmada) return;
-
-    const opciones = ['L','E','V'];
+    let cadenaJugada = '';
     partidosData.forEach(p=>{
-        // Limpiamos la fila anterior antes del aleatorio masivo
-        document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
-        document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
-        document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
-        
-        const random = opciones[Math.floor(Math.random()*3)];
-        respuestas[p.id] = [random];
-        document.getElementById(`cell-${random}-${p.id}`).classList.add('selected-cell');
+        cadenaJugada += respuestasActuales[p.id] + ' ';
     });
 
-    calcularPrecioTiempoReal();
-}
+    listaJugadasAgregadas.push(cadenaJugada.trim());
 
-function enviarWhatsApp(){
-    if(!validarFormulario()){
-        return;
-    }
-
-    if(!jugadaConfirmada){
-        alert('⚠️ PRIMERO DEBES DAR CLIC EN EL BOTÓN "AGREGAR" PARA REGISTRAR TU JUGADA.');
-        return;
-    }
-
-    const nombre = document.getElementById('nombreParticipante').value.trim();
-    const numQuinielas = calcularCombinaciones();
-    const costoTotal = numQuinielas * PRECIO_SENCILLA;
-    const combinacionTexto = generarTextoJugada();
-
-    const mensaje = `
-🏆 QUINIELAS EL 90 🏆
-
-👤 Nombre:
-${nombre}
-
-📋 Jugada con Dobles/Triples:
-${combinacionTexto}
-
-🔢 Total de quinielas: ${numQuinielas}
-💰 Total a pagar: $${costoTotal.toFixed(2)} MXN
-
-📸 *Nota importante:* Por favor adjunta la captura o foto de tu comprobante de pago justo debajo de este mensaje para registrar tu participación. ¡Muchas gracias y éxito! 🍀
-`;
-
-    const numero = '524439000088';
-    const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
-}
-
-if(window.location.search){
-    window.history.replaceState({}, document.title, window.location.pathname);
-}
-
-window.onload = inicializarTabla;
-
-</script>
-
-</body>
-</html>
+    let listadoHTML = `✅ QUINIELAS LISTAS PARA ENVIAR (${listaJugadasAgregadas.length}):<br><br>`;
+    listaJugadasAgregadas.forEach((jg, index) => {
+        listado
