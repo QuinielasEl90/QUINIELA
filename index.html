@@ -284,29 +284,6 @@ header{
     color:#001f54;
 }
 
-.desempate-contenedor{
-    background:#f8fafc;
-    border:1px solid #e2e8f0;
-    border-radius:4px;
-    padding:6px;
-    text-align:center;
-    margin-bottom:6px;
-}
-
-.inputs-goles{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:5px;
-}
-
-.inputs-goles input{
-    width:40px;
-    padding:3px;
-    text-align:center;
-    font-weight:bold;
-}
-
 #mensajeJugadas{
     margin-top:5px;
     margin-bottom:5px;
@@ -344,7 +321,7 @@ QUINIELAS EL 90
 </div>
 
 <div class="header-subtitle">
-QUINIELA DE INAUGURACIÓN
+QUINIELA DE LA SEMANA
 </div>
 
 <img src="LOGO.PNG.jpeg" class="logo-superior">
@@ -402,20 +379,6 @@ ALEATORIO
 
 </div>
 
-<div class="desempate-contenedor">
-
-<div style="font-weight:bold; margin-bottom:4px;">
-🔥 MARCADOR DESEMPATE: MÉXICO VS GHANA 🔥
-</div>
-
-<div class="inputs-goles">
-<input type="number" placeholder="0">
-<span>-</span>
-<input type="number" placeholder="0">
-</div>
-
-</div>
-
 <div id="mensajeJugadas"></div>
 
 <button class="btn-whatsapp-enviar" onclick="enviarWhatsApp()">
@@ -429,17 +392,14 @@ ENVIAR JUGADA
 <script>
 
 const partidosData = [
-
-{id:1,local:"MÉXICO",logoLocal:"mexico.png",visita:"GHANA",logoVisita:"ghana.png"},
-{id:2,local:"LENS",logoLocal:"lens.jpg",visita:"NICE",logoVisita:"nice.png"},
-{id:3,local:"PEÑAROL",logoLocal:"peñarol.png",visita:"CORINTHIANS",logoVisita:"corinthians.jpg"},
-{id:4,local:"VALENCIA",logoLocal:"valencia.png",visita:"BARCELONA",logoVisita:"barcelona.png"},
-{id:5,local:"REAL MADRID",logoLocal:"realmadrid.png",visita:"ATHLETIC BILBAO",logoVisita:"athleticbilbao.png"},
-{id:6,local:"INTER MIAMI",logoLocal:"intermiami.png",visita:"PORTLAND",logoVisita:"portlandtimbers.png"},
-{id:7,local:"MANCHESTER CITY",logoLocal:"manchestercity.png",visita:"ASTON VILLA",logoVisita:"astonvilla.png"},
-{id:8,local:"VILLARREAL",logoLocal:"villareal.png",visita:"ATLÉTICO MADRID",logoVisita:"atleticomadrid.png"},
-{id:9,local:"PUMAS",logoLocal:"pumas.png",visita:"CRUZ AZUL",logoVisita:"cruzazul.png"}
-
+    {id:1, local:"INDEPENDIENTE DEL VALLE", logoLocal:"independientedelvalle.png", visita:"ROSARIO CENTRAL", logoVisita:"rosariocentral.png"},
+    {id:2, local:"CORINTHIANS", logoLocal:"corinthians.png", visita:"PLATENSE", logoVisita:"platense.png"},
+    {id:3, local:"RIVER PLATE", logoLocal:"riverplate.png", visita:"BLOOMING", logoVisita:"blooming.png"},
+    {id:4, local:"PALMEIRAS", logoLocal:"palmeiras.png", visita:"JUNIOR", logoVisita:"junior.png"},
+    {id:5, local:"BOCA JUNIORS", logoLocal:"bocajuniors.png", visita:"UNIVERSIDAD CATÓLICA", logoVisita:"universidadcatolica.png"},
+    {id:6, local:"EGIPTO", logoLocal:"egipto.png", visita:"RUSIA", logoVisita:"rusia.png"},
+    {id:7, local:"SUDÁFRICA", logoLocal:"sudafrica.png", visita:"NICARAGUA", logoVisita:"nicaragua.png"},
+    {id:8, local:"BOSNIA", logoLocal:"bosnia.png", visita:"MACEDONIA DEL NORTE", logoVisita:"macedoniadelnorte.png"}
 ];
 
 const respuestas = {};
@@ -447,241 +407,164 @@ let quinielaAgregada = false;
 let aleatorioUsado = false;
 
 function inicializarTabla(){
+    const tabla = document.getElementById('cuerpoTabla');
+    tabla.innerHTML = ""; 
 
-const tabla = document.getElementById('cuerpoTabla');
-
-partidosData.forEach(p=>{
-
-const fila = document.createElement('tr');
-
-fila.className = 'fila-partido';
-
-fila.innerHTML = `
-
-<td class="col-letra-l" onclick="marcarCelda(${p.id}, 'L')" id="cell-L-${p.id}">L</td>
-
-<td class="col-equipo-local">
-<div class="equipo-con-icono">
-<img src="${p.logoLocal}" class="logo-equipo">
-<span>${p.local}</span>
-</div>
-</td>
-
-<td class="col-empate" onclick="marcarCelda(${p.id}, 'E')" id="cell-E-${p.id}">E</td>
-
-<td class="col-equipo-visita">
-<div class="equipo-con-icono equipo-visita-icono">
-<span>${p.visita}</span>
-<img src="${p.logoVisita}" class="logo-equipo">
-</div>
-</td>
-
-<td class="col-letra-v" onclick="marcarCelda(${p.id}, 'V')" id="cell-V-${p.id}">V</td>
-
-`;
-
-tabla.appendChild(fila);
-
-});
-
+    partidosData.forEach(p=>{
+        const fila = document.createElement('tr');
+        fila.className = 'fila-partido';
+        fila.innerHTML = `
+            <td class="col-letra-l" onclick="marcarCelda(${p.id}, 'L')" id="cell-L-${p.id}">L</td>
+            <td class="col-equipo-local">
+                <div class="equipo-con-icono">
+                    <img src="${p.logoLocal}" class="logo-equipo">
+                    <span>${p.local}</span>
+                </div>
+            </td>
+            <td class="col-empate" onclick="marcarCelda(${p.id}, 'E')" id="cell-E-${p.id}">E</td>
+            <td class="col-equipo-visita">
+                <div class="equipo-con-icono equipo-visita-icono">
+                    <span>${p.visita}</span>
+                    <img src="${p.logoVisita}" class="logo-equipo">
+                </div>
+            </td>
+            <td class="col-letra-v" onclick="marcarCelda(${p.id}, 'V')" id="cell-V-${p.id}">V</td>
+        `;
+        tabla.appendChild(fila);
+    });
 }
 
 function marcarCelda(id, opcion){
+    const cellL = document.getElementById(`cell-L-${id}`);
+    const cellE = document.getElementById(`cell-E-${id}`);
+    const cellV = document.getElementById(`cell-V-${id}`);
 
-const cellL = document.getElementById(`cell-L-${id}`);
-const cellE = document.getElementById(`cell-E-${id}`);
-const cellV = document.getElementById(`cell-V-${id}`);
+    if(respuestas[id] === opcion){
+        cellL.classList.remove('selected-cell');
+        cellE.classList.remove('selected-cell');
+        cellV.classList.remove('selected-cell');
+        delete respuestas[id];
+        return;
+    }
 
-if(respuestas[id] === opcion){
+    cellL.classList.remove('selected-cell');
+    cellE.classList.remove('selected-cell');
+    cellV.classList.remove('selected-cell');
 
-cellL.classList.remove('selected-cell');
-cellE.classList.remove('selected-cell');
-cellV.classList.remove('selected-cell');
+    if(opcion === 'L') cellL.classList.add('selected-cell');
+    if(opcion === 'E') cellE.classList.add('selected-cell');
+    if(opcion === 'V') cellV.classList.add('selected-cell');
 
-delete respuestas[id];
-
-return;
-
-}
-
-cellL.classList.remove('selected-cell');
-cellE.classList.remove('selected-cell');
-cellV.classList.remove('selected-cell');
-
-if(opcion === 'L') cellL.classList.add('selected-cell');
-if(opcion === 'E') cellE.classList.add('selected-cell');
-if(opcion === 'V') cellV.classList.add('selected-cell');
-
-respuestas[id] = opcion;
-
+    respuestas[id] = opcion;
 }
 
 function limpiarTodo(){
+    Object.keys(respuestas).forEach(id=>{
+        document.getElementById(`cell-L-${id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-E-${id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-V-${id}`)?.classList.remove('selected-cell');
+    });
 
-Object.keys(respuestas).forEach(id=>{
+    for(let key in respuestas){
+        delete respuestas[key];
+    }
 
-document.getElementById(`cell-L-${id}`)?.classList.remove('selected-cell');
-document.getElementById(`cell-E-${id}`)?.classList.remove('selected-cell');
-document.getElementById(`cell-V-${id}`)?.classList.remove('selected-cell');
+    document.getElementById('nombreParticipante').value = '';
+    document.getElementById('mensajeJugadas').innerHTML = '';
 
-});
-
-for(let key in respuestas){
-delete respuestas[key];
-}
-
-document.getElementById('nombreParticipante').value = '';
-
-document.querySelectorAll('.inputs-goles input').forEach(input=>{
-input.value = '';
-});
-
-document.getElementById('mensajeJugadas').innerHTML = '';
-
-quinielaAgregada = false;
-aleatorioUsado = false;
-
+    quinielaAgregada = false;
+    aleatorioUsado = false;
 }
 
 function validarFormulario(){
+    const nombre = document.getElementById('nombreParticipante').value.trim();
 
-const nombre = document.getElementById('nombreParticipante').value.trim();
+    if(nombre === ''){
+        alert('⚠️ QUINIELA SIN NOMBRE');
+        return false;
+    }
 
-if(nombre === ''){
-alert('⚠️ QUINIELA SIN NOMBRE');
-return false;
-}
+    let faltanPartidos = false;
+    partidosData.forEach(p=>{
+        if(!respuestas[p.id]){
+            faltanPartidos = true;
+        }
+    });
 
-let faltanPartidos = false;
+    if(faltanPartidos){
+        alert('⚠️ QUINIELA INCOMPLETA');
+        return false;
+    }
 
-partidosData.forEach(p=>{
-
-if(!respuestas[p.id]){
-faltanPartidos = true;
-}
-
-});
-
-if(faltanPartidos){
-alert('⚠️ QUINIELA INCOMPLETA');
-return false;
-}
-
-const goles = document.querySelectorAll('.inputs-goles input');
-
-const gol1 = goles[0].value;
-const gol2 = goles[1].value;
-
-if(gol1 === '' || gol2 === ''){
-alert('⚠️ FALTA MARCADOR EXACTO');
-return false;
-}
-
-return true;
-
+    return true;
 }
 
 function agregarJugada(){
+    if(!validarFormulario()){
+        return;
+    }
 
-if(!validarFormulario()){
-return;
-}
+    let jugada = '';
+    partidosData.forEach(p=>{
+        jugada += respuestas[p.id] + ' ';
+    });
 
-let jugada = '';
+    document.getElementById('mensajeJugadas').innerHTML = `
+        ✅ QUINIELA AGREGADA
+        <br><br>
+        ${jugada}
+    `;
 
-partidosData.forEach(p=>{
-jugada += respuestas[p.id] + ' ';
-});
-
-document.getElementById('mensajeJugadas').innerHTML = `
-✅ QUINIELA AGREGADA
-<br><br>
-${jugada}
-`;
-
-quinielaAgregada = true;
-
+    quinielaAgregada = true;
 }
 
 function seleccionAleatoria(){
+    const opciones = ['L','E','V'];
 
-const opciones = ['L','E','V'];
+    if(!aleatorioUsado){
+        partidosData.forEach(p=>{
+            if(!respuestas[p.id]){
+                const random = opciones[Math.floor(Math.random()*3)];
+                marcarCelda(p.id, random);
+            }
+        });
+    }else{
+        partidosData.forEach(p=>{
+            const random = opciones[Math.floor(Math.random()*3)];
+            const cellL = document.getElementById(`cell-L-${p.id}`);
+            const cellE = document.getElementById(`cell-E-${p.id}`);
+            const cellV = document.getElementById(`cell-V-${p.id}`);
 
-if(!aleatorioUsado){
+            cellL.classList.remove('selected-cell');
+            cellE.classList.remove('selected-cell');
+            cellV.classList.remove('selected-cell');
 
-partidosData.forEach(p=>{
+            delete respuestas[p.id];
+            marcarCelda(p.id, random);
+        });
+    }
 
-if(!respuestas[p.id]){
-
-const random = opciones[Math.floor(Math.random()*3)];
-
-marcarCelda(p.id, random);
-
-}
-
-});
-
-}else{
-
-partidosData.forEach(p=>{
-
-const random = opciones[Math.floor(Math.random()*3)];
-
-const cellL = document.getElementById(`cell-L-${p.id}`);
-const cellE = document.getElementById(`cell-E-${p.id}`);
-const cellV = document.getElementById(`cell-V-${p.id}`);
-
-cellL.classList.remove('selected-cell');
-cellE.classList.remove('selected-cell');
-cellV.classList.remove('selected-cell');
-
-delete respuestas[p.id];
-
-marcarCelda(p.id, random);
-
-});
-
-}
-
-const goles = document.querySelectorAll('.inputs-goles input');
-
-if(goles[0].value === ''){
-goles[0].value = Math.floor(Math.random()*6);
-}
-
-if(goles[1].value === ''){
-goles[1].value = Math.floor(Math.random()*6);
-}
-
-aleatorioUsado = true;
-
+    aleatorioUsado = true;
 }
 
 function enviarWhatsApp(){
+    if(!validarFormulario()){
+        return;
+    }
 
-if(!validarFormulario()){
-return;
-}
+    if(!quinielaAgregada){
+        alert('⚠️ PRIMERO DEBES AGREGAR TU QUINIELA');
+        return;
+    }
 
-if(!quinielaAgregada){
-alert('⚠️ PRIMERO DEBES AGREGAR TU QUINIELA');
-return;
-}
+    const nombre = document.getElementById('nombreParticipante').value.trim();
 
-const nombre = document.getElementById('nombreParticipante').value.trim();
+    let jugada = '';
+    partidosData.forEach(p=>{
+        jugada += respuestas[p.id] + ' ';
+    });
 
-const goles = document.querySelectorAll('.inputs-goles input');
-
-const gol1 = goles[0].value;
-const gol2 = goles[1].value;
-
-let jugada = '';
-
-partidosData.forEach(p=>{
-jugada += respuestas[p.id] + ' ';
-});
-
-const mensaje = `
+    const mensaje = `
 🏆 QUINIELAS EL 90 🏆
 
 👤 Nombre:
@@ -689,21 +572,15 @@ ${nombre}
 
 📋 Jugada:
 ${jugada}
-
-🔥 Desempate:
-MÉXICO ${gol1} - ${gol2} GHANA
 `;
 
-const numero = '524439000088';
-
-const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
-
-window.open(url, '_blank');
-
+    const numero = '524439000088';
+    const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
 }
 
 if(window.location.search){
-window.history.replaceState({}, document.title, window.location.pathname);
+    window.history.replaceState({}, document.title, window.location.pathname);
 }
 
 window.onload = inicializarTabla;
