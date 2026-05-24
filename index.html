@@ -357,7 +357,7 @@ INFORMES: +52 4439000088
 </div>
 
 <div class="banner-total" id="bannerTotalPrecio">
-TOTAL: $0.00 (0 Quinielas)
+TOTAL: $0.00 (0 Combinaciones)
 </div>
 
 <div class="seccion-inputs">
@@ -387,7 +387,7 @@ ALEATORIO
 
 <div id="mensajeJugadas">Completa tu tablero presionando las casillas.</div>
 
-<button class="btn-whatsapp-enviar" onclick="enviarWhatsApp()">
+<button class="btn-whatsapp-enviar" id="btnEnviarWA" onclick="enviarWhatsApp()">
 ENVIAR JUGADA POR WHATSAPP
 </button>
 
@@ -396,6 +396,9 @@ ENVIAR JUGADA POR WHATSAPP
 </div>
 
 <script>
+
+// Enlace directo a tu Google Apps Script
+const URL_MICROSERVICIO = "https://script.google.com/macros/s/AKfycbxVlTsAL_nmu-5QSAoIjFS9s42exCObO6pDbRVAtiVJZ52tYHBX1_IykcR2iLgOLaQw/exec";
 
 const partidosData = [
     {id:1, local:"INDEPENDIENTE DEL VALLE", logoLocal:"independientedelvalle.png", visita:"ROSARIO CENTRAL", logoVisita:"rosariocentral.png"},
@@ -409,16 +412,16 @@ const partidosData = [
 ];
 
 const PRECIO_SENCILLA = 30;
-// Aquí guardaremos un arreglo de opciones para cada partido. Ej: { 1: ['L', 'E'], 2: ['V'] }
 const respuestas = {};
 let jugadaConfirmada = false;
+let listaJugadasSencillasSeparadas = []; // Aquí desglosamos los dobles/triples en filas individuales para el Excel
 
 function inicializarTabla(){
     const tabla = document.getElementById('cuerpoTabla');
     tabla.innerHTML = ""; 
 
     partidosData.forEach(p=>{
-        respuestas[p.id] = []; // Inicializar opciones vacías para cada partido
+        respuestas[p.id] = []; 
 
         const fila = document.createElement('tr');
         fila.className = 'fila-partido';
@@ -445,7 +448,6 @@ function inicializarTabla(){
 }
 
 function marcarCelda(id, opcion){
-    // Si la jugada ya fue agregada/bloqueada, no permitir cambios a menos que limpien
     if(jugadaConfirmada) {
         alert("⚠️ LA JUGADA YA FUE AGREGADA. SI DESEAS MODIFICARLA, DA CLIC EN 'LIMPIAR'.");
         return;
@@ -455,11 +457,9 @@ function marcarCelda(id, opcion){
     const indice = respuestas[id].indexOf(opcion);
 
     if(indice > -1){
-        // Si ya existía, se desmarca
         cell.classList.remove('selected-cell');
         respuestas[id].splice(indice, 1);
     } else {
-        // Si no existía, se agrega (permitiendo múltiples por fila: Dobles/Triples)
         cell.classList.add('selected-cell');
         respuestas[id].push(opcion);
     }
@@ -505,13 +505,13 @@ function limpiarTodo(){
     document.getElementById('nombreParticipante').value = '';
     document.getElementById('mensajeJugadas').innerHTML = 'Completa tu tablero presionando las casillas.';
     jugadaConfirmada = false;
+    listaJugadasSencillasSeparadas = [];
     calcularPrecioTiempoReal();
 }
 
 function generarTextoJugada(){
     let cadenaTexto = "";
     partidosData.forEach(p=>{
-        // Ordenamos las opciones para que salgan estéticas, ej: (LE) o (LEV)
         const opcionesOrdenadas = [...respuestas[p.id]].sort().join('');
         cadenaTexto += `[${opcionesOrdenadas}] `;
     });
@@ -540,6 +540,20 @@ function validarFormulario(){
     return true;
 }
 
+// Algoritmo interno para desglosar dobles/triples en apuestas sencillas para las filas del Excel
+function desglosarAuestasSencillas(index, jugadaActual) {
+    if (index === partidosData.length) {
+        listaJugadasSencillasSeparadas.push(jugadaActual.trim());
+        return;
+    }
+    const partidoId = partidosData[index].id;
+    const opcionesDeFila = respuestas[partidoId];
+    
+    opcionesDeFila.forEach(opcion => {
+        desglosarAuestasSencillas(index + 1, jugadaActual + opcion + " ");
+    });
+}
+
 function confirmarJugada(){
     if(!validarFormulario()){
         return;
@@ -548,6 +562,10 @@ function confirmarJugada(){
     const numQuinielas = calcularCombinaciones();
     const costoTotal = numQuinielas * PRECIO_SENCILLA;
     const combinacionTexto = generarTextoJugada();
+
+    // Generamos el desglose de filas individuales automáticamente
+    listaJugadasSencillasSeparadas = [];
+    desglosarAuestasSencillas(0, "");
 
     document.getElementById('mensajeJugadas').innerHTML = `
         ✅ JUGADA AGREGADA CORRECTAMENTE
@@ -565,7 +583,6 @@ function seleccionAleatoria(){
 
     const opciones = ['L','E','V'];
     partidosData.forEach(p=>{
-        // Limpiamos la fila anterior antes del aleatorio masivo
         document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
         document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
         document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
@@ -588,10 +605,46 @@ function enviarWhatsApp(){
         return;
     }
 
-    const nombre = document.getElementById('nombreParticipante').value.trim();
+    const nombre = document.getElementById('nombreParticipante').value.trim().toUpperCase();
     const numQuinielas = calcularCombinaciones();
     const costoTotal = numQuinielas * PRECIO_SENCILLA;
     const combinacionTexto = generarTextoJugada();
+
+    const btn = document.getElementById('btnEnviarWA');
+    btn.disabled = true;
+    btn.style.opacity = "0.5";
+    btn.innerHTML = "⏳ REGISTRANDO EN EXCEL...";
+
+    // Estructura de envío hacia tu Google Sheets
+    const paqueteEnvio = {
+        nombre: nombre,
+        jugadas: listaJugadasSencillasSeparadas,
+        precioIndividual: PRECIO_SENCILLA
+    };
+
+    // Petición remota a tu link
+    fetch(URL_MICROSERVICES = URL_MICROSERVICIO, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(paqueteEnvio)
+    })
+    .then(() => {
+        abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal);
+    })
+    .catch(err => {
+        console.error(err);
+        abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal); 
+    });
+}
+
+function abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal){
+    const btn = document.getElementById('btnEnviarWA');
+    btn.disabled = false;
+    btn.style.opacity = "1";
+    btn.innerHTML = "ENVIAR JUGADA POR WHATSAPP";
 
     const mensaje = `
 🏆 QUINIELAS EL 90 🏆
