@@ -235,8 +235,9 @@ header{
 .banner-total{
     text-align:center;
     padding:5px;
-    font-size:1rem;
+    font-size:1.1rem;
     font-weight:bold;
+    color:#001f54;
 }
 
 /* ================= INPUTS ================= */
@@ -293,6 +294,8 @@ header{
     text-align:center;
     font-weight:bold;
     min-height:35px;
+    background:#f8fafc;
+    font-size:0.9rem;
 }
 
 .btn-whatsapp-enviar{
@@ -337,7 +340,7 @@ QUINIELA DE LA SEMANA
 </div>
 
 <div class="banner-negro">
-<div>PRECIO: <span>GRATIS</span></div>
+<div>PRECIO: <span>$30.00</span></div>
 <div>CIERRE: <span>JUEVES 11:00 P. M.</span></div>
 </div>
 
@@ -350,7 +353,7 @@ INFORMES: +52 4439000088
 <span>QUINIELAS EL 90</span>
 </div>
 
-<div class="banner-total">
+<div class="banner-total" id="bannerTotalPrecio">
 TOTAL: $0.00
 </div>
 
@@ -366,7 +369,7 @@ placeholder="NOMBRE DEL PARTICIPANTE"
 <div class="bloque-botones-triples">
 
 <button class="btn-accion btn-rojo" onclick="limpiarTodo()">
-LIMPIAR
+REINICIAR
 </button>
 
 <button class="btn-accion btn-azul" onclick="agregarJugada()">
@@ -379,10 +382,10 @@ ALEATORIO
 
 </div>
 
-<div id="mensajeJugadas"></div>
+<div id="mensajeJugadas">Aún no has agregado ninguna jugada.</div>
 
 <button class="btn-whatsapp-enviar" onclick="enviarWhatsApp()">
-ENVIAR JUGADA
+ENVIAR JUGADA(S)
 </button>
 
 </div>
@@ -402,9 +405,9 @@ const partidosData = [
     {id:8, local:"BOSNIA", logoLocal:"bosnia.png", visita:"MACEDONIA DEL NORTE", logoVisita:"macedoniadelnorte.png"}
 ];
 
-const respuestas = {};
-let quinielaAgregada = false;
-let aleatorioUsado = false;
+const PRECIO_QUINIELA = 30;
+const respuestasActuales = {};
+const listaJugadasAgregadas = [];
 
 function inicializarTabla(){
     const tabla = document.getElementById('cuerpoTabla');
@@ -432,6 +435,7 @@ function inicializarTabla(){
         `;
         tabla.appendChild(fila);
     });
+    actualizarInterfazPrecios();
 }
 
 function marcarCelda(id, opcion){
@@ -439,11 +443,11 @@ function marcarCelda(id, opcion){
     const cellE = document.getElementById(`cell-E-${id}`);
     const cellV = document.getElementById(`cell-V-${id}`);
 
-    if(respuestas[id] === opcion){
+    if(respuestasActuales[id] === opcion){
         cellL.classList.remove('selected-cell');
         cellE.classList.remove('selected-cell');
         cellV.classList.remove('selected-cell');
-        delete respuestas[id];
+        delete respuestasActuales[id];
         return;
     }
 
@@ -455,48 +459,52 @@ function marcarCelda(id, opcion){
     if(opcion === 'E') cellE.classList.add('selected-cell');
     if(opcion === 'V') cellV.classList.add('selected-cell');
 
-    respuestas[id] = opcion;
+    respuestasActuales[id] = opcion;
 }
 
-function limpiarTodo(){
-    Object.keys(respuestas).forEach(id=>{
+function limpiarTablaSolo(){
+    Object.keys(respuestasActuales).forEach(id=>{
         document.getElementById(`cell-L-${id}`)?.classList.remove('selected-cell');
         document.getElementById(`cell-E-${id}`)?.classList.remove('selected-cell');
         document.getElementById(`cell-V-${id}`)?.classList.remove('selected-cell');
+        delete respuestasActuales[id];
     });
+}
 
-    for(let key in respuestas){
-        delete respuestas[key];
-    }
-
+function limpiarTodo(){
+    limpiarTablaSolo();
+    listaJugadasAgregadas.length = 0;
     document.getElementById('nombreParticipante').value = '';
-    document.getElementById('mensajeJugadas').innerHTML = '';
-
-    quinielaAgregada = false;
-    aleatorioUsado = false;
+    document.getElementById('mensajeJugadas').innerHTML = 'Aún no has agregado ninguna jugada.';
+    actualizarInterfazPrecios();
 }
 
 function validarFormulario(){
     const nombre = document.getElementById('nombreParticipante').value.trim();
 
     if(nombre === ''){
-        alert('⚠️ QUINIELA SIN NOMBRE');
+        alert('⚠️ QUINIELA SIN NOMBRE. POR FAVOR, INGRESA TU NOMBRE ANTES DE CONTINUAR.');
         return false;
     }
 
     let faltanPartidos = false;
     partidosData.forEach(p=>{
-        if(!respuestas[p.id]){
+        if(!respuestasActuales[p.id]){
             faltanPartidos = true;
         }
     });
 
     if(faltanPartidos){
-        alert('⚠️ QUINIELA INCOMPLETA');
+        alert('⚠️ QUINIELA INCOMPLETA. DEBES MARCAR UNA OPCIÓN EN CADA PARTIDO.');
         return false;
     }
 
     return true;
+}
+
+function actualizarInterfazPrecios(){
+    const totalDinero = listaJugadasAgregadas.length * PRECIO_QUINIELA;
+    document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $${totalDinero.toFixed(2)}`;
 }
 
 function agregarJugada(){
@@ -504,64 +512,59 @@ function agregarJugada(){
         return;
     }
 
-    let jugada = '';
+    let cadenaJugada = '';
     partidosData.forEach(p=>{
-        jugada += respuestas[p.id] + ' ';
+        cadenaJugada += respuestasActuales[p.id] + ' ';
     });
 
-    document.getElementById('mensajeJugadas').innerHTML = `
-        ✅ QUINIELA AGREGADA
-        <br><br>
-        ${jugada}
-    `;
+    listaJugadasAgregadas.push(cadenaJugada.trim());
 
-    quinielaAgregada = true;
+    let listadoHTML = `✅ QUINIELAS AGREGADAS (${listaJugadasAgregadas.length}):<br><br>`;
+    listaJugadasAgregadas.forEach((jg, index) => {
+        listadoHTML += `<b>#${index + 1}:</b> ${jg}<br>`;
+    });
+    
+    document.getElementById('mensajeJugadas').innerHTML = listadoHTML;
+
+    limpiarTablaSolo();
+    actualizarInterfazPrecios();
+    alert('👍 ¡Jugada añadida al carrito! Puedes rellenar el tablero otra vez para mandar más de una quiniela.');
 }
 
 function seleccionAleatoria(){
     const opciones = ['L','E','V'];
+    partidosData.forEach(p=>{
+        const random = opciones[Math.floor(Math.random()*3)];
+        const cellL = document.getElementById(`cell-L-${p.id}`);
+        const cellE = document.getElementById(`cell-E-${p.id}`);
+        const cellV = document.getElementById(`cell-V-${p.id}`);
 
-    if(!aleatorioUsado){
-        partidosData.forEach(p=>{
-            if(!respuestas[p.id]){
-                const random = opciones[Math.floor(Math.random()*3)];
-                marcarCelda(p.id, random);
-            }
-        });
-    }else{
-        partidosData.forEach(p=>{
-            const random = opciones[Math.floor(Math.random()*3)];
-            const cellL = document.getElementById(`cell-L-${p.id}`);
-            const cellE = document.getElementById(`cell-E-${p.id}`);
-            const cellV = document.getElementById(`cell-V-${p.id}`);
+        cellL.classList.remove('selected-cell');
+        cellE.classList.remove('selected-cell');
+        cellV.classList.remove('selected-cell');
 
-            cellL.classList.remove('selected-cell');
-            cellE.classList.remove('selected-cell');
-            cellV.classList.remove('selected-cell');
-
-            delete respuestas[p.id];
-            marcarCelda(p.id, random);
-        });
-    }
-
-    aleatorioUsado = true;
+        marcarCelda(p.id, random);
+    });
 }
 
 function enviarWhatsApp(){
-    if(!validarFormulario()){
-        return;
-    }
-
-    if(!quinielaAgregada){
-        alert('⚠️ PRIMERO DEBES AGREGAR TU QUINIELA');
-        return;
-    }
-
     const nombre = document.getElementById('nombreParticipante').value.trim();
 
-    let jugada = '';
-    partidosData.forEach(p=>{
-        jugada += respuestas[p.id] + ' ';
+    if(nombre === ''){
+        alert('⚠️ ESCRIBE TU NOMBRE PARA SABER QUIÉN ENVÍA.');
+        return;
+    }
+
+    if(listaJugadasAgregadas.length === 0){
+        alert('⚠️ NO HAS AGREGADO NINGUNA JUGADA. SELECCIONA TUS CASILLAS Y DA CLIC EN EL BOTÓN "AGREGAR" PRIMERO.');
+        return;
+    }
+
+    const totalPagar = listaJugadasAgregadas.length * PRECIO_QUINIELA;
+
+    let bloqueJugadasMensaje = '';
+    listaJugadasAgregadas.forEach((jg, index) => {
+        bloqueJugadasMensaje += `Quiniela #${index + 1}:\n${jg}\n\n`;
     });
 
     const mensaje = `
@@ -570,8 +573,13 @@ function enviarWhatsApp(){
 👤 Nombre:
 ${nombre}
 
-📋 Jugada:
-${jugada}
+📋 Jugadas registradas (${listaJugadasAgregadas.length}):
+${bloqueJugadasMensaje.trim()}
+
+💰 Total a pagar:
+$${totalPagar.toFixed(2)} MXN
+
+📸 *Nota importante:* Por favor adjunta la captura o foto de tu comprobante de pago justo debajo de este mensaje para validar tu registro. ¡Muchas gracias y éxito! 🍀
 `;
 
     const numero = '524439000088';
