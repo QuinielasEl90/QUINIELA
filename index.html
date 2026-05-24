@@ -98,7 +98,7 @@ header{
     transform:translate(-50%, -50%);
     width:95%;
     height:95%;
-    background:url('LOGO.PNG.jpeg') center center no-repeat; /* Asegúrate de que este archivo exista */
+    background:url('LOGO.PNG.jpeg') center center no-repeat;
     background-size:contain;
     opacity:0.80;
     pointer-events:none;
@@ -330,7 +330,9 @@ QUINIELAS EL 90
 QUINIELA DE LA SEMANA
 </div>
 
-<img src="LOGO.PNG.jpeg" class="logo-superior"> </header>
+<img src="LOGO.PNG.jpeg" class="logo-superior">
+
+</header>
 
 <div class="tabla-contenedor">
 
@@ -350,7 +352,8 @@ INFORMES: +52 4439000088
 </div>
 
 <div class="banner-facebook">
-<img src="facebook.png" class="logo-facebook"> <span>QUINIELAS EL 90</span>
+<img src="facebook.png" class="logo-facebook">
+<span>QUINIELAS EL 90</span>
 </div>
 
 <div class="banner-total" id="bannerTotalPrecio">
@@ -369,76 +372,254 @@ placeholder="NOMBRE DEL PARTICIPANTE"
 <div class="bloque-botones-triples">
 
 <button class="btn-accion btn-rojo" onclick="limpiarTodo()">
-REINICIAR
+LIMPIAR
 </button>
 
-<button class="btn-accion btn-azul" onclick="agregarJugadaAlCarrito()">
+<button class="btn-accion btn-azul" onclick="confirmarJugada()">
 AGREGAR
 </button>
 
 <button class="btn-accion btn-gris" onclick="seleccionAleatoria()">
 ALEATORIO
-</button>Para enlazar tu archivo de Excel exactamente como lo tienes en la imagen, necesitas subirlo a **Google Drive** y convertirlo en una **Hoja de cálculo de Google**. El formulario web no puede escribir directamente en tu computadora por motivos de seguridad; necesita un conector en la nube.
+</button>
 
-Aquí tienes la guía completa paso a paso para enlazarlo desde cero:
+</div>
 
-### Paso 1: Sube tu Excel a Google Drive
+<div id="mensajeJugadas">Completa tu tablero presionando las casillas.</div>
 
-1. Entra a **[Google Drive](https://drive.google.com/)** con tu cuenta de Gmail.
-2. Arrastra tu archivo de Excel (`html.png` en tu captura, pero usa tu archivo real) y suéltalo dentro de Drive para subirlo.
-3. Una vez subido, haz doble clic sobre el archivo para abrirlo. Verás que se abre una vista previa con el título del archivo y una etiqueta que dice `.XLSX`.
-4. En el menú superior izquierdo, haz clic en **Archivo** y luego selecciona **Guardar como hoja de cálculo de Google**.
-5. Esto creará una copia idéntica en formato de Google Sheets en una nueva pestaña. Verás que ya no tiene la etiqueta `.XLSX`. Tu formato y la lista de participantes quedarán idénticos a los de tu imagen.
+<button class="btn-whatsapp-enviar" onclick="enviarWhatsApp()">
+ENVIAR JUGADA POR WHATSAPP
+</button>
 
----
+</div>
 
-### Paso 2: Crea el Conector Inteligente (Apps Script)
+</div>
 
-Ahora le diremos a tu nueva Hoja de cálculo de Google cómo recibir las quinielas de tu página web y acomodarlas exactamente a partir de la fila de **PATICIPANTES** (Fila 17 de tu imagen).
+<script>
 
-1. Dentro de tu nueva Hoja de cálculo de Google, ve al menú superior y haz clic en **Extensiones** y después en **Apps Script**.
-2. Se abrirá un editor de código. Borra todo lo que esté escrito ahí y pega este código:
+const partidosData = [
+    {id:1, local:"INDEPENDIENTE DEL VALLE", logoLocal:"independientedelvalle.png", visita:"ROSARIO CENTRAL", logoVisita:"rosariocentral.png"},
+    {id:2, local:"CORINTHIANS", logoLocal:"corinthians.png", visita:"PLATENSE", logoVisita:"platense.png"},
+    {id:3, local:"RIVER PLATE", logoLocal:"riverplate.png", visita:"BLOOMING", logoVisita:"blooming.png"},
+    {id:4, local:"PALMEIRAS", logoLocal:"palmeiras.png", visita:"JUNIOR", logoVisita:"junior.png"},
+    {id:5, local:"BOCA JUNIORS", logoLocal:"bocajuniors.png", visita:"UNIVERSIDAD CATÓLICA", logoVisita:"universidadcatolica.png"},
+    {id:6, local:"EGIPTO", logoLocal:"egipto.png", visita:"RUSIA", logoVisita:"rusia.png"},
+    {id:7, local:"SUDÁFRICA", logoLocal:"sudafrica.png", visita:"NICARAGUA", logoVisita:"nicaragua.png"},
+    {id:8, local:"BOSNIA", logoLocal:"bosnia.png", visita:"MACEDONIA DEL NORTE", logoVisita:"macedoniadelnorte.png"}
+];
 
-```javascript
-function doPost(e) {
-  // Conectamos con la hoja activa de tu documento
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  
-  try {
-    // Recibimos los datos enviados desde tu página web
-    var data = JSON.parse(e.postData.contents);
-    var nombre = data.nombre;
-    var listaJugadas = data.jugadas; // Es la lista de quinielas acumuladas sencillas
-    var precioIndividual = data.precioIndividual; // Los $30.00
-    
-    // El sistema buscará la primera fila completamente vacía al final de la tabla de forma automática
-    // (Por ejemplo, empezará en la fila 30 si tu hoja está como en la imagen)
-    for (var j = 0; j < listaJugadas.length; j++) {
-      // Separamos la jugada "L E V..." en celdas individuales
-      var partidosArray = listaJugadas[j].trim().split(' ');
-      
-      // Creamos la fila iniciando con el Nombre del participante (Columna A)
-      var nuevaFila = [nombre];
-      
-      // Colocamos las respuestas en las siguientes 8 columnas (Columnas B, C, D, E, F, G, H, I)
-      for (var i = 0; i < 8; i++) {
-        nuevaFila.push(partidosArray[i] || ""); 
-      }
-      
-      // Finalmente, agregamos los $30 en la Columna J
-      nuevaFila.push(precioIndividual);
-      
-      // Escribimos la fila completa en tu formato de Excel
-      sheet.appendRow(nuevaFila);
-    }
-    
-    // Respondemos a la página web que el guardado fue un éxito
-    return ContentService.createTextOutput(JSON.stringify({"status":"success"}))
-                         .setMimeType(ContentService.MimeType.JSON);
-                         
-  } catch(error) {
-    // Si algo falla, reportamos el error
-    return ContentService.createTextOutput(JSON.stringify({"status":"error", "message": error.toString()}))
-                         .setMimeType(ContentService.MimeType.JSON);
-  }
+const PRECIO_SENCILLA = 30;
+// Aquí guardaremos un arreglo de opciones para cada partido. Ej: { 1: ['L', 'E'], 2: ['V'] }
+const respuestas = {};
+let jugadaConfirmada = false;
+
+function inicializarTabla(){
+    const tabla = document.getElementById('cuerpoTabla');
+    tabla.innerHTML = ""; 
+
+    partidosData.forEach(p=>{
+        respuestas[p.id] = []; // Inicializar opciones vacías para cada partido
+
+        const fila = document.createElement('tr');
+        fila.className = 'fila-partido';
+        fila.innerHTML = `
+            <td class="col-letra-l" onclick="marcarCelda(${p.id}, 'L')" id="cell-L-${p.id}">L</td>
+            <td class="col-equipo-local">
+                <div class="equipo-con-icono">
+                    <img src="${p.logoLocal}" class="logo-equipo">
+                    <span>${p.local}</span>
+                </div>
+            </td>
+            <td class="col-empate" onclick="marcarCelda(${p.id}, 'E')" id="cell-E-${p.id}">E</td>
+            <td class="col-equipo-visita">
+                <div class="equipo-con-icono equipo-visita-icono">
+                    <span>${p.visita}</span>
+                    <img src="${p.logoVisita}" class="logo-equipo">
+                </div>
+            </td>
+            <td class="col-letra-v" onclick="marcarCelda(${p.id}, 'V')" id="cell-V-${p.id}">V</td>
+        `;
+        tabla.appendChild(fila);
+    });
+    calcularPrecioTiempoReal();
 }
+
+function marcarCelda(id, opcion){
+    // Si la jugada ya fue agregada/bloqueada, no permitir cambios a menos que limpien
+    if(jugadaConfirmada) {
+        alert("⚠️ LA JUGADA YA FUE AGREGADA. SI DESEAS MODIFICARLA, DA CLIC EN 'LIMPIAR'.");
+        return;
+    }
+
+    const cell = document.getElementById(`cell-${opcion}-${id}`);
+    const indice = respuestas[id].indexOf(opcion);
+
+    if(indice > -1){
+        // Si ya existía, se desmarca
+        cell.classList.remove('selected-cell');
+        respuestas[id].splice(indice, 1);
+    } else {
+        // Si no existía, se agrega (permitiendo múltiples por fila: Dobles/Triples)
+        cell.classList.add('selected-cell');
+        respuestas[id].push(opcion);
+    }
+
+    calcularPrecioTiempoReal();
+}
+
+function calcularCombinaciones(){
+    let combinacionesTotales = 1;
+    let hayIncompletos = false;
+
+    partidosData.forEach(p=>{
+        const cantidadOpciones = respuestas[p.id].length;
+        if(cantidadOpciones === 0) {
+            hayIncompletos = true;
+        } else {
+            combinacionesTotales = combinacionesTotales * cantidadOpciones;
+        }
+    });
+
+    return hayIncompletos ? 0 : combinacionesTotales;
+}
+
+function calcularPrecioTiempoReal(){
+    const numQuinielas = calcularCombinaciones();
+    const costoTotal = numQuinielas * PRECIO_SENCILLA;
+
+    if(numQuinielas > 0) {
+        document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $${costoTotal.toFixed(2)} (${numQuinielas} Combinaciones)`;
+    } else {
+        document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $0.00 (Faltan partidos por marcar)`;
+    }
+}
+
+function limpiarTodo(){
+    partidosData.forEach(p=>{
+        document.getElementById(`cell-L-${p.id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-E-${p.id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-V-${p.id}`)?.classList.remove('selected-cell');
+        respuestas[p.id] = [];
+    });
+
+    document.getElementById('nombreParticipante').value = '';
+    document.getElementById('mensajeJugadas').innerHTML = 'Completa tu tablero presionando las casillas.';
+    jugadaConfirmada = false;
+    calcularPrecioTiempoReal();
+}
+
+function generarTextoJugada(){
+    let cadenaTexto = "";
+    partidosData.forEach(p=>{
+        // Ordenamos las opciones para que salgan estéticas, ej: (LE) o (LEV)
+        const opcionesOrdenadas = [...respuestas[p.id]].sort().join('');
+        cadenaTexto += `[${opcionesOrdenadas}] `;
+    });
+    return cadenaTexto.trim();
+}
+
+function validarFormulario(){
+    const nombre = document.getElementById('nombreParticipante').value.trim();
+    if(nombre === ''){
+        alert('⚠️ QUINIELA SIN NOMBRE. POR FAVOR ESCRIBE TU NOMBRE.');
+        return false;
+    }
+
+    let incompleto = false;
+    partidosData.forEach(p=>{
+        if(respuestas[p.id].length === 0){
+            incompleto = true;
+        }
+    });
+
+    if(incompleto){
+        alert('⚠️ QUINIELA INCOMPLETA. DEBES SELECCIONAR AL MENOS UNA OPCIÓN EN CADA PARTIDO.');
+        return false;
+    }
+
+    return true;
+}
+
+function confirmarJugada(){
+    if(!validarFormulario()){
+        return;
+    }
+
+    const numQuinielas = calcularCombinaciones();
+    const costoTotal = numQuinielas * PRECIO_SENCILLA;
+    const combinacionTexto = generarTextoJugada();
+
+    document.getElementById('mensajeJugadas').innerHTML = `
+        ✅ JUGADA AGREGADA CORRECTAMENTE
+        <br><br>
+        <b>Estructura:</b> ${combinacionTexto}<br>
+        <b>Quinielas equivalentes:</b> ${numQuinielas}<br>
+        <b>Monto:</b> $${costoTotal.toFixed(2)} MXN
+    `;
+
+    jugadaConfirmada = true;
+}
+
+function seleccionAleatoria(){
+    if(jugadaConfirmada) return;
+
+    const opciones = ['L','E','V'];
+    partidosData.forEach(p=>{
+        // Limpiamos la fila anterior antes del aleatorio masivo
+        document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
+        document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
+        document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
+        
+        const random = opciones[Math.floor(Math.random()*3)];
+        respuestas[p.id] = [random];
+        document.getElementById(`cell-${random}-${p.id}`).classList.add('selected-cell');
+    });
+
+    calcularPrecioTiempoReal();
+}
+
+function enviarWhatsApp(){
+    if(!validarFormulario()){
+        return;
+    }
+
+    if(!jugadaConfirmada){
+        alert('⚠️ PRIMERO DEBES DAR CLIC EN EL BOTÓN "AGREGAR" PARA REGISTRAR TU JUGADA.');
+        return;
+    }
+
+    const nombre = document.getElementById('nombreParticipante').value.trim();
+    const numQuinielas = calcularCombinaciones();
+    const costoTotal = numQuinielas * PRECIO_SENCILLA;
+    const combinacionTexto = generarTextoJugada();
+
+    const mensaje = `
+🏆 QUINIELAS EL 90 🏆
+
+👤 Nombre:
+${nombre}
+
+📋 Jugada con Dobles/Triples:
+${combinacionTexto}
+
+🔢 Total de quinielas: ${numQuinielas}
+💰 Total a pagar: $${costoTotal.toFixed(2)} MXN
+
+📸 *Nota importante:* Por favor adjunta la captura o foto de tu comprobante de pago justo debajo de este mensaje para registrar tu participación. ¡Muchas gracias y éxito! 🍀
+`;
+
+    const numero = '524439000088';
+    const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+}
+
+if(window.location.search){
+    window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+window.onload = inicializarTabla;
+
+</script>
+
+</body>
+</html>
