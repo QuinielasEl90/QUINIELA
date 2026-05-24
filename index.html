@@ -234,10 +234,13 @@ header{
 
 .banner-total{
     text-align:center;
-    padding:5px;
-    font-size:1.1rem;
+    padding:8px;
+    font-size:1.2rem;
     font-weight:bold;
     color:#001f54;
+    background:#ffe082;
+    border-top:2px solid #d4af37;
+    border-bottom:2px solid #d4af37;
 }
 
 /* ================= INPUTS ================= */
@@ -354,7 +357,7 @@ INFORMES: +52 4439000088
 </div>
 
 <div class="banner-total" id="bannerTotalPrecio">
-TOTAL: $0.00
+TOTAL: $0.00 (0 Quinielas)
 </div>
 
 <div class="seccion-inputs">
@@ -369,10 +372,10 @@ placeholder="NOMBRE DEL PARTICIPANTE"
 <div class="bloque-botones-triples">
 
 <button class="btn-accion btn-rojo" onclick="limpiarTodo()">
-REINICIAR
+LIMPIAR
 </button>
 
-<button class="btn-accion btn-azul" onclick="agregarJugada()">
+<button class="btn-accion btn-azul" onclick="confirmarJugada()">
 AGREGAR
 </button>
 
@@ -382,10 +385,10 @@ ALEATORIO
 
 </div>
 
-<div id="mensajeJugadas">Aún no has agregado ninguna jugada.</div>
+<div id="mensajeJugadas">Completa tu tablero presionando las casillas.</div>
 
 <button class="btn-whatsapp-enviar" onclick="enviarWhatsApp()">
-ENVIAR JUGADA(S)
+ENVIAR JUGADA POR WHATSAPP
 </button>
 
 </div>
@@ -405,15 +408,18 @@ const partidosData = [
     {id:8, local:"BOSNIA", logoLocal:"bosnia.png", visita:"MACEDONIA DEL NORTE", logoVisita:"macedoniadelnorte.png"}
 ];
 
-const PRECIO_QUINIELA = 30;
-const respuestasActuales = {};
-const listaJugadasAgregadas = [];
+const PRECIO_SENCILLA = 30;
+// Aquí guardaremos un arreglo de opciones para cada partido. Ej: { 1: ['L', 'E'], 2: ['V'] }
+const respuestas = {};
+let jugadaConfirmada = false;
 
 function inicializarTabla(){
     const tabla = document.getElementById('cuerpoTabla');
     tabla.innerHTML = ""; 
 
     partidosData.forEach(p=>{
+        respuestas[p.id] = []; // Inicializar opciones vacías para cada partido
+
         const fila = document.createElement('tr');
         fila.className = 'fila-partido';
         fila.innerHTML = `
@@ -435,137 +441,157 @@ function inicializarTabla(){
         `;
         tabla.appendChild(fila);
     });
-    actualizarInterfazPrecios();
+    calcularPrecioTiempoReal();
 }
 
 function marcarCelda(id, opcion){
-    const cellL = document.getElementById(`cell-L-${id}`);
-    const cellE = document.getElementById(`cell-E-${id}`);
-    const cellV = document.getElementById(`cell-V-${id}`);
-
-    if(respuestasActuales[id] === opcion){
-        cellL.classList.remove('selected-cell');
-        cellE.classList.remove('selected-cell');
-        cellV.classList.remove('selected-cell');
-        delete respuestasActuales[id];
+    // Si la jugada ya fue agregada/bloqueada, no permitir cambios a menos que limpien
+    if(jugadaConfirmada) {
+        alert("⚠️ LA JUGADA YA FUE AGREGADA. SI DESEAS MODIFICARLA, DA CLIC EN 'LIMPIAR'.");
         return;
     }
 
-    cellL.classList.remove('selected-cell');
-    cellE.classList.remove('selected-cell');
-    cellV.classList.remove('selected-cell');
+    const cell = document.getElementById(`cell-${opcion}-${id}`);
+    const indice = respuestas[id].indexOf(opcion);
 
-    if(opcion === 'L') cellL.classList.add('selected-cell');
-    if(opcion === 'E') cellE.classList.add('selected-cell');
-    if(opcion === 'V') cellV.classList.add('selected-cell');
+    if(indice > -1){
+        // Si ya existía, se desmarca
+        cell.classList.remove('selected-cell');
+        respuestas[id].splice(indice, 1);
+    } else {
+        // Si no existía, se agrega (permitiendo múltiples por fila: Dobles/Triples)
+        cell.classList.add('selected-cell');
+        respuestas[id].push(opcion);
+    }
 
-    respuestasActuales[id] = opcion;
+    calcularPrecioTiempoReal();
 }
 
-function limpiarTablaSolo(){
-    Object.keys(respuestasActuales).forEach(id=>{
-        document.getElementById(`cell-L-${id}`)?.classList.remove('selected-cell');
-        document.getElementById(`cell-E-${id}`)?.classList.remove('selected-cell');
-        document.getElementById(`cell-V-${id}`)?.classList.remove('selected-cell');
-        delete respuestasActuales[id];
+function calcularCombinaciones(){
+    let combinacionesTotales = 1;
+    let hayIncompletos = false;
+
+    partidosData.forEach(p=>{
+        const cantidadOpciones = respuestas[p.id].length;
+        if(cantidadOpciones === 0) {
+            hayIncompletos = true;
+        } else {
+            combinacionesTotales = combinacionesTotales * cantidadOpciones;
+        }
     });
+
+    return hayIncompletos ? 0 : combinacionesTotales;
+}
+
+function calcularPrecioTiempoReal(){
+    const numQuinielas = calcularCombinaciones();
+    const costoTotal = numQuinielas * PRECIO_SENCILLA;
+
+    if(numQuinielas > 0) {
+        document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $${costoTotal.toFixed(2)} (${numQuinielas} Combinaciones)`;
+    } else {
+        document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $0.00 (Faltan partidos por marcar)`;
+    }
 }
 
 function limpiarTodo(){
-    limpiarTablaSolo();
-    listaJugadasAgregadas.length = 0;
+    partidosData.forEach(p=>{
+        document.getElementById(`cell-L-${p.id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-E-${p.id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-V-${p.id}`)?.classList.remove('selected-cell');
+        respuestas[p.id] = [];
+    });
+
     document.getElementById('nombreParticipante').value = '';
-    document.getElementById('mensajeJugadas').innerHTML = 'Aún no has agregado ninguna jugada.';
-    actualizarInterfazPrecios();
+    document.getElementById('mensajeJugadas').innerHTML = 'Completa tu tablero presionando las casillas.';
+    jugadaConfirmada = false;
+    calcularPrecioTiempoReal();
+}
+
+function generarTextoJugada(){
+    let cadenaTexto = "";
+    partidosData.forEach(p=>{
+        // Ordenamos las opciones para que salgan estéticas, ej: (LE) o (LEV)
+        const opcionesOrdenadas = [...respuestas[p.id]].sort().join('');
+        cadenaTexto += `[${opcionesOrdenadas}] `;
+    });
+    return cadenaTexto.trim();
 }
 
 function validarFormulario(){
     const nombre = document.getElementById('nombreParticipante').value.trim();
-
     if(nombre === ''){
-        alert('⚠️ QUINIELA SIN NOMBRE. POR FAVOR, INGRESA TU NOMBRE ANTES DE CONTINUAR.');
+        alert('⚠️ QUINIELA SIN NOMBRE. POR FAVOR ESCRIBE TU NOMBRE.');
         return false;
     }
 
-    let faltanPartidos = false;
+    let incompleto = false;
     partidosData.forEach(p=>{
-        if(!respuestasActuales[p.id]){
-            faltanPartidos = true;
+        if(respuestas[p.id].length === 0){
+            incompleto = true;
         }
     });
 
-    if(faltanPartidos){
-        alert('⚠️ QUINIELA INCOMPLETA. DEBES MARCAR UNA OPCIÓN EN CADA PARTIDO.');
+    if(incompleto){
+        alert('⚠️ QUINIELA INCOMPLETA. DEBES SELECCIONAR AL MENOS UNA OPCIÓN EN CADA PARTIDO.');
         return false;
     }
 
     return true;
 }
 
-function actualizarInterfazPrecios(){
-    const totalDinero = listaJugadasAgregadas.length * PRECIO_QUINIELA;
-    document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $${totalDinero.toFixed(2)}`;
-}
-
-function agregarJugada(){
+function confirmarJugada(){
     if(!validarFormulario()){
         return;
     }
 
-    let cadenaJugada = '';
-    partidosData.forEach(p=>{
-        cadenaJugada += respuestasActuales[p.id] + ' ';
-    });
+    const numQuinielas = calcularCombinaciones();
+    const costoTotal = numQuinielas * PRECIO_SENCILLA;
+    const combinacionTexto = generarTextoJugada();
 
-    listaJugadasAgregadas.push(cadenaJugada.trim());
+    document.getElementById('mensajeJugadas').innerHTML = `
+        ✅ JUGADA AGREGADA CORRECTAMENTE
+        <br><br>
+        <b>Estructura:</b> ${combinacionTexto}<br>
+        <b>Quinielas equivalentes:</b> ${numQuinielas}<br>
+        <b>Monto:</b> $${costoTotal.toFixed(2)} MXN
+    `;
 
-    let listadoHTML = `✅ QUINIELAS AGREGADAS (${listaJugadasAgregadas.length}):<br><br>`;
-    listaJugadasAgregadas.forEach((jg, index) => {
-        listadoHTML += `<b>#${index + 1}:</b> ${jg}<br>`;
-    });
-    
-    document.getElementById('mensajeJugadas').innerHTML = listadoHTML;
-
-    limpiarTablaSolo();
-    actualizarInterfazPrecios();
-    alert('👍 ¡Jugada añadida al carrito! Puedes rellenar el tablero otra vez para mandar más de una quiniela.');
+    jugadaConfirmada = true;
 }
 
 function seleccionAleatoria(){
+    if(jugadaConfirmada) return;
+
     const opciones = ['L','E','V'];
     partidosData.forEach(p=>{
+        // Limpiamos la fila anterior antes del aleatorio masivo
+        document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
+        document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
+        document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
+        
         const random = opciones[Math.floor(Math.random()*3)];
-        const cellL = document.getElementById(`cell-L-${p.id}`);
-        const cellE = document.getElementById(`cell-E-${p.id}`);
-        const cellV = document.getElementById(`cell-V-${p.id}`);
-
-        cellL.classList.remove('selected-cell');
-        cellE.classList.remove('selected-cell');
-        cellV.classList.remove('selected-cell');
-
-        marcarCelda(p.id, random);
+        respuestas[p.id] = [random];
+        document.getElementById(`cell-${random}-${p.id}`).classList.add('selected-cell');
     });
+
+    calcularPrecioTiempoReal();
 }
 
 function enviarWhatsApp(){
+    if(!validarFormulario()){
+        return;
+    }
+
+    if(!jugadaConfirmada){
+        alert('⚠️ PRIMERO DEBES DAR CLIC EN EL BOTÓN "AGREGAR" PARA REGISTRAR TU JUGADA.');
+        return;
+    }
+
     const nombre = document.getElementById('nombreParticipante').value.trim();
-
-    if(nombre === ''){
-        alert('⚠️ ESCRIBE TU NOMBRE PARA SABER QUIÉN ENVÍA.');
-        return;
-    }
-
-    if(listaJugadasAgregadas.length === 0){
-        alert('⚠️ NO HAS AGREGADO NINGUNA JUGADA. SELECCIONA TUS CASILLAS Y DA CLIC EN EL BOTÓN "AGREGAR" PRIMERO.');
-        return;
-    }
-
-    const totalPagar = listaJugadasAgregadas.length * PRECIO_QUINIELA;
-
-    let bloqueJugadasMensaje = '';
-    listaJugadasAgregadas.forEach((jg, index) => {
-        bloqueJugadasMensaje += `Quiniela #${index + 1}:\n${jg}\n\n`;
-    });
+    const numQuinielas = calcularCombinaciones();
+    const costoTotal = numQuinielas * PRECIO_SENCILLA;
+    const combinacionTexto = generarTextoJugada();
 
     const mensaje = `
 🏆 QUINIELAS EL 90 🏆
@@ -573,13 +599,13 @@ function enviarWhatsApp(){
 👤 Nombre:
 ${nombre}
 
-📋 Jugadas registradas (${listaJugadasAgregadas.length}):
-${bloqueJugadasMensaje.trim()}
+📋 Jugada con Dobles/Triples:
+${combinacionTexto}
 
-💰 Total a pagar:
-$${totalPagar.toFixed(2)} MXN
+🔢 Total de quinielas: ${numQuinielas}
+💰 Total a pagar: $${costoTotal.toFixed(2)} MXN
 
-📸 *Nota importante:* Por favor adjunta la captura o foto de tu comprobante de pago justo debajo de este mensaje para validar tu registro. ¡Muchas gracias y éxito! 🍀
+📸 *Nota importante:* Por favor adjunta la captura o foto de tu comprobante de pago justo debajo de este mensaje para registrar tu participación. ¡Muchas gracias y éxito! 🍀
 `;
 
     const numero = '524439000088';
