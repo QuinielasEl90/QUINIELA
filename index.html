@@ -540,7 +540,7 @@ function validarFormulario(){
     return true;
 }
 
-// Algoritmo interno para desglosar dobles/triples en apuestas sencillas para las filas del Excel
+// Algoritmo interno para desglosar apuestas sencillas para las filas del Excel
 function desglosarAuestasSencillas(index, jugadaActual) {
     if (index === partidosData.length) {
         listaJugadasSencillasSeparadas.push(jugadaActual.trim());
@@ -646,20 +646,8 @@ function abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal){
     btn.style.opacity = "1";
     btn.innerHTML = "ENVIAR JUGADA POR WHATSAPP";
 
-    const mensaje = `
-🏆 QUINIELAS EL 90 🏆
-
-👤 Nombre:
-${nombre}
-
-📋 Jugada con Dobles/Triples:
-${combinacionTexto}
-
-🔢 Total de quinielas: ${numQuinielas}
-💰 Total a pagar: $${costoTotal.toFixed(2)} MXN
-
-📸 *Nota importante:* Por favor adjunta la captura o foto de tu comprobante de pago justo debajo de este mensaje para registrar tu participación. ¡Muchas gracias y éxito! 🍀
-`;
+    // Modificado para enviar única y exclusivamente el nombre y la jugada.
+    const mensaje = `👤 Nombre: ${nombre}\n📋 Jugada: ${combinacionTexto}`;
 
     const numero = '524439000088';
     const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
