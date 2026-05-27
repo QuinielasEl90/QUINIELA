@@ -484,3 +484,56 @@ function marcarCelda(id, opcion){
         cell.classList.remove('selected-cell');
         respuestas[id].splice(indice, 1);
     } else {
+        cell.classList.add('selected-cell');
+        respuestas[id].push(opcion);
+    }
+
+    calcularPrecioTiempoReal();
+}
+
+function calcularCombinaciones(){
+    let combinacionesTotales = 1;
+    let hayIncompletos = false;
+
+    partidosData.forEach(p=>{
+        const cantidadOpciones = respuestas[p.id].length;
+        if(cantidadOpciones === 0) {
+            hayIncompletos = true;
+        } else {
+            combinacionesTotales = combinacionesTotales * cantidadOpciones;
+        }
+    });
+
+    return hayIncompletos ? 0 : combinacionesTotales;
+}
+
+function calcularPrecioTiempoReal(){
+    const numQuinielas = calcularCombinaciones();
+    const costoTotal = numQuinielas * PRECIO_SENCILLA;
+
+    if(numQuinielas > 0) {
+        document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $${costoTotal.toFixed(2)} (${numQuinielas} Combinaciones)`;
+    } else {
+        document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $0.00 (Faltan partidos por marcar)`;
+    }
+}
+
+function limpiarTodo(){
+    partidosData.forEach(p=>{
+        document.getElementById(`cell-L-${p.id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-E-${p.id}`)?.classList.remove('selected-cell');
+        document.getElementById(`cell-V-${p.id}`)?.classList.remove('selected-cell');
+        respuestas[p.id] = [];
+    });
+
+    document.getElementById('nombreParticipante').value = '';
+    document.getElementById('mensajeJugadas').innerHTML = 'Completa tu tablero presionando las casillas.';
+    jugadaConfirmada = false;
+    listaJugadasSencillasSeparadas = [];
+    calcularPrecioTiempoReal();
+}
+
+function generarTextoJugada(){
+    let cadenaTexto = "";
+    partidosData.forEach(p=>{
+        const opcionesOrdenadas = [...respuestas[p.id]].sort().join
