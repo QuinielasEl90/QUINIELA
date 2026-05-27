@@ -344,7 +344,7 @@ QUINIELA DE LA SEMANA
 
 <div class="banner-negro">
 <div>PRECIO: <span>$30.00</span></div>
-<div>CIERRE: <span>JUEVES 11:00 P. M.</span></div>
+<div>CIERRE: <span>MIÉRCOLES 3:49 P. M.</span></div>
 </div>
 
 <div class="banner-informes">
@@ -416,7 +416,30 @@ const respuestas = {};
 let jugadaConfirmada = false;
 let listaJugadasSencillasSeparadas = []; // Aquí desglosamos los dobles/triples en filas individuales para el Excel
 
+function verificarSiEstaCerrado() {
+    const ahora = new Date();
+    const limiteCierre = new Date();
+    const diaActual = ahora.getDay(); 
+    
+    const diferenciaDias = 3 - diaActual;
+    limiteCierre.setDate(ahora.getDate() + diferenciaDias);
+    limiteCierre.setHours(15, 49, 0, 0); // 15:49 horas
+
+    if (ahora > limiteCierre) {
+        alert("🚫 ¡SISTEMA CERRADO! El registro para esta jornada terminó el Miércoles a las 3:49 P.M. Te esperamos en la siguiente quiniela.");
+        const btn = document.getElementById('btnEnviarWA');
+        if(btn) {
+            btn.disabled = true;
+            btn.style.background = "#64748b";
+            btn.innerHTML = "REGISTROS CERRADOS";
+        }
+        return true;
+    }
+    return false;
+}
+
 function inicializarTabla(){
+    verificarSiEstaCerrado();
     const tabla = document.getElementById('cuerpoTabla');
     tabla.innerHTML = ""; 
 
@@ -448,6 +471,7 @@ function inicializarTabla(){
 }
 
 function marcarCelda(id, opcion){
+    if (verificarSiEstaCerrado()) return;
     if(jugadaConfirmada) {
         alert("⚠️ LA JUGADA YA FUE AGREGADA. SI DESEAS MODIFICARLA, DA CLIC EN 'LIMPIAR'.");
         return;
@@ -460,207 +484,3 @@ function marcarCelda(id, opcion){
         cell.classList.remove('selected-cell');
         respuestas[id].splice(indice, 1);
     } else {
-        cell.classList.add('selected-cell');
-        respuestas[id].push(opcion);
-    }
-
-    calcularPrecioTiempoReal();
-}
-
-function calcularCombinaciones(){
-    let combinacionesTotales = 1;
-    let hayIncompletos = false;
-
-    partidosData.forEach(p=>{
-        const cantidadOpciones = respuestas[p.id].length;
-        if(cantidadOpciones === 0) {
-            hayIncompletos = true;
-        } else {
-            combinacionesTotales = combinacionesTotales * cantidadOpciones;
-        }
-    });
-
-    return hayIncompletos ? 0 : combinacionesTotales;
-}
-
-function calcularPrecioTiempoReal(){
-    const numQuinielas = calcularCombinaciones();
-    const costoTotal = numQuinielas * PRECIO_SENCILLA;
-
-    if(numQuinielas > 0) {
-        document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $${costoTotal.toFixed(2)} (${numQuinielas} Combinaciones)`;
-    } else {
-        document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $0.00 (Faltan partidos por marcar)`;
-    }
-}
-
-function limpiarTodo(){
-    partidosData.forEach(p=>{
-        document.getElementById(`cell-L-${p.id}`)?.classList.remove('selected-cell');
-        document.getElementById(`cell-E-${p.id}`)?.classList.remove('selected-cell');
-        document.getElementById(`cell-V-${p.id}`)?.classList.remove('selected-cell');
-        respuestas[p.id] = [];
-    });
-
-    document.getElementById('nombreParticipante').value = '';
-    document.getElementById('mensajeJugadas').innerHTML = 'Completa tu tablero presionando las casillas.';
-    jugadaConfirmada = false;
-    listaJugadasSencillasSeparadas = [];
-    calcularPrecioTiempoReal();
-}
-
-function generarTextoJugada(){
-    let cadenaTexto = "";
-    partidosData.forEach(p=>{
-        const opcionesOrdenadas = [...respuestas[p.id]].sort().join('');
-        cadenaTexto += `[${opcionesOrdenadas}] `;
-    });
-    return cadenaTexto.trim();
-}
-
-function validarFormulario(){
-    const nombre = document.getElementById('nombreParticipante').value.trim();
-    if(nombre === ''){
-        alert('⚠️ QUINIELA SIN NOMBRE. POR FAVOR ESCRIBE TU NOMBRE.');
-        return false;
-    }
-
-    let incompleto = false;
-    partidosData.forEach(p=>{
-        if(respuestas[p.id].length === 0){
-            incompleto = true;
-        }
-    });
-
-    if(incompleto){
-        alert('⚠️ QUINIELA INCOMPLETA. DEBES SELECCIONAR AL MENOS UNA OPCIÓN EN CADA PARTIDO.');
-        return false;
-    }
-
-    return true;
-}
-
-// Algoritmo interno para desglosar apuestas sencillas para las filas del Excel
-function desglosarAuestasSencillas(index, jugadaActual) {
-    if (index === partidosData.length) {
-        listaJugadasSencillasSeparadas.push(jugadaActual.trim());
-        return;
-    }
-    const partidoId = partidosData[index].id;
-    const opcionesDeFila = respuestas[partidoId];
-    
-    opcionesDeFila.forEach(opcion => {
-        desglosarAuestasSencillas(index + 1, jugadaActual + opcion + " ");
-    });
-}
-
-function confirmarJugada(){
-    if(!validarFormulario()){
-        return;
-    }
-
-    const numQuinielas = calcularCombinaciones();
-    const costoTotal = numQuinielas * PRECIO_SENCILLA;
-    const combinacionTexto = generarTextoJugada();
-
-    // Generamos el desglose de filas individuales automáticamente
-    listaJugadasSencillasSeparadas = [];
-    desglosarAuestasSencillas(0, "");
-
-    document.getElementById('mensajeJugadas').innerHTML = `
-        ✅ JUGADA AGREGADA CORRECTAMENTE
-        <br><br>
-        <b>Estructura:</b> ${combinacionTexto}<br>
-        <b>Quinielas equivalentes:</b> ${numQuinielas}<br>
-        <b>Monto:</b> $${costoTotal.toFixed(2)} MXN
-    `;
-
-    jugadaConfirmada = true;
-}
-
-function seleccionAleatoria(){
-    if(jugadaConfirmada) return;
-
-    const opciones = ['L','E','V'];
-    partidosData.forEach(p=>{
-        document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
-        document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
-        document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
-        
-        const random = opciones[Math.floor(Math.random()*3)];
-        respuestas[p.id] = [random];
-        document.getElementById(`cell-${random}-${p.id}`).classList.add('selected-cell');
-    });
-
-    calcularPrecioTiempoReal();
-}
-
-function enviarWhatsApp(){
-    if(!validarFormulario()){
-        return;
-    }
-
-    if(!jugadaConfirmada){
-        alert('⚠️ PRIMERO DEBES DAR CLIC EN EL BOTÓN "AGREGAR" PARA REGISTRAR TU JUGADA.');
-        return;
-    }
-
-    const nombre = document.getElementById('nombreParticipante').value.trim().toUpperCase();
-    const numQuinielas = calcularCombinaciones();
-    const costoTotal = numQuinielas * PRECIO_SENCILLA;
-    const combinacionTexto = generarTextoJugada();
-
-    const btn = document.getElementById('btnEnviarWA');
-    btn.disabled = true;
-    btn.style.opacity = "0.5";
-    btn.innerHTML = "⏳ REGISTRANDO EN EXCEL...";
-
-    // Estructura de envío hacia tu Google Sheets
-    const paqueteEnvio = {
-        nombre: nombre,
-        jugadas: listaJugadasSencillasSeparadas,
-        precioIndividual: PRECIO_SENCILLA
-    };
-
-    // Petición remota a tu link
-    fetch(URL_MICROSERVICES = URL_MICROSERVICIO, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(paqueteEnvio)
-    })
-    .then(() => {
-        abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal);
-    })
-    .catch(err => {
-        console.error(err);
-        abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal); 
-    });
-}
-
-function abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal){
-    const btn = document.getElementById('btnEnviarWA');
-    btn.disabled = false;
-    btn.style.opacity = "1";
-    btn.innerHTML = "ENVIAR JUGADA POR WHATSAPP";
-
-    // Modificado para enviar única y exclusivamente el nombre y la jugada.
-    const mensaje = `👤 Nombre: ${nombre}\n📋 Jugada: ${combinacionTexto}`;
-
-    const numero = '524439000088';
-    const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
-}
-
-if(window.location.search){
-    window.history.replaceState({}, document.title, window.location.pathname);
-}
-
-window.onload = inicializarTabla;
-
-</script>
-
-</body>
-</html>
