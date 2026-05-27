@@ -1,539 +1,1332 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 
 <title>Quinielas El 90</title>
 
+
+
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+
+
 
 <style>
 
+
+
 *{
+
     box-sizing:border-box;
+
     margin:0;
+
     padding:0;
+
 }
+
+
 
 body{
+
     background:#f1f5f9;
+
     font-family:'Roboto',sans-serif;
+
     padding:5px;
+
     display:flex;
+
     justify-content:center;
+
 }
 
+
+
 .container{
+
     width:100%;
+
     max-width:650px;
+
     border:1px solid #cbd5e1;
+
     background:#ffffff;
+
     box-shadow:0 6px 12px rgba(0,0,0,0.15);
+
     overflow:hidden;
+
 }
+
+
 
 /* ================= HEADER ================= */
 
+
+
 header{
+
     position:relative;
+
     background:linear-gradient(
+
         90deg,
+
         #001f54 0%,
+
         #003b8e 35%,
+
         #0b63ce 65%,
+
         #d4af37 100%
+
     );
+
     color:#ffffff;
+
     text-align:center;
+
     padding:22px 15px;
+
     border-bottom:4px solid #d4af37;
+
 }
+
+
 
 .header-title{
+
     font-family:'Trebuchet MS',sans-serif;
+
     font-size:1.9rem;
+
     font-weight:900;
+
     letter-spacing:2px;
+
     color:#ffffff;
+
     text-shadow:
+
         0 0 5px rgba(0,0,0,0.6),
+
         2px 2px 4px rgba(0,0,0,0.7);
+
 }
+
+
 
 .header-subtitle{
+
     color:#ffe082;
+
     font-size:0.9rem;
+
     font-weight:bold;
+
     margin-top:4px;
+
     letter-spacing:1px;
+
 }
 
+
+
 .logo-superior{
+
     position:absolute;
+
     right:8px;
+
     top:50%;
+
     transform:translateY(-50%);
+
     width:58px;
+
     height:58px;
+
     object-fit:contain;
+
     border-radius:50%;
+
     background:#ffffff;
+
     padding:3px;
+
 }
+
+
 
 /* ================= TABLA ================= */
 
+
+
 .tabla-contenedor{
+
     position:relative;
+
     overflow:hidden;
+
     background:#ffffff;
+
 }
+
+
 
 .tabla-contenedor::before{
+
     content:"";
+
     position:absolute;
+
     top:50%;
+
     left:50%;
+
     transform:translate(-50%, -50%);
+
     width:95%;
+
     height:95%;
+
     background:url('LOGO.PNG.jpeg') center center no-repeat;
+
     background-size:contain;
+
     opacity:0.80;
+
     pointer-events:none;
+
     z-index:1;
+
 }
+
+
 
 .tabla-quiniela{
+
     width:100%;
+
     border-collapse:collapse;
+
     position:relative;
+
     z-index:2;
+
 }
+
+
 
 .fila-partido{
+
     height:32px;
+
     border-bottom:1px solid rgba(255,255,255,0.35);
+
     background:rgba(255,255,255,0.30);
+
 }
+
+
 
 .col-letra-l,
+
 .col-empate,
+
 .col-letra-v{
+
     width:48px;
+
     min-width:48px;
+
     text-align:center;
+
     cursor:pointer;
+
     font-weight:900;
+
     font-size:0.8rem;
+
     transition:0.2s;
+
     border-left:1px solid rgba(255,255,255,0.35);
+
     border-right:1px solid rgba(255,255,255,0.35);
+
     background:rgba(255,255,255,0.20);
+
     color:#000000;
+
 }
+
+
 
 .col-letra-l:hover,
+
 .col-empate:hover,
+
 .col-letra-v:hover{
+
     background:rgba(255,255,255,0.60);
+
 }
+
+
 
 .col-equipo-local{
+
     padding-left:6px;
+
     font-size:0.78rem;
+
     font-weight:900;
+
     border-right:1px solid rgba(255,255,255,0.35);
+
     color:#001b5e;
+
 }
+
+
 
 .col-equipo-visita{
+
     padding-right:6px;
+
     text-align:right;
+
     font-size:0.78rem;
+
     font-weight:900;
+
     border-left:1px solid rgba(255,255,255,0.35);
+
     color:#001b5e;
+
 }
+
+
 
 .equipo-con-icono{
+
     display:flex;
+
     align-items:center;
+
     gap:5px;
+
 }
+
+
 
 .equipo-visita-icono{
+
     justify-content:flex-end;
+
 }
+
+
 
 .logo-equipo{
+
     width:18px;
+
     height:18px;
+
     object-fit:contain;
+
 }
 
+
+
 .selected-cell{
+
     background:#001f54 !important;
+
     color:#ffe082 !important;
+
 }
+
+
 
 /* ================= BANNERS ================= */
 
+
+
 .banner-negro{
+
     background:linear-gradient(
+
         90deg,
+
         #001f54 0%,
+
         #003b8e 40%,
+
         #0b63ce 75%,
+
         #d4af37 100%
+
     );
+
     color:#ffffff;
+
     display:flex;
+
     justify-content:space-between;
+
     padding:6px 12px;
+
     font-size:0.8rem;
+
     font-weight:bold;
+
 }
+
+
 
 .banner-negro span{
+
     color:#ffe082;
+
 }
+
+
 
 .banner-informes{
+
     text-align:center;
+
     padding:6px;
+
     font-size:1rem;
+
     font-weight:bold;
+
 }
+
+
 
 .banner-facebook{
+
     background:linear-gradient(
+
         90deg,
+
         #001f54 0%,
+
         #003b8e 45%,
+
         #0b63ce 75%,
+
         #d4af37 100%
+
     );
+
     color:#ffffff;
+
     text-align:center;
+
     padding:7px;
+
     font-size:0.95rem;
+
     font-weight:bold;
+
     display:flex;
+
     align-items:center;
+
     justify-content:center;
+
     gap:8px;
+
 }
+
+
 
 .logo-facebook{
+
     width:22px;
+
     height:22px;
+
     object-fit:contain;
+
 }
 
+
+
 .banner-total{
+
     text-align:center;
+
     padding:8px;
+
     font-size:1.2rem;
+
     font-weight:bold;
+
     color:#001f54;
+
     background:#ffe082;
+
     border-top:2px solid #d4af37;
+
     border-bottom:2px solid #d4af37;
+
 }
+
+
 
 /* ================= INPUTS ================= */
 
+
+
 .seccion-inputs{
+
     padding:10px;
+
 }
+
+
 
 .input-nombre{
+
     width:100%;
+
     padding:8px;
+
     border:1px solid #cbd5e1;
+
     border-radius:4px;
+
     text-align:center;
+
     font-weight:bold;
+
     margin-bottom:6px;
+
 }
+
+
 
 .bloque-botones-triples{
+
     display:flex;
+
     gap:5px;
+
     margin-bottom:6px;
+
 }
+
+
 
 .btn-accion{
+
     flex:1;
+
     border:none;
+
     padding:8px;
+
     color:#ffffff;
+
     font-weight:bold;
+
     border-radius:4px;
+
     cursor:pointer;
+
 }
+
+
 
 .btn-rojo{
+
     background:#001f54;
+
 }
+
+
 
 .btn-azul{
+
     background:#0b63ce;
+
 }
+
+
 
 .btn-gris{
+
     background:#d4af37;
+
     color:#001f54;
+
 }
+
+
 
 #mensajeJugadas{
+
     margin-top:5px;
+
     margin-bottom:5px;
+
     border:1px solid #cbd5e1;
+
     border-radius:4px;
+
     padding:6px;
+
     text-align:center;
+
     font-weight:bold;
+
     min-height:35px;
+
     background:#f8fafc;
+
     font-size:0.9rem;
+
 }
+
+
 
 .btn-whatsapp-enviar{
+
     width:100%;
+
     background:#25d366;
+
     border:none;
+
     color:#ffffff;
+
     padding:11px;
+
     font-size:1rem;
+
     font-weight:bold;
+
     border-radius:4px;
+
     cursor:pointer;
+
 }
 
+
+
 </style>
+
 </head>
+
+
 
 <body>
 
+
+
 <div class="container">
+
+
 
 <header>
 
+
+
 <div class="header-title">
+
 QUINIELAS EL 90
+
 </div>
 
+
+
 <div class="header-subtitle">
+
 QUINIELA DE LA SEMANA
+
 </div>
+
+
 
 <img src="LOGO.PNG.jpeg" class="logo-superior">
 
+
+
 </header>
+
+
 
 <div class="tabla-contenedor">
 
+
+
 <table class="tabla-quiniela">
+
 <tbody id="cuerpoTabla"></tbody>
+
 </table>
 
+
+
 </div>
+
+
 
 <div class="banner-negro">
+
 <div>PRECIO: <span>$30.00</span></div>
-<div>CIERRE: <span>MIÉRCOLES 3:49 P. M.</span></div>
+
+<div>CIERRE: <span>JUEVES 11:00 P. M.</span></div>
+
 </div>
+
+
 
 <div class="banner-informes">
+
 INFORMES: +52 4439000088
+
 </div>
+
+
 
 <div class="banner-facebook">
+
 <img src="facebook.png" class="logo-facebook">
+
 <span>QUINIELAS EL 90</span>
+
 </div>
 
+
+
 <div class="banner-total" id="bannerTotalPrecio">
+
 TOTAL: $0.00 (0 Combinaciones)
+
 </div>
+
+
 
 <div class="seccion-inputs">
 
+
+
 <input
+
 type="text"
+
 id="nombreParticipante"
+
 class="input-nombre"
+
 placeholder="NOMBRE DEL PARTICIPANTE"
+
 >
+
+
 
 <div class="bloque-botones-triples">
 
+
+
 <button class="btn-accion btn-rojo" onclick="limpiarTodo()">
+
 LIMPIAR
+
 </button>
+
+
 
 <button class="btn-accion btn-azul" onclick="confirmarJugada()">
+
 AGREGAR
+
 </button>
+
+
 
 <button class="btn-accion btn-gris" onclick="seleccionAleatoria()">
+
 ALEATORIO
+
 </button>
 
+
+
 </div>
+
+
 
 <div id="mensajeJugadas">Completa tu tablero presionando las casillas.</div>
 
+
+
 <button class="btn-whatsapp-enviar" id="btnEnviarWA" onclick="enviarWhatsApp()">
+
 ENVIAR JUGADA POR WHATSAPP
+
 </button>
 
-</div>
+
 
 </div>
+
+
+
+</div>
+
+
 
 <script>
 
+
+
 // Enlace directo a tu Google Apps Script
+
 const URL_MICROSERVICIO = "https://script.google.com/macros/s/AKfycbxVlTsAL_nmu-5QSAoIjFS9s42exCObO6pDbRVAtiVJZ52tYHBX1_IykcR2iLgOLaQw/exec";
 
+
+
 const partidosData = [
+
     {id:1, local:"INDEPENDIENTE DEL VALLE", logoLocal:"independientedelvalle.png", visita:"ROSARIO CENTRAL", logoVisita:"rosariocentral.jpg"},
+
     {id:2, local:"CORINTHIANS", logoLocal:"corinthians.jpg", visita:"PLATENSE", logoVisita:"platense.png"},
+
     {id:3, local:"RIVER PLATE", logoLocal:"riverplate.png", visita:"BLOOMING", logoVisita:"blooming.png"},
+
     {id:4, local:"PALMEIRAS", logoLocal:"palmeiras.png", visita:"JUNIOR", logoVisita:"junior.png"},
+
     {id:5, local:"BOCA JUNIORS", logoLocal:"bocajuniors.png", visita:"UNIVERSIDAD CATÓLICA", logoVisita:"universidadcatolica.png"},
+
     {id:6, local:"EGIPTO", logoLocal:"egipto.png", visita:"RUSIA", logoVisita:"rusia.png"},
+
     {id:7, local:"SUDÁFRICA", logoLocal:"sudafrica.png", visita:"NICARAGUA", logoVisita:"nicaragua.png"},
+
     {id:8, local:"BOSNIA", logoLocal:"bosnia.png", visita:"MACEDONIA DEL NORTE", logoVisita:"macedoniadelnorte.png"}
+
 ];
 
+
+
 const PRECIO_SENCILLA = 30;
+
 const respuestas = {};
+
 let jugadaConfirmada = false;
+
 let listaJugadasSencillasSeparadas = []; // Aquí desglosamos los dobles/triples en filas individuales para el Excel
 
-function verificarSiEstaCerrado() {
-    const ahora = new Date();
-    const limiteCierre = new Date();
-    const diaActual = ahora.getDay(); 
-    
-    const diferenciaDias = 3 - diaActual;
-    limiteCierre.setDate(ahora.getDate() + diferenciaDias);
-    limiteCierre.setHours(15, 49, 0, 0); // 15:49 horas
 
-    if (ahora > limiteCierre) {
-        alert("🚫 ¡SISTEMA CERRADO! El registro para esta jornada terminó el Miércoles a las 3:49 P.M. Te esperamos en la siguiente quiniela.");
-        const btn = document.getElementById('btnEnviarWA');
-        if(btn) {
-            btn.disabled = true;
-            btn.style.background = "#64748b";
-            btn.innerHTML = "REGISTROS CERRADOS";
-        }
-        return true;
-    }
-    return false;
-}
 
 function inicializarTabla(){
-    verificarSiEstaCerrado();
+
     const tabla = document.getElementById('cuerpoTabla');
+
     tabla.innerHTML = ""; 
 
+
+
     partidosData.forEach(p=>{
+
         respuestas[p.id] = []; 
 
+
+
         const fila = document.createElement('tr');
+
         fila.className = 'fila-partido';
+
         fila.innerHTML = `
+
             <td class="col-letra-l" onclick="marcarCelda(${p.id}, 'L')" id="cell-L-${p.id}">L</td>
+
             <td class="col-equipo-local">
+
                 <div class="equipo-con-icono">
+
                     <img src="${p.logoLocal}" class="logo-equipo">
+
                     <span>${p.local}</span>
+
                 </div>
+
             </td>
+
             <td class="col-empate" onclick="marcarCelda(${p.id}, 'E')" id="cell-E-${p.id}">E</td>
+
             <td class="col-equipo-visita">
+
                 <div class="equipo-con-icono equipo-visita-icono">
+
                     <span>${p.visita}</span>
+
                     <img src="${p.logoVisita}" class="logo-equipo">
+
                 </div>
+
             </td>
+
             <td class="col-letra-v" onclick="marcarCelda(${p.id}, 'V')" id="cell-V-${p.id}">V</td>
+
         `;
+
         tabla.appendChild(fila);
+
     });
+
     calcularPrecioTiempoReal();
+
 }
+
+
 
 function marcarCelda(id, opcion){
-    if (verificarSiEstaCerrado()) return;
+
     if(jugadaConfirmada) {
+
         alert("⚠️ LA JUGADA YA FUE AGREGADA. SI DESEAS MODIFICARLA, DA CLIC EN 'LIMPIAR'.");
+
         return;
+
     }
+
+
 
     const cell = document.getElementById(`cell-${opcion}-${id}`);
+
     const indice = respuestas[id].indexOf(opcion);
 
+
+
     if(indice > -1){
+
         cell.classList.remove('selected-cell');
+
         respuestas[id].splice(indice, 1);
+
     } else {
+
         cell.classList.add('selected-cell');
+
         respuestas[id].push(opcion);
+
     }
 
+
+
     calcularPrecioTiempoReal();
+
 }
+
+
 
 function calcularCombinaciones(){
+
     let combinacionesTotales = 1;
+
     let hayIncompletos = false;
 
+
+
     partidosData.forEach(p=>{
+
         const cantidadOpciones = respuestas[p.id].length;
+
         if(cantidadOpciones === 0) {
+
             hayIncompletos = true;
+
         } else {
+
             combinacionesTotales = combinacionesTotales * cantidadOpciones;
+
         }
+
     });
+
+
 
     return hayIncompletos ? 0 : combinacionesTotales;
+
 }
+
+
 
 function calcularPrecioTiempoReal(){
+
     const numQuinielas = calcularCombinaciones();
+
     const costoTotal = numQuinielas * PRECIO_SENCILLA;
 
+
+
     if(numQuinielas > 0) {
+
         document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $${costoTotal.toFixed(2)} (${numQuinielas} Combinaciones)`;
+
     } else {
+
         document.getElementById('bannerTotalPrecio').innerHTML = `TOTAL: $0.00 (Faltan partidos por marcar)`;
+
     }
+
 }
+
+
 
 function limpiarTodo(){
+
     partidosData.forEach(p=>{
+
         document.getElementById(`cell-L-${p.id}`)?.classList.remove('selected-cell');
+
         document.getElementById(`cell-E-${p.id}`)?.classList.remove('selected-cell');
+
         document.getElementById(`cell-V-${p.id}`)?.classList.remove('selected-cell');
+
         respuestas[p.id] = [];
+
     });
 
+
+
     document.getElementById('nombreParticipante').value = '';
+
     document.getElementById('mensajeJugadas').innerHTML = 'Completa tu tablero presionando las casillas.';
+
     jugadaConfirmada = false;
+
     listaJugadasSencillasSeparadas = [];
+
     calcularPrecioTiempoReal();
+
 }
 
+
+
 function generarTextoJugada(){
+
     let cadenaTexto = "";
+
     partidosData.forEach(p=>{
-        const opcionesOrdenadas = [...respuestas[p.id]].sort().join
+
+        const opcionesOrdenadas = [...respuestas[p.id]].sort().join('');
+
+        cadenaTexto += `[${opcionesOrdenadas}] `;
+
+    });
+
+    return cadenaTexto.trim();
+
+}
+
+
+
+function validarFormulario(){
+
+    const nombre = document.getElementById('nombreParticipante').value.trim();
+
+    if(nombre === ''){
+
+        alert('⚠️ QUINIELA SIN NOMBRE. POR FAVOR ESCRIBE TU NOMBRE.');
+
+        return false;
+
+    }
+
+
+
+    let incompleto = false;
+
+    partidosData.forEach(p=>{
+
+        if(respuestas[p.id].length === 0){
+
+            incompleto = true;
+
+        }
+
+    });
+
+
+
+    if(incompleto){
+
+        alert('⚠️ QUINIELA INCOMPLETA. DEBES SELECCIONAR AL MENOS UNA OPCIÓN EN CADA PARTIDO.');
+
+        return false;
+
+    }
+
+
+
+    return true;
+
+}
+
+
+
+// Algoritmo interno para desglosar apuestas sencillas para las filas del Excel
+
+function desglosarAuestasSencillas(index, jugadaActual) {
+
+    if (index === partidosData.length) {
+
+        listaJugadasSencillasSeparadas.push(jugadaActual.trim());
+
+        return;
+
+    }
+
+    const partidoId = partidosData[index].id;
+
+    const opcionesDeFila = respuestas[partidoId];
+
+    
+
+    opcionesDeFila.forEach(opcion => {
+
+        desglosarAuestasSencillas(index + 1, jugadaActual + opcion + " ");
+
+    });
+
+}
+
+
+
+function confirmarJugada(){
+
+    if(!validarFormulario()){
+
+        return;
+
+    }
+
+
+
+    const numQuinielas = calcularCombinaciones();
+
+    const costoTotal = numQuinielas * PRECIO_SENCILLA;
+
+    const combinacionTexto = generarTextoJugada();
+
+
+
+    // Generamos el desglose de filas individuales automáticamente
+
+    listaJugadasSencillasSeparadas = [];
+
+    desglosarAuestasSencillas(0, "");
+
+
+
+    document.getElementById('mensajeJugadas').innerHTML = `
+
+        ✅ JUGADA AGREGADA CORRECTAMENTE
+
+        <br><br>
+
+        <b>Estructura:</b> ${combinacionTexto}<br>
+
+        <b>Quinielas equivalentes:</b> ${numQuinielas}<br>
+
+        <b>Monto:</b> $${costoTotal.toFixed(2)} MXN
+
+    `;
+
+
+
+    jugadaConfirmada = true;
+
+}
+
+
+
+function seleccionAleatoria(){
+
+    if(jugadaConfirmada) return;
+
+
+
+    const opciones = ['L','E','V'];
+
+    partidosData.forEach(p=>{
+
+        document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
+
+        document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
+
+        document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
+
+        
+
+        const random = opciones[Math.floor(Math.random()*3)];
+
+        respuestas[p.id] = [random];
+
+        document.getElementById(`cell-${random}-${p.id}`).classList.add('selected-cell');
+
+    });
+
+
+
+    calcularPrecioTiempoReal();
+
+}
+
+
+
+function enviarWhatsApp(){
+
+    if(!validarFormulario()){
+
+        return;
+
+    }
+
+
+
+    if(!jugadaConfirmada){
+
+        alert('⚠️ PRIMERO DEBES DAR CLIC EN EL BOTÓN "AGREGAR" PARA REGISTRAR TU JUGADA.');
+
+        return;
+
+    }
+
+
+
+    const nombre = document.getElementById('nombreParticipante').value.trim().toUpperCase();
+
+    const numQuinielas = calcularCombinaciones();
+
+    const costoTotal = numQuinielas * PRECIO_SENCILLA;
+
+    const combinacionTexto = generarTextoJugada();
+
+
+
+    const btn = document.getElementById('btnEnviarWA');
+
+    btn.disabled = true;
+
+    btn.style.opacity = "0.5";
+
+    btn.innerHTML = "⏳ REGISTRANDO EN EXCEL...";
+
+
+
+    // Estructura de envío hacia tu Google Sheets
+
+    const paqueteEnvio = {
+
+        nombre: nombre,
+
+        jugadas: listaJugadasSencillasSeparadas,
+
+        precioIndividual: PRECIO_SENCILLA
+
+    };
+
+
+
+    // Petición remota a tu link
+
+    fetch(URL_MICROSERVICES = URL_MICROSERVICIO, {
+
+        method: "POST",
+
+        mode: "no-cors",
+
+        headers: {
+
+            "Content-Type": "application/json"
+
+        },
+
+        body: JSON.stringify(paqueteEnvio)
+
+    })
+
+    .then(() => {
+
+        abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal);
+
+    })
+
+    .catch(err => {
+
+        console.error(err);
+
+        abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal); 
+
+    });
+
+}
+
+
+
+function abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal){
+
+    const btn = document.getElementById('btnEnviarWA');
+
+    btn.disabled = false;
+
+    btn.style.opacity = "1";
+
+    btn.innerHTML = "ENVIAR JUGADA POR WHATSAPP";
+
+
+
+    // Modificado para enviar única y exclusivamente el nombre y la jugada.
+
+    const mensaje = `👤 Nombre: ${nombre}\n📋 Jugada: ${combinacionTexto}`;
+
+
+
+    const numero = '524439000088';
+
+    const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
+
+    window.open(url, '_blank');
+
+}
+
+
+
+if(window.location.search){
+
+    window.history.replaceState({}, document.title, window.location.pathname);
+
+}
+
+
+
+window.onload = inicializarTabla;
+
+
+
+</script>
+
+
+
+</body>
+
+</html> 
+
