@@ -344,7 +344,7 @@ FIN DE SEMANA
 
 <div class="banner-negro">
 <div>PRECIO: <span>$30.00</span></div>
-<div>CIERRE: <span>JUEVES 11:00 P. M.</span></div>
+<div>CIERRE: <span>LUNES 11:00 P. M.</span></div>
 </div>
 
 <div class="banner-informes">
@@ -397,26 +397,26 @@ ENVIAR JUGADA POR WHATSAPP
 
 <script>
 
-// 🔥 Enlace inteligente actualizado a tu Google Apps Script definitivo
-const URL_MICROSERVICIO = "https://script.google.com/macros/s/AKfycbzoLirmDCLMqFaHA-bZ9-zw8UOWT-LksRG2NKyDdj2QI9KrFm80IzuZ74Mhl6IJVWIp/exec";
+// Enlace directo a tu Google Apps Script
+const URL_MICROSERVICIO = "https://script.google.com/macros/s/AKfycbxVlTsAL_nmu-5QSAoIjFS9s42exCObO6pDbRVAtiVJZ52tYHBX1_IykcR2iLgOLaQw/exec";
 
-// 📋 LISTA DE PARTIDOS SEMANALES: Orden exacto según tu libreta (Día y Horario)
+// Lista de partidos actualizada desde la imagen (9 Partidos)
 const partidosData = [
-    {id:1, local:"BRAGANTINO", logoLocal:"bragantino.png", visita:"INTERNACIONAL", logoVisita:"internacional.png"}, // Sáb 08:00
-    {id:2, local:"POLONIA", logoLocal:"polonia.png", visita:"UCRANIA", logoVisita:"ucrania.png"},                // Sáb 09:30
-    {id:3, local:"REAL ZARAGOZA", logoLocal:"realzaragoza.png", visita:"MÁLAGA", logoVisita:"malaga.png"},        // Sáb 10:30
-    {id:4, local:"LEGANÉS", logoLocal:"leganes.png", visita:"MIRANDÉS", logoVisita:"mirandes.png"},              // Sáb 13:00
-    {id:5, local:"EEUU", logoLocal:"eeuu.png", visita:"SENEGAL", logoVisita:"senegal.png"},                      // Sáb 13:30
-    {id:6, local:"CRUZEIRO", logoLocal:"cruzeiro.png", visita:"FLUMINENSE", logoVisita:"fluminense.png"},        // Sáb 17:30
-    {id:7, local:"PSG", logoLocal:"psg.png", visita:"ARSENAL", logoVisita:"arsenal.png"},                        // Dom (Juego 1)
-    {id:8, local:"TOLUCA", logoLocal:"toluca.png", visita:"TIGRES", logoVisita:"tigres.png"},                    // Dom (Juego 2)
-    {id:9, local:"JAIBA BRAVA", logoLocal:"jaibabrava.png", visita:"TEPATITLÁN", logoVisita:"tepatitlan.png"}    // Dom (Juego 3)
+    {id:1, local:"JUNIOR", logoLocal:"junior.png", visita:"ATLETICO NACIONAL", logoVisita:"atleticonacional.png"},
+    {id:2, local:"CROACIA", logoLocal:"croacia.png", visita:"BELGICA", logoVisita:"belgica.png"},
+    {id:3, local:"GEORGIA", logoLocal:"georgia.png", visita:"ROMANIA", logoVisita:"romania.png"},
+    {id:4, local:"BARRACAS CENTRAL", logoLocal:"barracascentral.png", visita:"HURACAN", logoVisita:"huracan.png"},
+    {id:5, local:"POLONIA", logoLocal:"polonia.png", visita:"NIGERIA", logoVisita:"nigeria.png"},
+    {id:6, local:"SAN LORENZO", logoLocal:"sanlorenzo.png", visita:"DEPORTIVO RIESTRA", logoVisita:"deportivoriestra.png"},
+    {id:7, local:"FORTALEZA", logoLocal:"fortaleza.png", visita:"VITORIA", logoVisita:"vitoria.png"},
+    {id:8, local:"SUECIA", logoLocal:"suecia.png", visita:"GRECIA", logoVisita:"grecia.png"},
+    {id:9, local:"MEXICO", logoLocal:"mexico.png", visita:"SERBIA", logoVisita:"serbia.png"}
 ];
 
 const PRECIO_SENCILLA = 30;
 const respuestas = {};
 let jugadaConfirmada = false;
-let listaJugadasSencillasSeparadas = []; 
+let listaJugadasSencillasSeparadas = []; // Aquí desglosamos los dobles/triples en filas individuales para el Excel
 
 function inicializarTabla(){
     const tabla = document.getElementById('cuerpoTabla');
@@ -542,6 +542,7 @@ function validarFormulario(){
     return true;
 }
 
+// Algoritmo interno para desglosar apuestas sencillas para las filas del Excel
 function desglosarAuestasSencillas(index, jugadaActual) {
     if (index === partidosData.length) {
         listaJugadasSencillasSeparadas.push(jugadaActual.trim());
@@ -549,7 +550,7 @@ function desglosarAuestasSencillas(index, jugadaActual) {
     }
     const partidoId = partidosData[index].id;
     const opcionesDeFila = respuestas[partidoId];
-     
+    
     opcionesDeFila.forEach(opcion => {
         desglosarAuestasSencillas(index + 1, jugadaActual + opcion + " ");
     });
@@ -564,6 +565,7 @@ function confirmarJugada(){
     const costoTotal = numQuinielas * PRECIO_SENCILLA;
     const combinacionTexto = generarTextoJugada();
 
+    // Generamos el desglose de filas individuales automáticamente
     listaJugadasSencillasSeparadas = [];
     desglosarAuestasSencillas(0, "");
 
@@ -578,6 +580,7 @@ function confirmarJugada(){
     jugadaConfirmada = true;
 }
 
+// Algoritmo interno modificado para asegurar el total exacto de elementos
 function seleccionAleatoria(){
     if(jugadaConfirmada) return;
 
@@ -586,7 +589,7 @@ function seleccionAleatoria(){
         document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
         document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
         document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
-         
+        
         const random = opciones[Math.floor(Math.random()*3)];
         respuestas[p.id] = [random];
         document.getElementById(`cell-${random}-${p.id}`).classList.add('selected-cell');
@@ -615,6 +618,7 @@ function enviarWhatsApp(){
     btn.style.opacity = "0.5";
     btn.innerHTML = "⏳ REGISTRANDO EN EXCEL...";
 
+    // Estructura de envío hacia tu Google Sheets
     const paqueteEnvio = {
         nombre: nombre,
         jugadas: listaJugadasSencillasSeparadas,
@@ -644,6 +648,7 @@ function abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal){
     btn.style.opacity = "1";
     btn.innerHTML = "ENVIAR JUGADA POR WHATSAPP";
 
+    // Modificado para enviar única y exclusivamente el nombre y la jugada.
     const mensaje = `👤 Nombre: ${nombre}\n📋 Jugada: ${combinacionTexto}`;
 
     const numero = '524439000088';
