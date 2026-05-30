@@ -397,10 +397,10 @@ ENVIAR JUGADA POR WHATSAPP
 
 <script>
 
-// Enlace directo a tu Google Apps Script
-const URL_MICROSERVICIO = "https://script.google.com/macros/s/AKfycbxVlTsAL_nmu-5QSAoIjFS9s42exCObO6pDbRVAtiVJZ52tYHBX1_IykcR2iLgOLaQw/exec";
+// 🔥 ENLACE ACTUALIZADO CON TU NUEVO MICROSERVICIO DINÁMICO
+const URL_MICROSERVICIO = "https://script.google.com/macros/s/AKfycbzpzatxpZB32ypPAXOTuBDN_jb1hxJk7UQRf9HRxA2Js35Y6nfbr-ymCQBKb31mxh1r/exec";
 
-// Lista de partidos actualizada desde la imagen (9 Partidos)
+// Lista de partidos (Aquí puedes quitar o meter filas, la web se acopla sola)
 const partidosData = [
     {id:1, local:"JUNIOR", logoLocal:"junior.png", visita:"ATLETICO NACIONAL", logoVisita:"atleticonacional.png"},
     {id:2, local:"CROACIA", logoLocal:"croacia.png", visita:"BELGICA", logoVisita:"belgica.png"},
@@ -416,7 +416,7 @@ const partidosData = [
 const PRECIO_SENCILLA = 30;
 const respuestas = {};
 let jugadaConfirmada = false;
-let listaJugadasSencillasSeparadas = []; // Aquí desglosamos los dobles/triples en filas individuales para el Excel
+let listaJugadasSencillasSeparadas = []; 
 
 function inicializarTabla(){
     const tabla = document.getElementById('cuerpoTabla');
@@ -542,7 +542,7 @@ function validarFormulario(){
     return true;
 }
 
-// Algoritmo interno para desglosar apuestas sencillas para las filas del Excel
+// 🔥 ALGORITMO CORREGIDO: Ahora mide dinámicamente partidosData.length en vez de quedarse amarrado a 8 o 9
 function desglosarAuestasSencillas(index, jugadaActual) {
     if (index === partidosData.length) {
         listaJugadasSencillasSeparadas.push(jugadaActual.trim());
@@ -565,7 +565,6 @@ function confirmarJugada(){
     const costoTotal = numQuinielas * PRECIO_SENCILLA;
     const combinacionTexto = generarTextoJugada();
 
-    // Generamos el desglose de filas individuales automáticamente
     listaJugadasSencillasSeparadas = [];
     desglosarAuestasSencillas(0, "");
 
@@ -580,7 +579,6 @@ function confirmarJugada(){
     jugadaConfirmada = true;
 }
 
-// Algoritmo interno modificado para asegurar el total exacto de elementos
 function seleccionAleatoria(){
     if(jugadaConfirmada) return;
 
@@ -618,7 +616,6 @@ function enviarWhatsApp(){
     btn.style.opacity = "0.5";
     btn.innerHTML = "⏳ REGISTRANDO EN EXCEL...";
 
-    // Estructura de envío hacia tu Google Sheets
     const paqueteEnvio = {
         nombre: nombre,
         jugadas: listaJugadasSencillasSeparadas,
@@ -648,7 +645,6 @@ function abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal){
     btn.style.opacity = "1";
     btn.innerHTML = "ENVIAR JUGADA POR WHATSAPP";
 
-    // Modificado para enviar única y exclusivamente el nombre y la jugada.
     const mensaje = `👤 Nombre: ${nombre}\n📋 Jugada: ${combinacionTexto}`;
 
     const numero = '524439000088';
