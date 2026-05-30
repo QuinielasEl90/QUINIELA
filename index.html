@@ -397,8 +397,8 @@ ENVIAR JUGADA POR WHATSAPP
 
 <script>
 
-// Enlace directo a tu Google Apps Script
-const URL_MICROSERVICIO = "https://script.google.com/macros/s/AKfycbxVlTsAL_nmu-5QSAoIjFS9s42exCObO6pDbRVAtiVJZ52tYHBX1_IykcR2iLgOLaQw/exec";
+// Enlace directo a tu Google Apps Script actualizado para 9 partidos
+const URL_MICROSERVICIO = "https://script.google.com/macros/s/AKfycbz1gFL5fyZi_zfAjG29GhwoPJVYvYvpwl6ABxV9BB57Pd-Jlg0P6scqvQxkjT04h0Ij/exec";
 
 // Lista de partidos actualizada y ordenada cronológicamente (9 Partidos)
 const partidosData = [
@@ -416,7 +416,7 @@ const partidosData = [
 const PRECIO_SENCILLA = 30;
 const respuestas = {};
 let jugadaConfirmada = false;
-let listaJugadasSencillasSeparadas = []; // Aquí desglosamos los dobles/triples en filas individuales para el Excel
+let listaJugadasSencillasSeparadas = []; 
 
 function inicializarTabla(){
     const tabla = document.getElementById('cuerpoTabla');
@@ -530,7 +530,6 @@ function validarFormulario(){
     let incompleto = false;
     partidosData.forEach(p=>{
         if(respuestas[p.id].length === 0){
-            invertido = true;
             incompleto = true;
         }
     });
@@ -543,7 +542,6 @@ function validarFormulario(){
     return true;
 }
 
-// Algoritmo interno para desglosar apuestas sencillas para las filas del Excel
 function desglosarAuestasSencillas(index, jugadaActual) {
     if (index === partidosData.length) {
         listaJugadasSencillasSeparadas.push(jugadaActual.trim());
@@ -551,7 +549,7 @@ function desglosarAuestasSencillas(index, jugadaActual) {
     }
     const partidoId = partidosData[index].id;
     const opcionesDeFila = respuestas[partidoId];
-    
+     
     opcionesDeFila.forEach(opcion => {
         desglosarAuestasSencillas(index + 1, jugadaActual + opcion + " ");
     });
@@ -566,7 +564,6 @@ function confirmarJugada(){
     const costoTotal = numQuinielas * PRECIO_SENCILLA;
     const combinacionTexto = generarTextoJugada();
 
-    // Generamos el desglose de filas individuales automáticamente
     listaJugadasSencillasSeparadas = [];
     desglosarAuestasSencillas(0, "");
 
@@ -589,7 +586,7 @@ function seleccionAleatoria(){
         document.getElementById(`cell-L-${p.id}`).classList.remove('selected-cell');
         document.getElementById(`cell-E-${p.id}`).classList.remove('selected-cell');
         document.getElementById(`cell-V-${p.id}`).classList.remove('selected-cell');
-        
+         
         const random = opciones[Math.floor(Math.random()*3)];
         respuestas[p.id] = [random];
         document.getElementById(`cell-${random}-${p.id}`).classList.add('selected-cell');
@@ -618,14 +615,12 @@ function enviarWhatsApp(){
     btn.style.opacity = "0.5";
     btn.innerHTML = "⏳ REGISTRANDO EN EXCEL...";
 
-    // Estructura de envío hacia tu Google Sheets
     const paqueteEnvio = {
         nombre: nombre,
         jugadas: listaJugadasSencillasSeparadas,
         precioIndividual: PRECIO_SENCILLA
     };
 
-    // Petición remota corregida (sin asignación errónea en el parámetro del fetch)
     fetch(URL_MICROSERVICIO, {
         method: "POST",
         mode: "no-cors",
@@ -649,7 +644,6 @@ function abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal){
     btn.style.opacity = "1";
     btn.innerHTML = "ENVIAR JUGADA POR WHATSAPP";
 
-    // Modificado para enviar única y exclusivamente el nombre y la jugada.
     const mensaje = `👤 Nombre: ${nombre}\n📋 Jugada: ${combinacionTexto}`;
 
     const numero = '524439000088';
