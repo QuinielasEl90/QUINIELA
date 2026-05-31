@@ -639,13 +639,14 @@ function enviarWhatsApp(){
     });
 }
 
+// 🛠️ FUNCIÓN MODIFICADA: Ahora concatena el total a pagar formateado con signo de pesos en el mensaje de WhatsApp.
 function abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal){
     const btn = document.getElementById('btnEnviarWA');
     btn.disabled = false;
     btn.style.opacity = "1";
     btn.innerHTML = "ENVIAR JUGADA POR WHATSAPP";
 
-    const mensaje = `👤 Nombre: ${nombre}\n📋 Jugada: ${combinacionTexto}`;
+    const mensaje = `👤 Nombre: ${nombre}\n📋 Jugada: ${combinacionTexto}\n💰 Total a pagar: $${costoTotal.toFixed(2)} MXN`;
 
     const numero = '524439000088';
     const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
