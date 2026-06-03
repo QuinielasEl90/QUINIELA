@@ -323,11 +323,11 @@ header{
 <header>
 
 <div class="header-title">
-QUINIELAS EL 90
+QUINIELA MUNDIALERA
 </div>
 
 <div class="header-subtitle">
-FIN DE SEMANA
+MUNDIALERA FIN DE SEMANA
 </div>
 
 <img src="LOGO.PNG.jpeg" class="logo-superior">
@@ -344,7 +344,7 @@ FIN DE SEMANA
 
 <div class="banner-negro">
 <div>PRECIO: <span>$30.00</span></div>
-<div>CIERRE: <span>LUNES 11:00 P. M.</span></div>
+<div>CIERRE: <span>VIERNES 11:00 P. M.</span></div>
 </div>
 
 <div class="banner-informes">
@@ -400,17 +400,17 @@ ENVIAR JUGADA POR WHATSAPP
 // 🔥 ENLACE ACTUALIZADO CON TU NUEVO MICROSERVICIO DINÁMICO
 const URL_MICROSERVICIO = "https://script.google.com/macros/s/AKfycbzpzatxpZB32ypPAXOTuBDN_jb1hxJk7UQRf9HRxA2Js35Y6nfbr-ymCQBKb31mxh1r/exec";
 
-// Lista de partidos (Aquí puedes quitar o meter filas, la web se acopla sola)
+// ⚽ LISTA ACTUALIZADA CON LOS DATOS DE TU LIBRETA
 const partidosData = [
-    {id:1, local:"JUNIOR", logoLocal:"junior.png", visita:"ATLETICO NACIONAL", logoVisita:"atleticonacional.png"},
-    {id:2, local:"CROACIA", logoLocal:"croacia.png", visita:"BELGICA", logoVisita:"belgica.png"},
-    {id:3, local:"GEORGIA", logoLocal:"georgia.png", visita:"ROMANIA", logoVisita:"romania.png"},
-    {id:4, local:"BARRACAS CENTRAL", logoLocal:"barracascentral.png", visita:"HURACAN", logoVisita:"huracan.png"},
-    {id:5, local:"POLONIA", logoLocal:"polonia.png", visita:"NIGERIA", logoVisita:"nigeria.png"},
-    {id:6, local:"SAN LORENZO", logoLocal:"sanlorenzo.png", visita:"DEPORTIVO RIESTRA", logoVisita:"deportivoriestra.jpg"},
-    {id:7, local:"FORTALEZA", logoLocal:"fortaleza.png", visita:"VITORIA", logoVisita:"vitoria.png"},
-    {id:8, local:"SUECIA", logoLocal:"suecia.png", visita:"GRECIA", logoVisita:"grecia.png"},
-    {id:9, local:"MEXICO", logoLocal:"mexico.png", visita:"SERBIA", logoVisita:"serbia.jpg"}
+    {id:1, local:"ARMENIA", logoLocal:"armenia.png", visita:"KAZAJISTAN", logoVisita:"kazajastan.png"},
+    {id:2, local:"RUMANIA", logoLocal:"rumania.png", visita:"GALES", logoVisita:"gales.png"},
+    {id:3, local:"EEUU", logoLocal:"eeuu.png", visita:"ALEMANIA", logoVisita:"alemania.png"},
+    {id:4, local:"SUIZA", logoLocal:"suiza.png", visita:"AUSTRALIA", logoVisita:"australia.png"},
+    {id:5, local:"DINAMARCA", logoLocal:"dinamarca.png", visita:"UCRANIA", logoVisita:"ucrania.png"},
+    {id:6, local:"CROACIA", logoLocal:"croacia.png", visita:"ESLOVENIA", logoVisita:"eslovenia.png"},
+    {id:7, local:"GRECIA", logoLocal:"grecia.png", visita:"ITALIA", logoVisita:"italia.png"},
+    {id:8, local:"MARRUECOS", logoLocal:"marruecos.png", visita:"NORUEGA", logoVisita:"noruega.png"},
+    {id:9, local:"ECUADOR", logoLocal:"ecuador.png", visita:"GUATEMALA", logoVisita:"guatemala.png"}
 ];
 
 const PRECIO_SENCILLA = 30;
@@ -542,7 +542,6 @@ function validarFormulario(){
     return true;
 }
 
-// 🔥 ALGORITMO CORREGIDO: Ahora mide dinámicamente partidosData.length en vez de quedarse amarrado a 8 o 9
 function desglosarAuestasSencillas(index, jugadaActual) {
     if (index === partidosData.length) {
         listaJugadasSencillasSeparadas.push(jugadaActual.trim());
@@ -639,7 +638,6 @@ function enviarWhatsApp(){
     });
 }
 
-// 🛠️ FUNCIÓN MODIFICADA: Ahora concatena el total a pagar formateado con signo de pesos en el mensaje de WhatsApp.
 function abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal){
     const btn = document.getElementById('btnEnviarWA');
     btn.disabled = false;
