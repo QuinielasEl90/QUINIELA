@@ -323,11 +323,11 @@ header{
 <header>
 
 <div class="header-title">
-QUINIELA MUNDIALERA
+QUINIELAS EL 90
 </div>
 
 <div class="header-subtitle">
-MUNDIALERA FIN DE SEMANA
+MEDIA SEMANA
 </div>
 
 <img src="LOGO.PNG.jpeg" class="logo-superior">
@@ -344,7 +344,7 @@ MUNDIALERA FIN DE SEMANA
 
 <div class="banner-negro">
 <div>PRECIO: <span>$30.00</span></div>
-<div>CIERRE: <span>VIERNES 11:00 P. M.</span></div>
+<div>CIERRE: <span>MARTES 11:00 P. M.</span></div>
 </div>
 
 <div class="banner-informes">
@@ -397,20 +397,19 @@ ENVIAR JUGADA POR WHATSAPP
 
 <script>
 
-// 🔥 ENLACE ACTUALIZADO CON TU NUEVO MICROSERVICIO DINÁMICO
+// 🔥 ENLACE DE TU MICROSERVICIO
 const URL_MICROSERVICIO = "https://script.google.com/macros/s/AKfycbzpzatxpZB32ypPAXOTuBDN_jb1hxJk7UQRf9HRxA2Js35Y6nfbr-ymCQBKb31mxh1r/exec";
 
-// ⚽ LISTA ACTUALIZADA CON LOS DATOS DE TU LIBRETA
+// ⚽ NUEVA LISTA DE PARTIDOS DESDE TU LIBRETA (MEDIA SEMANA)
 const partidosData = [
-    {id:1, local:"ARMENIA", logoLocal:"armenia.png", visita:"KAZAJISTAN", logoVisita:"kazajistan.png"},
-    {id:2, local:"RUMANIA", logoLocal:"rumania.jpg", visita:"GALES", logoVisita:"gales.png"},
-    {id:3, local:"EEUU", logoLocal:"eeuu.png", visita:"ALEMANIA", logoVisita:"alemania.jpg"},
-    {id:4, local:"SUIZA", logoLocal:"suiza.png", visita:"AUSTRALIA", logoVisita:"australia.png"},
-    {id:5, local:"DINAMARCA", logoLocal:"dinamarca.png", visita:"UCRANIA", logoVisita:"ucrania.png"},
-    {id:6, local:"CROACIA", logoLocal:"croacia.png", visita:"ESLOVENIA", logoVisita:"eslovenia.jpg"},
-    {id:7, local:"GRECIA", logoLocal:"grecia.png", visita:"ITALIA", logoVisita:"italia.png"},
-    {id:8, local:"MARRUECOS", logoLocal:"marruecos.png", visita:"NORUEGA", logoVisita:"noruega.png"},
-    {id:9, local:"ECUADOR", logoLocal:"ecuador.png", visita:"GUATEMALA", logoVisita:"guatemala.png"}
+    {id:1, local:"CHINA", logoLocal:"china.png", visita:"TAILANDIA", logoVisita:"tailandia.png"},
+    {id:2, local:"ARMENIA", logoLocal:"armenia.png", visita:"MOLDAVIA", logoVisita:"moldavia.png"},
+    {id:3, local:"HUNGRIA", logoLocal:"hungria.png", visita:"KAZAJISTAN", logoVisita:"kazajastan.png"},
+    {id:4, local:"IRAQ", logoLocal:"iraq.png", visita:"VENEZUELA", logoVisita:"venezuela.png"},
+    {id:5, local:"PORTUGAL", logoLocal:"portugal.png", visita:"NIGERIA", logoVisita:"nigeria.png"},
+    {id:6, local:"CEARA", logoLocal:"ceara.png", visita:"AVAI", logoVisita:"avai.png"},
+    {id:7, local:"GOIAS", logoLocal:"goias.png", visita:"GREMIO NOVORIZONTINO", logoVisita:"gremio_novorizontino.png"},
+    {id:8, local:"SPORT RECIFE", logoLocal:"sport_recife.png", visita:"ATHLETIC CLUB", logoVisita:"athletic_club.png"}
 ];
 
 const PRECIO_SENCILLA = 30;
@@ -644,7 +643,8 @@ function abrirChatWhatsApp(nombre, combinacionTexto, numQuinielas, costoTotal){
     btn.style.opacity = "1";
     btn.innerHTML = "ENVIAR JUGADA POR WHATSAPP";
 
-    const mensaje = `👤 Nombre: ${nombre}\n📋 Jugada: ${combinacionTexto}\n💰 Total a pagar: $${costoTotal.toFixed(2)} MXN`;
+    // 💬 TEXTO MÁS NATURAL PARA CAMUFLAR EL MENSAJE CONTRA EL ESPAM DE WHATSAPP
+    const mensaje = `Qué onda, aquí dejo mi jugada para la de Media Semana:\n\n👤 Nombre: ${nombre}\n📋 Pronósticos: ${combinacionTexto}\n💰 Total: $${costoTotal.toFixed(2)} MXN\n\n¡Suerte!`;
 
     const numero = '524439000088';
     const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
